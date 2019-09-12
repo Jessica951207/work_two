@@ -1,0 +1,460 @@
+@charset "utf-8";
+/*---------- reset ----------*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+article,
+aside,
+canvas,
+figure,
+figure img,
+figcaption,
+hgroup,
+footer,
+header,
+nav,
+section,
+audio,
+video {
+    display: block;
+}
+ul,
+li,
+ol {
+    font-size: .8rem;
+    list-style: none;
+    background: transparent;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 400;
+    clear: both;
+}
+a,
+a:hover {
+    text-decoration: none;
+}
+blockquote {
+    quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+input[type="submit"]:focus,
+input[type="button"]:focus {
+    outline: none;
+}
+:focus {
+    outline: 0;
+}
+a img,
+input[type="submit"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner {
+    border: 0;
+}
+
+@font-face {
+    font-family: 'iconfont';  /* project id 1355246 */
+    src: url('//at.alicdn.com/t/font_1355246_xlzkk0cokt.eot');
+    src: url('//at.alicdn.com/t/font_1355246_xlzkk0cokt.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1355246_xlzkk0cokt.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1355246_xlzkk0cokt.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1355246_xlzkk0cokt.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1355246_xlzkk0cokt.svg#iconfont') format('svg');
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-family: Arial, Microsoft YaHei, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+.clear {
+    background: none;
+    border: 0;
+    clear: both;
+    display: block;
+    float: none;
+    font-size: 0;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+input,
+a {
+    outline: none;
+}
+.clear {
+    clear: both;
+}
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+img {
+    display: block;
+    width: 100%;
+    border: none;
+}
+.setbox {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+[v-cloak] {
+    display: none;
+}
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+/*select::-ms-expand {
+    display: none;
+}*/
+html {
+    font-size: 20px;
+}
+img {
+    width: 100%;
+}
+#out_box {
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+    color: #061f41;
+    font-size: 3.85vw;
+    position: relative;
+}
+.top {
+    width: 100%;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    font-size: .8rem;
+}
+:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    font-size: .8rem;
+}
+::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    font-size: .8rem;
+}
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    font-size: .8rem;
+}
+
+.content{
+    width: 100%;
+    font-size: .8rem;
+    margin-top: 4%;
+}
+.data_form{
+    width: 100%;
+}
+.basic_area{
+    width: 100%;
+    border-bottom: 1px solid #e7e7e7;
+}
+.basic_item{
+    width: 90%;
+    margin: 0 auto;
+}
+.basic_one{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*.basic_icon:after{
+    content: "\003E ";
+    padding-left: 3%;
+}*/
+.basic_icon{
+    width: 95%;
+}
+
+.basic_title{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    padding: 3% 0;
+}
+.title_width{
+    width: 37%;
+}
+.title_width_2{
+     width: 42%;
+ }
+.title_width_3{
+    width: 36%;
+}
+ input{
+    width: 100%;
+    border: none;
+    font-size: .9rem;
+    text-align: right;
+}
+.limit{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .6rem;
+}
+.limit_item{
+    border: 1px solid #969696;
+    border-radius: 8px;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    width: 3rem;
+    margin-left: 3%;
+    text-align: center;
+    color: #969696;
+}
+.limit_checked{
+    background: #FF8000;
+    color: #FFFfff;
+    border: 1px solid #FF8000
+}
+.msg_verify{
+    width: 65%;
+}
+.no_repeat{
+    display: none;
+}
+.get_verify,.no_repeat{
+    border: 1px solid #FF8000;
+    color: #FF8000;
+    width: 40%;
+    text-align: center;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: .7rem;
+    margin-left: 5%;
+    border-radius: 5px;
+}
+.steps{
+    width: 90%;
+    margin: 3% auto;
+    color: #969696;
+    font-size: .75rem;
+}
+.steps img{
+    width: 90%;
+    margin: 0 auto;
+}
+.step_detail{
+    font-size: .6rem;
+    margin-top: 4%;
+}
+.button{
+    position: fixed;
+    left: 0;
+    z-index: 2;
+    bottom: 0;
+}
+
+/*iconfont图标引入*/
+@font-face {
+    font-family: 'iconfont';  /* project id 1355246 */
+    src: url('//at.alicdn.com/t/font_1355246_jap8q32yz2p.eot');
+    src: url('//at.alicdn.com/t/font_1355246_jap8q32yz2p.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1355246_jap8q32yz2p.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1355246_jap8q32yz2p.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1355246_jap8q32yz2p.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1355246_jap8q32yz2p.svg#iconfont') format('svg');
+}
+.iconfont{
+    font-family: "iconfont";
+    font-style: normal;
+}
+.icon{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.error-message,.success-message{
+    background: rgba(0, 0, 0, .8);
+    border-radius: 1rem;
+    color: #fff;
+    padding: 0 .8rem;
+    line-height: 2rem;
+    font-size: .6rem;
+    width: auto;
+    position: absolute;
+    left: calc(50% - 90px / 2);
+    top:45%;
+}
+
+
+
+.popup{position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 999; background: rgba(0,0,0,0.4);  font-size: .8rem; display: none;}
+.popupContent{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding-top: .5rem;
+    background-size: auto;
+    background: #fff;
+    overflow: auto;
+    color: #333333;
+}
+.car_brand{
+    width: 95%;
+    margin: 0 auto;
+}
+.car_top{
+    font-size: .8rem;
+    display: flex;
+}
+.car_top p{
+    width: 100px;
+    margin: 0 auto;
+}
+.cancel{
+    display: flex;
+    align-items: center;
+    color: cornflowerblue;
+}
+
+.bar .searchbar{
+    height: 100%;
+    margin: 0 0;
+    font-size: .6rem;
+    padding: 2vw 3vw;
+}
+.bar .searchbar .search-input {
+    border: 10px solid rgba(0,0,0,.1);
+    display: flex;
+    align-items: center;
+}
+.searchbar .search-input input{
+    width: 100%;
+    height: 12vw;
+    padding: 0 1rem;
+    font-size: 16px;
+    border-radius: 8px;
+    text-align: left;
+}
+ .searchbar .searchbar-cancel{
+    height: 8vw;
+    line-height: 8vw;
+    font-size: 3vw;
+}
+ .search_icon{
+     padding-left: 3%;
+ }
+
+ .search_info{
+     width: 100%;
+ }
+ .car_info{
+     width: 100%;
+     margin: 0 auto;
+ }
+ .often,.qb{
+     background: #f7f7f7;
+     padding: 1% 0 1% 6%;
+     color: #ededed;
+ }
+.brands{
+    border-bottom: 1px solid #dededf;
+    padding: 1% 0 1% 6%;
+}
+
+
+
+
+
+
+
+
+
+
+

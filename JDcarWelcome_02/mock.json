@@ -1,0 +1,1312 @@
+{
+  "brandList": [
+    {
+      "ceId": "900000004",
+      "ceInitial": "A",
+      "ceName": "AC Schnitzer",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000536",
+      "ceInitial": "A",
+      "ceName": "ALPINA",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000587",
+      "ceInitial": "A",
+      "ceName": "ARCFOX",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000003",
+      "ceInitial": "A",
+      "ceName": "阿尔法·罗密欧",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000002",
+      "ceInitial": "A",
+      "ceName": "阿斯顿·马丁",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000020",
+      "ceInitial": "B",
+      "ceName": "保斐利",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000011",
+      "ceInitial": "B",
+      "ceName": "保时捷",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000006",
+      "ceInitial": "B",
+      "ceName": "别克",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000013",
+      "ceInitial": "B",
+      "ceName": "北京汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000014",
+      "ceInitial": "B",
+      "ceName": "北汽制造",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000017",
+      "ceInitial": "B",
+      "ceName": "北汽威旺",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000156",
+      "ceInitial": "B",
+      "ceName": "北汽幻速",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000167",
+      "ceInitial": "B",
+      "ceName": "北汽新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000115",
+      "ceInitial": "B",
+      "ceName": "北汽绅宝",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000573",
+      "ceInitial": "B",
+      "ceName": "北汽道达",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000012",
+      "ceInitial": "B",
+      "ceName": "奔腾",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000009",
+      "ceInitial": "B",
+      "ceName": "奔驰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000172",
+      "ceInitial": "B",
+      "ceName": "宝沃",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000007",
+      "ceInitial": "B",
+      "ceName": "宝马",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000015",
+      "ceInitial": "B",
+      "ceName": "宝骏",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000144",
+      "ceInitial": "B",
+      "ceName": "宝龙",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000016",
+      "ceInitial": "B",
+      "ceName": "宾利",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000019",
+      "ceInitial": "B",
+      "ceName": "巴博斯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000018",
+      "ceInitial": "B",
+      "ceName": "布加迪",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000005",
+      "ceInitial": "B",
+      "ceName": "本田",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000010",
+      "ceInitial": "B",
+      "ceName": "标致",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000008",
+      "ceInitial": "B",
+      "ceName": "比亚迪",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000499",
+      "ceInitial": "B",
+      "ceName": "比速",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000497",
+      "ceInitial": "C",
+      "ceName": "成功",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000024",
+      "ceInitial": "C",
+      "ceName": "昌河",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000022",
+      "ceInitial": "C",
+      "ceName": "长城",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000021",
+      "ceInitial": "C",
+      "ceName": "长安",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000023",
+      "ceInitial": "C",
+      "ceName": "长安欧尚",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000031",
+      "ceInitial": "D",
+      "ceName": "DS",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000027",
+      "ceInitial": "D",
+      "ceName": "东南",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000033",
+      "ceInitial": "D",
+      "ceName": "东风",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000028",
+      "ceInitial": "D",
+      "ceName": "东风小康",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000170",
+      "ceInitial": "D",
+      "ceName": "东风风光",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000032",
+      "ceInitial": "D",
+      "ceName": "东风风度",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000030",
+      "ceInitial": "D",
+      "ceName": "东风风神",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000026",
+      "ceInitial": "D",
+      "ceName": "东风风行",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000639",
+      "ceInitial": "D",
+      "ceName": "大乘汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000025",
+      "ceInitial": "D",
+      "ceName": "大众",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000142",
+      "ceInitial": "D",
+      "ceName": "大迪",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000034",
+      "ceInitial": "D",
+      "ceName": "大通",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000574",
+      "ceInitial": "D",
+      "ceName": "电咖",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000029",
+      "ceInitial": "D",
+      "ceName": "道奇",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000036",
+      "ceInitial": "F",
+      "ceName": "丰田",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000038",
+      "ceInitial": "F",
+      "ceName": "法拉利",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000162",
+      "ceInitial": "F",
+      "ceName": "福汽启腾",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000035",
+      "ceInitial": "F",
+      "ceName": "福特",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000039",
+      "ceInitial": "F",
+      "ceName": "福田",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000545",
+      "ceInitial": "F",
+      "ceName": "福田乘用车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000040",
+      "ceInitial": "F",
+      "ceName": "福迪",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000037",
+      "ceInitial": "F",
+      "ceName": "菲亚特",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000042",
+      "ceInitial": "F",
+      "ceName": "菲斯克",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000543",
+      "ceInitial": "F",
+      "ceName": "飞碟",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000041",
+      "ceInitial": "F",
+      "ceName": "飞驰商务车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000047",
+      "ceInitial": "G",
+      "ceName": "GMC",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000048",
+      "ceInitial": "G",
+      "ceName": "光冈",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000586",
+      "ceInitial": "G",
+      "ceName": "国金",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000044",
+      "ceInitial": "G",
+      "ceName": "广汽传祺",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000045",
+      "ceInitial": "G",
+      "ceName": "广汽吉奥",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000636",
+      "ceInitial": "G",
+      "ceName": "广汽新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000046",
+      "ceInitial": "G",
+      "ceName": "观致",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000146",
+      "ceInitial": "H",
+      "ceName": "华普",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000052",
+      "ceInitial": "H",
+      "ceName": "华泰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000173",
+      "ceInitial": "H",
+      "ceName": "华泰新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000147",
+      "ceInitial": "H",
+      "ceName": "华翔富奇",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000160",
+      "ceInitial": "H",
+      "ceName": "华颂",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000560",
+      "ceInitial": "H",
+      "ceName": "华骐",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000050",
+      "ceInitial": "H",
+      "ceName": "哈弗",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000056",
+      "ceInitial": "H",
+      "ceName": "哈飞",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000058",
+      "ceInitial": "H",
+      "ceName": "恒天",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000145",
+      "ceInitial": "H",
+      "ceName": "悍马",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000059",
+      "ceInitial": "H",
+      "ceName": "汇众",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000495",
+      "ceInitial": "H",
+      "ceName": "汉腾",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000057",
+      "ceInitial": "H",
+      "ceName": "海格",
+      "ceType": 1
+    },
+    {
+      "ceId": "902000002",
+      "ceInitial": "H",
+      "ceName": "海绵宝宝（品牌）",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000051",
+      "ceInitial": "H",
+      "ceName": "海马",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000054",
+      "ceInitial": "H",
+      "ceName": "海马商用车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000053",
+      "ceInitial": "H",
+      "ceName": "红旗",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000618",
+      "ceInitial": "H",
+      "ceName": "红星汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000055",
+      "ceInitial": "H",
+      "ceName": "黄海",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000061",
+      "ceInitial": "J",
+      "ceName": "Jeep",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000070",
+      "ceInitial": "J",
+      "ceName": "九龙",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000143",
+      "ceInitial": "J",
+      "ceName": "吉利",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000062",
+      "ceInitial": "J",
+      "ceName": "吉利全球鹰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000063",
+      "ceInitial": "J",
+      "ceName": "吉利帝豪",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000065",
+      "ceInitial": "J",
+      "ceName": "吉利英伦",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000572",
+      "ceInitial": "J",
+      "ceName": "君马汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000064",
+      "ceInitial": "J",
+      "ceName": "捷豹",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000634",
+      "ceInitial": "J",
+      "ceName": "捷途汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000068",
+      "ceInitial": "J",
+      "ceName": "江南",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000060",
+      "ceInitial": "J",
+      "ceName": "江淮",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000066",
+      "ceInitial": "J",
+      "ceName": "江铃",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000542",
+      "ceInitial": "J",
+      "ceName": "江铃集团新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000071",
+      "ceInitial": "J",
+      "ceName": "金旅客车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000067",
+      "ceInitial": "J",
+      "ceName": "金杯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000069",
+      "ceInitial": "J",
+      "ceName": "金龙联合",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000752",
+      "ceInitial": "J",
+      "ceName": "钧天",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000074",
+      "ceInitial": "K",
+      "ceName": "克莱斯勒",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000157",
+      "ceInitial": "K",
+      "ceName": "凯翼",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000073",
+      "ceInitial": "K",
+      "ceName": "凯迪拉克",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000562",
+      "ceInitial": "K",
+      "ceName": "卡升",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000158",
+      "ceInitial": "K",
+      "ceName": "卡威",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000077",
+      "ceInitial": "K",
+      "ceName": "卡尔森",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000546",
+      "ceInitial": "K",
+      "ceName": "康迪全球鹰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000075",
+      "ceInitial": "K",
+      "ceName": "开瑞",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000076",
+      "ceInitial": "K",
+      "ceName": "科尼赛克",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000661",
+      "ceInitial": "L",
+      "ceName": "Lorinser",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000082",
+      "ceInitial": "L",
+      "ceName": "兰博基尼",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000081",
+      "ceInitial": "L",
+      "ceName": "力帆",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000086",
+      "ceInitial": "L",
+      "ceName": "劳斯莱斯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000588",
+      "ceInitial": "L",
+      "ceName": "拉达LADA",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000001",
+      "ceInitial": "L",
+      "ceName": "林奥迪（Q）",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000087",
+      "ceInitial": "L",
+      "ceName": "林肯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000085",
+      "ceInitial": "L",
+      "ceName": "猎豹",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000089",
+      "ceInitial": "L",
+      "ceName": "理念",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000815",
+      "ceInitial": "L",
+      "ceName": "理想",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000712",
+      "ceInitial": "L",
+      "ceName": "罗夫哈特",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000088",
+      "ceInitial": "L",
+      "ceName": "莲花",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000090",
+      "ceInitial": "L",
+      "ceName": "路特斯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000079",
+      "ceInitial": "L",
+      "ceName": "路虎",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000078",
+      "ceInitial": "L",
+      "ceName": "铃木",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000619",
+      "ceInitial": "L",
+      "ceName": "陆地方舟",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000083",
+      "ceInitial": "L",
+      "ceName": "陆风",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000750",
+      "ceInitial": "L",
+      "ceName": "零跑汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000080",
+      "ceInitial": "L",
+      "ceName": "雷克萨斯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000084",
+      "ceInitial": "L",
+      "ceName": "雷诺",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000561",
+      "ceInitial": "L",
+      "ceName": "领克",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000682",
+      "ceInitial": "L",
+      "ceName": "领途汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000093",
+      "ceInitial": "M",
+      "ceName": "MG",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000094",
+      "ceInitial": "M",
+      "ceName": "MINI",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000098",
+      "ceInitial": "M",
+      "ceName": "摩根",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000558",
+      "ceInitial": "M",
+      "ceName": "明君汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000096",
+      "ceInitial": "M",
+      "ceName": "玛莎拉蒂",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000099",
+      "ceInitial": "M",
+      "ceName": "美亚",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000097",
+      "ceInitial": "M",
+      "ceName": "迈凯伦",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000095",
+      "ceInitial": "M",
+      "ceName": "迈巴赫",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000641",
+      "ceInitial": "M",
+      "ceName": "迈迪汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000092",
+      "ceInitial": "M",
+      "ceName": "马自达",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000713",
+      "ceInitial": "N",
+      "ceName": "哪吒汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000100",
+      "ceInitial": "N",
+      "ceName": "纳智捷",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000102",
+      "ceInitial": "O",
+      "ceName": "欧宝",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000637",
+      "ceInitial": "O",
+      "ceName": "欧尚汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000635",
+      "ceInitial": "O",
+      "ceName": "欧拉",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000103",
+      "ceInitial": "O",
+      "ceName": "欧朗",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000101",
+      "ceInitial": "O",
+      "ceName": "讴歌",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000716",
+      "ceInitial": "P",
+      "ceName": "Polestar",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000503",
+      "ceInitial": "P",
+      "ceName": "帕加尼",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000624",
+      "ceInitial": "Q",
+      "ceName": "乔治·巴顿",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000632",
+      "ceInitial": "Q",
+      "ceName": "前途汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000106",
+      "ceInitial": "Q",
+      "ceName": "启辰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000105",
+      "ceInitial": "Q",
+      "ceName": "奇瑞",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000107",
+      "ceInitial": "Q",
+      "ceName": "庆铃",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000104",
+      "ceInitial": "Q",
+      "ceName": "起亚",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000570",
+      "ceInitial": "R",
+      "ceName": "如虎",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000108",
+      "ceInitial": "R",
+      "ceName": "日产",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000631",
+      "ceInitial": "R",
+      "ceName": "瑞驰新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000110",
+      "ceInitial": "R",
+      "ceName": "瑞麒",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000109",
+      "ceInitial": "R",
+      "ceName": "荣威",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000116",
+      "ceInitial": "S",
+      "ceName": "Smart",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000111",
+      "ceInitial": "S",
+      "ceName": "三菱",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000118",
+      "ceInitial": "S",
+      "ceName": "世爵",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000117",
+      "ceInitial": "S",
+      "ceName": "双环",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000114",
+      "ceInitial": "S",
+      "ceName": "双龙",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000169",
+      "ceInitial": "S",
+      "ceName": "思铭",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000498",
+      "ceInitial": "S",
+      "ceName": "斯威",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000113",
+      "ceInitial": "S",
+      "ceName": "斯巴鲁",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000112",
+      "ceInitial": "S",
+      "ceName": "斯柯达",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000149",
+      "ceInitial": "S",
+      "ceName": "萨博",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000501",
+      "ceInitial": "S",
+      "ceName": "陕汽通家",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000150",
+      "ceInitial": "T",
+      "ceName": "天马",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000119",
+      "ceInitial": "T",
+      "ceName": "泰赫雅特",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000120",
+      "ceInitial": "T",
+      "ceName": "特斯拉",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000166",
+      "ceInitial": "T",
+      "ceName": "腾势",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000544",
+      "ceInitial": "W",
+      "ceName": "WEY",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000163",
+      "ceInitial": "W",
+      "ceName": "五十铃",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000121",
+      "ceInitial": "W",
+      "ceName": "五菱",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000124",
+      "ceInitial": "W",
+      "ceName": "威兹曼",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000617",
+      "ceInitial": "W",
+      "ceName": "威马汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000123",
+      "ceInitial": "W",
+      "ceName": "威麟",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000122",
+      "ceInitial": "W",
+      "ceName": "沃尔沃",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000616",
+      "ceInitial": "W",
+      "ceName": "瓦滋汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000571",
+      "ceInitial": "W",
+      "ceName": "蔚来",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000155",
+      "ceInitial": "X",
+      "ceName": "夏利",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000717",
+      "ceInitial": "X",
+      "ceName": "小鹏汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000130",
+      "ceInitial": "X",
+      "ceName": "新凯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000151",
+      "ceInitial": "X",
+      "ceName": "新大地",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000638",
+      "ceInitial": "X",
+      "ceName": "新特汽车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000148",
+      "ceInitial": "X",
+      "ceName": "新雅途",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000751",
+      "ceInitial": "X",
+      "ceName": "星途",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000125",
+      "ceInitial": "X",
+      "ceName": "现代",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000128",
+      "ceInitial": "X",
+      "ceName": "西雅特",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000564",
+      "ceInitial": "X",
+      "ceName": "鑫源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000126",
+      "ceInitial": "X",
+      "ceName": "雪佛兰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000127",
+      "ceInitial": "X",
+      "ceName": "雪铁龙",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000131",
+      "ceInitial": "Y",
+      "ceName": "一汽",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000615",
+      "ceInitial": "Y",
+      "ceName": "一汽红塔",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000565",
+      "ceInitial": "Y",
+      "ceName": "云度新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000568",
+      "ceInitial": "Y",
+      "ceName": "云雀",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000135",
+      "ceInitial": "Y",
+      "ceName": "依维柯",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000547",
+      "ceInitial": "Y",
+      "ceName": "御捷新能源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000136",
+      "ceInitial": "Y",
+      "ceName": "扬州亚星客车",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000134",
+      "ceInitial": "Y",
+      "ceName": "永源",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000159",
+      "ceInitial": "Y",
+      "ceName": "英致",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000132",
+      "ceInitial": "Y",
+      "ceName": "英菲尼迪",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000563",
+      "ceInitial": "Y",
+      "ceName": "裕路",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000133",
+      "ceInitial": "Y",
+      "ceName": "野马",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000139",
+      "ceInitial": "Z",
+      "ceName": "中兴",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000137",
+      "ceInitial": "Z",
+      "ceName": "中华",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000152",
+      "ceInitial": "Z",
+      "ceName": "中客华北",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000140",
+      "ceInitial": "Z",
+      "ceName": "中欧",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000154",
+      "ceInitial": "Z",
+      "ceName": "中顺",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000569",
+      "ceInitial": "Z",
+      "ceName": "之诺",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000138",
+      "ceInitial": "Z",
+      "ceName": "众泰",
+      "ceType": 1
+    },
+    {
+      "ceId": "900000168",
+      "ceInitial": "Z",
+      "ceName": "知豆",
+      "ceType": 1
+    }
+  ]
+}
