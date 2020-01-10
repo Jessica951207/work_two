@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商机详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <!-- <link rel="stylesheet" href="../js/lay-module/inputTags/inputTags.css" media="all"> -->
+    <style>
+        .layui-form-label{
+            width: 85px;
+        }
+        /*
+        legend {
+            color:orange;
+        }
+        .layui-form-item .layui-input-inline {
+            display: block;
+            float: none;
+            left: 0px;
+            width: auto;
+            margin: 0 0 0px 120px;
+        } */
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <!-- 客户基本信息 -->
+        <input type="hidden" id="boIdHidden" value=""/>
+        <!-- 其他联系方式列表操作是否可操作，默认可操作 -->
+        <input type="hidden" id="otherContacts_operation" value="0"/>
+        <div id="customerInfoDiv">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>客户基本信息</legend>
+        </fieldset>
+        <!-- 隐藏栏位 -->
+        <!-- <input type="hidden" id="orgId"/> -->
+        <form class="layui-form" action="" lay-filter="orgInfo" id="orgInfo">
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">客户姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="customerName" name="customerName" lay-filter="customerName" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline" style="line-height:37px">
+                    <label class="layui-form-label">客户编号</label>
+                    <div class="layui-input-inline">
+                        <font id="customerNo" lay-filter="customerNo"></font>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">主要联系方式</label>
+                    <div class="layui-input-inline">
+                        <select lay-verify="required" name="customerContactType" id="customerContactType" lay-filter="customerContactType">
+                            <!-- 1:座机,2:手机,3:QQ,4:微信,5:E-mail -->
+                            <option value="">请选择</option>
+                            <option value="1">座机</option>
+                            <option value="2">手机</option>
+                            <option value="3">QQ</option>
+                            <option value="4">微信</option>
+                            <option value="5">E-mail</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">主要联系方式</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="customerContactWay" lay-verify="required" autocomplete="off" class="layui-input" lay-filter="customerContactWay">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="cusInfoSubmitButDiv">
+                <div class="layui-input-block">
+                    <button id="cusInfoSubmitBut" type="button" class="layui-btn" lay-submit lay-filter="cusInfoSubmitBut">保存</button>
+                    <!-- <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+                </div>
+            </div>
+        </form>
+        </div>
+        <!-- 客户基本信息 end-->
+        <!-- 客户补充信息 -->
+        <div id="businessInfoDiv" style="display:none">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>客户补充信息</legend>
+        </fieldset>
+        <table class="layui-hide" id="otherContacts" lay-filter="otherContacts"></table>
+        <!-- <form class="layui-form layui-form-pane" action="" lay-filter="supInfo" id="supInfo"> -->
+        <form class="layui-form" action="" lay-filter="businessInfo" id="businessInfo">
+            <!-- modify by tzm 20191120 去除客户信息描述 -->
+            <!-- <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">客户信息描述</label>
+                <div class="layui-input-block">
+                    <textarea id="boCustomerDesc" lay-filter="boCustomerDesc" name="boCustomerDesc" placeholder="请输入内容..." class="layui-textarea" style="width:99.4%"></textarea>
+                </div>
+            </div> -->
+        <!-- </form> -->
+        <!-- </div> -->
+        <!-- 商机信息 -->
+        <!-- <div id="businessInfoDiv" style="display:none"> -->
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>商机信息</legend>
+            </fieldset>
+            <!-- 商机信息中隐藏栏位 -->
+            <!-- 现归属机构 -->
+            <input id="boSaleOrgName" lay-filter="boSaleOrgName" type="hidden" value=""/>
+            <!-- 现归属人员 -->
+            <input id="boSaleUserName" lay-filter="boSaleUserName" type="hidden" value=""/>
+            <div class="layui-form-item" style="display:none" id="businessInfoHideDiv">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6" style="line-height:37px">
+                    <label class="layui-form-label">商机编号</label>
+                    <div class="layui-input-inline">
+                        <font id="businessNo" lay-filter="businessNo"></font>
+                    </div>
+                </div>
+                <div class="layui-inline" style="line-height:37px">
+                    <label class="layui-form-label">商机状态</label>
+                    <div class="layui-input-inline">
+                        <font id="businessStatus" lay-filter="businessStatus"></font>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">商机类型</label>
+                    <div class="layui-input-inline">
+                        <select name="boType" id="boType" lay-filter="boType" lay-verify="required">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商机来源</label>
+                    <div class="layui-input-inline">
+                        <select name="boSource" id="boSource" lay-filter="boSource">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="area-picker">
+                <div class="layui-inline">
+                    <label class="layui-form-label">业务区域</label>
+                    <div class="layui-input-inline">
+                        <select name="boProvince" class="province-selector" lay-filter="boProvince">
+                            <option value="">省</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select name="boCity" id="boCity" class="city-selector" lay-filter="boCity">
+                            <option value="">市</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">客户真实姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" lay-filter="boCustomerRealname" name="boCustomerRealname" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">身份证号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" lay-filter="boCustomerIdno" lay-verify="customIdentity" name="boCustomerIdno" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">录单金额(元)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" lay-filter="boRegisterAmount" lay-verify="customMoney" name="boRegisterAmount" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键字</label>
+                    <div class="layui-input-inline" id="tags">
+                        <input type="text" name="boKeyword" id="inputTags" placeholder="输入后回车生成关键字" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">商机描述</label>
+                <div class="layui-input-block">
+                    <textarea id="boDesc" lay-filter="boDesc" name="boDesc" placeholder="请输入内容" class="layui-textarea" lay-verify="required" style="width:99.4%"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" id="submitBusinessButDiv">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" lay-submit lay-filter="submitBusinessBut">保存</button>
+                    <!-- <button class="layui-btn" lay-submit="" lay-filter="submitBusinessBut1">保存1</button>
+                    <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <a class="layui-btn" href="javascript:;" data-title="222" data-iframe-tab="page/404.html">
+                        确认分配
+                    </a> -->
+                </div>
+            </div>
+        </form>
+        <!-- 商机信息 end -->
+        <!-- 商机分配记录隐藏 -->
+        <div id="distributionInfoDiv" style="display:none">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>商机分配记录</legend>
+            </fieldset>
+            <table class="layui-hide" id="distributionInfo" lay-filter="distributionInfo"></table>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align:center">
+                    <a id="returnBut" class="layui-btn" href="javascript:;">
+                        返回
+                    </a>
+                    <!--<a id="adjustmentBut" class="layui-btn" href="javascript:;">-->
+                        <!--调整归属人员-->
+                    <!--</a>-->
+                </div>
+            </div>
+        </div>
+        <script type="text/html" id="otherContactsBar">
+            <!-- <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a> -->
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+        <script type="text/html" id="distributionBar">
+            <!-- <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a> -->
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="info">跟进记录</a>
+        </script>
+        <script type="text/html" id="indexTpl">
+            {{d.LAY_TABLE_INDEX+1}}
+        </script>
+        </div>
+        <!-- 分配弹出框隐藏div -->
+        <div id="tipDiv" style="display: none;margin: 15px 15px 15px 15px;">
+            <!-- 隐藏栏位 -->
+            <!-- <input type="hidden" id="userId"/> -->
+            <div id="tips">
+            <h1>提示：</h1>
+            <h1>商机<font id="busNo"></font>已经生成。</h1>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>销售分配</legend>
+            </fieldset>
+            <form class="layui-form" action="" lay-filter="tipForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <label class="layui-form-label">销售机构</label>
+                        <div class="layui-input-inline">
+                            <select name="saleOrg" id="saleOrg" lay-filter="saleOrg">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">销售人员</label>
+                        <div class="layui-input-inline">
+                            <select name="userId" id="userId">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <!-- data-iframe-tab="page/business-list.html" -->
+                        <a id="divSubmitBut" lay-submit class="layui-btn" href="javascript:;" data-title="商机清单" >
+                            确认分配
+                        </a>
+                        <a id="divCloseBut" class="layui-btn" href="javascript:;" data-title="商机清单">
+                            暂不分配
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 隐藏div end -->
+    </div>
+</div>
+
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="js/common.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['layuimini', 'form', 'layedit', 'laydate', 'table', 'layarea', 'inputTags', 'enhanceForm', 'element','zlhjConfig'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , table = layui.table
+            , layuimini = layui.layuimini
+            , layarea = layui.layarea
+            , inputTags = layui.inputTags
+            , enhanceForm = layui.enhanceForm
+            , element = layui.element
+            , zlhjConfig = layui.zlhjConfig
+            , $ = layui.jquery;
+
+        // add by tzm 20191106
+        // 接收联系方式的数据
+        window.otherContactsInfoData;
+        let tipDivCloseBut;
+        // 控制其他联系方式的
+        let otherContacts_operation = parseInt($('#otherContacts_operation').val())===0?false:true;
+        let orgInfoForm = new enhanceForm({
+                elem: '#orgInfo'
+            });
+        let businessInfoForm = new enhanceForm({
+                elem: '#businessInfo'
+            });
+        // let supInfoForm = new enhanceForm({
+        //         elem: '#supInfo'
+        //     });
+        // 初始加载
+        layarea.render({
+            elem: '#area-picker',
+            data: {
+                province: '',
+                city: '',
+                county: '',
+            },
+            change: function (res) {
+                //选择结果
+                console.log(res);
+            }
+        });
+        let keyWordInfo = inputTags.render({
+            elem:'#inputTags',//定义输入框input对象
+            close: true,
+            // content: ['标题一','标题二'],//默认标签
+            // aldaBtn: true,//是否开启获取所有数据的按钮
+            done: function(value){ //回车后的回调
+                console.log(value)
+            }
+        });
+        // 查询所有商机类型
+        let typeList = fetch(`${zlhjConfig.baseUrl}/businessOpportunity/listBoType`).then(res=>res.json()).then(
+            data => {
+                $.each(data['boTypeList'], (index, item) => {
+                    $('#boType').append(new Option(item.codeName, item.codeValue));
+                });
+                form.render("select");
+            }
+        );
+        // 查询所有商机来源
+        let sourceList = fetch(`${zlhjConfig.baseUrl}/businessOpportunity/listBoSource`).then(res=>res.json()).then(
+            data => {
+                $.each(data['boSourceList'], (index, item) => {
+                    $('#boSource').append(new Option(item.codeName, item.codeValue));
+                });
+                form.render("select");
+            }
+        );
+        // 初始加载 end
+        // 表单提交
+        // 客户基本信息
+        form.on('submit(cusInfoSubmitBut)', function (data) {
+            console.log(`入参${JSON.stringify(data.field)}`);
+            //modify by LQY 20191217
+            fetch(`${zlhjConfig.baseUrl}/customer/addCustomer`, {
+                method: 'POST',
+                body: JSON.stringify(data.field),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(res => {
+                console.log('Success:', res)
+                if (res.state==="Y"){
+                    $('#customerNo').text(res.customerInfo.customerId);
+                    orgInfoForm.disableAll();
+                    $('#cusInfoSubmitButDiv').hide();
+                    $('#businessInfoDiv').show();
+                    layer.msg(res.msg,{time: 1000});
+                    // if (res.oldFlag==='Y'){
+                    //     //todo later
+                    //     layer.msg(res.msg,{time: 10*1000});
+                    //     // layer.msg('该客户已存在!',{time: 1000});
+                    // } else {
+                    //     // layer.msg('该客户为新客户!',{time: 1000});
+                    // }
+                    // layer.msg(`${res.msg}`,{time: 1000},() => {
+
+                    // $('#businessInfoDiv').show();
+                    // });
+                } else {
+                    layer.msg(`${res.msg}`,{time: 5000});
+                }
+            });
+            return false;
+        });
+        // 表单提交 end
+        //add by tzm
+        //表单初始赋值
+        // if ($('#orgId').val()!=''){
+        //     console.log('10101');
+        //     fetch(`http://localhost:3000/orgList1?orgId=${$('#orgId').val()}`).then(res=>res.json()).then(
+        //         data => {
+        //             form.val('orgInfo', {
+        //                 "orgName": data[0]['orgname']
+        //                 , "superiorName": "005"
+        //                 , "address": data[0]['address']
+        //                 , "sex": data[0]['orgtype']
+        //                 , "flag": data[0]['flag']
+        //             });
+        //         }
+        //     )
+        // }
+        // 其他联系方式 20191107
+        // 监听新增事件
+        window.otherContactsClick = () => {
+            $('[lay-event="LAYTABLE_ADD"]').on('click',()=>{
+                layer.open({
+                    type: 2,
+                    title: '添加联系方式',
+                    scrollbar: false,
+                    // shadeClose: true,
+                    // maxmin: true, //开启最大化最小化按钮
+                    area: ['40%', '80%'],
+                    content: './otherContacts-add.html',
+                    success: (layero, index) => {
+                        // let body = layer.getChildFrame('body', index);//建立父子联系
+                        // let iframeWin = window[layero.find('iframe')[0]['name']];
+                        // body.find('#otherContactsInfoData').val(otherContactsInfoData);
+                    },
+                });
+            })
+        }
+        let otherContactsTable = table.render({
+            elem: '#otherContacts',
+            // url: '',
+            toolbar: '<h5>其他联系方式</h5>',
+            defaultToolbar: otherContacts_operation ? ['filter'] : ['filter',{
+                title: '新增'
+                ,layEvent: 'LAYTABLE_ADD'
+                ,icon: 'layui-icon-add-1'
+            }],// 'exports'
+            cols: [[
+                {field: 'LAY_TABLE_INDEX', title: '序号', templet: '#indexTpl'},
+                {field: 'customerContactType', title: '联系方式(座机/手机/QQ/微信/e-mail)', align: "center", templet:(res) => {
+                    let result = "";
+                    switch(parseInt(res.customerContactType)) {
+                        case 1:
+                            result = "座机";
+                            break;
+                        case 2:
+                            result = "手机";
+                            break;
+                        case 3:
+                            result = "QQ";
+                            break;
+                        case 4:
+                            result = "微信";
+                            break;
+                        case 5:
+                            result = "e-mail";
+                            break;
+                    }
+                    return result;
+                }},
+                {field: 'customerContactWay', title: '联系号码', align: "center",templet: (res) => {
+                    var s = res.customerContactWay;
+                    if ($('#boIdHidden').val()!==""){
+                        return "*******" + s.substr(s.length - 4);
+                    } else {
+                        return s;
+                    }
+                }},
+                {title: '操作', width: 100, templet: '#otherContactsBar', fixed: "right", align: "center", hide: otherContacts_operation}
+            ]],
+            data:[],
+            done: function(res, curr, count){
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                console.log(res);
+                //得到当前页码
+                console.log(curr);
+                //得到数据总量
+                console.log(count);
+                otherContactsInfoData = res.data;
+                console.log("初始化数据"+JSON.stringify(otherContactsInfoData));
+                otherContactsClick();
+            }
+        });
+        window.addOtherContacts = (data) => {
+            table.reload("otherContacts",{
+                data:data,
+                done: function(res, curr, count){
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    console.log(res);
+                    //得到当前页码
+                    console.log(curr);
+                    //得到数据总量
+                    console.log(count);
+                    otherContactsInfoData = res.data;
+                    console.log("子页面值"+JSON.stringify(otherContactsInfoData));
+                    otherContactsClick();
+                }
+            });
+        }
+        // 监听其他联系方式表格
+        table.on('tool(otherContacts)', (obj) => {
+            let data = obj.data; //获得当前行数据
+            console.log(obj);
+            console.log(`data:${JSON.stringify(data)}`);
+            let layEvent = obj.event;
+            console.log(`data:${layEvent}`);
+            let tr = obj.tr;
+            console.log(`data:${JSON.stringify(tr)}`);
+            if(layEvent === 'delete'){ //删除
+                layer.confirm('确定要删除该条数据吗？', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    console.log(`otherContactsInfoData:${JSON.stringify(otherContactsInfoData)}`);
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            }
+        });
+        // 其他联系方式 end
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            }
+            , pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+            , content: function (value) {
+                layedit.sync(editIndex);
+            },
+            customPhone: [/(^$)|^1\d{10}$/, '请输入正确的手机号'],
+            customEmail: [/(^$)|^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, '邮箱格式不正确'],
+            customUrl: [/(^$)|(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, '链接格式不正确'],
+            customNumber: [/(^$)|^\d+$/, '只能填写数字'],
+            customMoney: [/(^$)|^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/, '请填写正确的金额,最多两位小数'],
+            customDate: [/(^$)|^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, '日期格式不正确'],
+            customIdentity: [/(^$)|(^\d{15}$)|(^\d{17}(x|X|\d)$)/, '请输入正确的身份证号']
+        });
+        //保存-->客户补充信息和商机信息
+        form.on('submit(submitBusinessBut)', function (data) {
+            // if (otherContactsInfoData.length===0){
+            //     layer.msg('其他联系方式不能为空',{icon: 5,anim: 6});
+            //     return false;
+            // }
+            console.log(JSON.stringify(data.field));
+            console.log(keyWordInfo.config.content);
+            console.log('-------------');
+            // modify by tzm 20191120 去除关键字校验
+            // if (keyWordInfo.config.content.length === 0) {
+            //     layer.tips('请至少填写一个关键字！', '#inputTags');
+            //     return;
+            // }
+            if ($('#inputTags').val().replace(/\s/g,'')!==''){
+                layer.msg('关键字格式不正确',{icon: 5,anim: 6});
+                return;
+            }
+            let dataInfo = $.extend(data.field,{"boKeyword":keyWordInfo.config.content.join("|"),"customerSupplement":otherContactsInfoData.filter(item => item.length!==0),"boCustomerId":$('#customerNo').text()})
+            console.log(JSON.stringify(dataInfo));
+            fetch(`${zlhjConfig.baseUrl}/businessOpportunity/addBO`, {
+                method: 'POST',
+                body: JSON.stringify(dataInfo),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(res => {
+                console.log('Success:', res)
+                if (res.state==="Y"){
+                    $('#busNo').text(res.boInfo.boId);
+                    tipDivCloseBut = layer.open({
+                        type: 1,
+                        title: '提示',
+                        // shadeClose: true,
+                        // shade: true,
+                        // maxmin: true, //开启最大化最小化按钮
+                        scrollbar: false,
+                        closeBtn: 0,
+                        // skin: 'layui-bg-gray',
+                        area: ['70%', '80%'],
+                        content: $('#tipDiv'),
+                        success: (layero, index) => {
+                            //查询所有销售机构
+                            console.log('查询所有销售机构');
+                            getSSOrgList();
+                        },
+                    });
+                } else {
+                    layer.msg(`${res.msg}`,{time: 1000});
+                }
+            });
+            return false;
+        });
+        // 所有销售机构
+        window.getSSOrgList = () => {
+            fetch(`${zlhjConfig.baseUrl}/org/getSSOrgList`).then(res=>res.json()).then(
+                data => {
+                    $.each(data['boSourceList'], (index, item) => {
+                        $('#saleOrg').append(new Option(item.orgName, item.orgId));
+                    });
+                    form.render("select");
+                }
+            )
+        };
+        // 获取销售人员列表
+        window.listSSUser = () => {
+            let saleOrgId = $("#saleOrg").val();
+            if (saleOrgId===""){
+                let defaultTpl = `<option value=''>请选择</option>`;
+                $('#userId').html(defaultTpl);
+                $('#userId').html(tpl);
+                return false;
+            }
+            fetch(`${zlhjConfig.baseUrl}/user/listSSUserCtrl`,{
+                method: 'POST',
+                body: `{'orgId':${saleOrgId}}`,
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res=>res.json()).then(
+                data => {
+                    let tpl = `<option value=''>请选择</option>`;
+                    $.each(data['userList'], (index, item) => {
+                        // $('#userId').append(new Option(item.userName, item.userId));
+                        tpl += `<option value='${item.userId}'>${item.userName}</option>`;
+                    });
+                    $('#userId').html(tpl);
+                    form.render("select");
+                }
+            )
+        };
+        // 监听销售机构
+        form.on('select(saleOrg)',()=>{
+            listSSUser();
+        });
+        // 监听确认分配按钮
+        $('#divSubmitBut').on('click',() => {
+            let saleOrg = $('#saleOrg').val();
+            let userId = $('#userId').val();
+            if (saleOrg===""){
+                layer.msg('请选择销售机构',{icon:1,anim: 6});
+                return false;
+            }
+            if (userId===""){
+                layer.msg('请选择销售人员',{icon:1,anim: 6});
+                return false;
+            }
+            // 调用分配接口
+            let boId = $('#busNo').text();
+            if (boId===""){
+                boId = $('#businessNo').text();
+            }
+            fetch(`${zlhjConfig.baseUrl}/businessOpportunity/distribution`,{
+                method: 'POST',
+                body: `{'boId':'${boId}','userId':${userId}}`,
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res=>res.json()).then(
+                data => {
+                    if (data.state==='Y'){
+                        layer.msg(`分配成功`,{icon:1,time:500},()=>{
+                            if ($('#boIdHidden').val()===""){
+                                layer.close(tipDivCloseBut);
+                                // businessInfoForm.disableAll();
+                            } else {
+                                let index = parent.layer.getFrameIndex(window.name); //得到当前iframe层的索引
+                                parent.layer.close(index); //执行关闭
+                            }
+                            // 打开商机清单页面
+                            openBusinessList();
+                        });
+                    } else {
+                        layer.msg(`${data.msg}`);
+                    }
+                }
+            );
+            console.log('监听确认分配按钮');
+        });
+        // 监听暂不分配按钮
+        $('#divCloseBut').on('click',() => {
+            layer.close(tipDivCloseBut);
+            layer.msg('目前暂不分配',{icon:0,time:500},()=>{
+                // businessInfoForm.disableAll();
+                openBusinessList();
+            });
+            console.log('监听确认分配按钮');
+        });
+        // 打开商机清单页面
+        window.openBusinessList = () => {
+            $('#submitBusinessButDiv').hide();
+            let defaultContent = keyWordInfo.config.content;
+            keyWordInfo.config.content = [];
+            inputTags.render({
+                elem:'#inputTags',//定义输入框input对象
+                close: false,
+                content: defaultContent,//默认标签
+                // aldaBtn: true,//是否开启获取所有数据的按钮
+                done: function(value){ //回车后的回调
+                    console.log(value)
+                }
+            });
+            $('[lay-event="LAYTABLE_ADD"]').unbind("click");
+            businessInfoForm.disableAll();
+            layer.open({
+                type: 2,
+                title: '商机清单',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                closeBtn:0,
+                maxmin:false,
+                area: ['100%', '100%'],
+                scrollbar:false,
+                content: './business-list.html',
+                // end: () => {
+                //     table.reload('currentTableId', {
+                //         url: `${zlhjConfig.baseUrl}/org/listOrg`
+                //         ,where: {} //设定异步数据接口的额外参数
+                //     });
+                // }
+            });
+        };
+        // 获取客户补充信息清单
+        let getCSList = (boId) => {
+            fetch(`${zlhjConfig.baseUrl}/businessOpportunity/getCSList`,{
+                method: 'POST',
+                body: `{'boId':'${boId}'}`,
+                // body: `{'boId':'BUCU001'}`,
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res=>res.json()).then(
+                data => {
+                    if (data.state==='Y'){
+                        // otherContactsTable.reload({
+                        //     data: data.csList
+                        // });
+                        table.reload("otherContacts",{
+                            data:data.csList,
+                        });
+                    } else {
+                        layer.msg(`${data.msg}`);
+                    }
+                }
+            );
+        };
+        // 商机分配记录
+        window.distributionData = () => {
+            let hideFlag = false;
+            let user = layui.sessionData('sessionData').userSession;
+            if (user.userRole===1){//如果是客服人员则隐藏操作
+                hideFlag = true;
+            }
+            table.render({
+                elem: '#distributionInfo',
+                url: `${zlhjConfig.baseUrl}/businessOpportunity/distributionList`,
+                response: {
+                    // statusName: 'state' //规定数据状态的字段名称，默认：code
+                    statusCode: 'Y' //规定成功的状态码，默认：0
+                    // ,dataName: 'userList' //规定数据列表的字段名称，默认：data
+                },
+                contentType: 'application/json',
+                parseData: function(res) {
+                    return {
+                        "code": res.state,
+                        "msg": res.msg,
+                        "data": res.boList
+                    };
+                },
+                where: {
+                    "boId": $('#businessNo').text()
+                    // "boId": "BU2019103000000006001"
+                },
+                method:'post',
+                cols: [[
+                    {field: 'orNewOrgName', title: '销售机构', align: "center"},
+                    {field: 'orNewOwnerName', title: '销售人员', align: "center"},
+                    {title: '操作', hide: hideFlag, minWidth: 100, templet: '#distributionBar', fixed: "right", align: "center"}
+                ]],
+                // data:[],
+            });
+        }
+        // 页面初始化赋值
+        if ($('#boIdHidden').val()!==""){
+            Promise.all([typeList,sourceList]).then((result) => {
+                init();
+            }).catch((error) => {
+                console.log(error)
+            });
+        };
+        window.init = () => {
+            // 调用详情接口
+            fetch(`${zlhjConfig.baseUrl}/businessOpportunity/getBO`,{
+                method: 'POST',
+                body: `{'boId':'${$('#boIdHidden').val()}'}`,
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res=>res.json()).then(
+                data => {
+                    console.log('商机详情', data);
+                    if (data.state==='Y'){
+                        let boInfoData = data.boInfo;
+                        // $('#busNo').text(boInfoData.boId);
+                        $('#businessNo').text(boInfoData.boId);
+                        $('#customerNo').text(boInfoData.boCustomerId);
+                        $('#businessStatus').text(getBoStateName(boInfoData.boState));
+                        let businessStatus;
+                        for (let index in boInfoData.boState) {
+                            if (bo_state[index].value === boInfoData.boState) {
+                                businessStatus = bo_state[index].html;
+                            }
+                        }
+                        form.val('orgInfo', {
+                            "customerName": boInfoData['boCustomerName']
+                            , "customerNo": boInfoData['boCustomerId']
+                            , "customerContactWay": "*******"+boInfoData['boCustomerContactWay'].substr(boInfoData['boCustomerContactWay'].length - 4)
+                            , "customerContactType": boInfoData['boCustomerContactType']
+                            , "boCustomerDesc": boInfoData['boCustomerDesc']
+                            , "boType": boInfoData['boType']
+                            , "boSource": boInfoData['boSource']
+                            , "boProvince": boInfoData['boProvince']
+                            , "boCity": boInfoData['boCity']
+                            , "boDesc": boInfoData['boDesc']
+                        });
+                        // 因为我们对layui的省市插件不太懂，只能采用这种暴力方式
+                        $('#boCity').empty().append(new Option(boInfoData['boCity'], boInfoData['boCity']));
+                        form.val('businessInfo', {
+                            "customerName": boInfoData['boCustomerName']
+                            , "customerNo": boInfoData['boCustomerId']
+                            , "customerContactWay": boInfoData['boCustomerContactWay']
+                            , "boCustomerDesc": boInfoData['boCustomerDesc']
+                            , "boType": boInfoData['boType']
+                            , "boSource": boInfoData['boSource']
+                            , "boProvince": boInfoData['boProvince']
+                            , "boCity": boInfoData['boCity']
+                            , "boDesc": boInfoData['boDesc']
+                            , "boSaleOrgName": boInfoData['boSaleOrgName']
+                            , "boSaleUserName": boInfoData['boSaleUserName']
+                            , "boCustomerRealname": boInfoData['boCustomerRealname']
+                            , "boCustomerIdno": boInfoData['boCustomerIdno']
+                            , "boRegisterAmount": boInfoData['boRegisterAmount']
+                        });
+                        $('#boSaleOrgName').val(boInfoData['boSaleOrgName']);
+                        $('#boSaleUserName').val(boInfoData['boSaleUserName']);
+                        getCSList(boInfoData.boId);
+                        $('#businessInfoDiv').show();
+                        $('#submitBusinessButDiv').hide();
+                        $('#cusInfoSubmitButDiv').hide();
+                        if (boInfoData.boKeyword!==""){
+                            let defaultContent = boInfoData.boKeyword.split("|");
+                            inputTags.render({
+                                elem:'#inputTags',//定义输入框input对象
+                                close: false,
+                                content: defaultContent,//默认标签
+                                // aldaBtn: true,//是否开启获取所有数据的按钮
+                                done: function(value){ //回车后的回调
+                                    console.log(value)
+                                }
+                            });
+                        }
+                        $('[lay-event="LAYTABLE_ADD"]').unbind("click");
+                        orgInfoForm.disableAll();
+                        businessInfoForm.disableAll();
+                        getSSOrgList();
+                        distributionData();
+                    } else {
+                        layer.msg(`${data.msg}`);
+                    }
+                }
+            );
+        }
+        // 返回按钮
+        $('#returnBut').on('click',() => {
+            let index = parent.layer.getFrameIndex(window.name); //得到当前iframe层的索引
+            parent.layer.close(index); //执行关闭当前iframe层
+        });
+        // 调整归属人员
+        $('#adjustmentBut').on('click',() => {
+            layer.open({
+                type: 2,
+                title: '调整归属人员',
+                // shadeClose: true,
+                shade: 0.3,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['70%', '95%'],
+                scrollbar:false,
+                content: './adjustment.html',
+                success: (layero, index) => {
+                    let body = layer.getChildFrame('body', index);//建立父子联系
+                    let iframeWin = window[layero.find('iframe')[0]['name']];
+                    body.find('#boId').val($('#boIdHidden').val());
+                    body.find('#orgName').val($('#boSaleOrgName').val());
+                    body.find('#orgUserName').val($('#boSaleUserName').val());
+                },
+                end: () => {
+                    distributionData();
+                }
+            });
+        });
+        // 跟进记录
+        table.on('tool(distributionInfo)', (obj) => {
+            var data = obj.data;
+            if (obj.event === 'info') {
+                layer.open({
+                    type: 2,
+                    title: '跟进记录',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['100%', '100%'],
+                    content: './follow-records.html',
+                    success:(layero, index) => {
+                        let body = layer.getChildFrame('body', index);//建立父子联系
+                        let iframeWin = window[layero.find('iframe')[0]['name']];
+                        body.find('#boId').val($('#boIdHidden').val());
+                        // body.find('#traceId').val(traceId);
+                        body.find('#reset').hide();
+                        $('.layui-layer-setwin').hide();
+                    }
+                });
+            }
+        });
+        $('#customerName').focus();
+    });
+</script>
+</body>
+</html>

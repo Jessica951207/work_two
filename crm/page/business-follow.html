@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>待跟进商机</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>查询条件</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商机编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="boId" autocomplete="off" class="layui-input" id="boId">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客户姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="customerName" autocomplete="off" class="layui-input"
+                                       id="customerName">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系方式</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="customerContactWay" autocomplete="off" class="layui-input"
+                                       id="customerContactWay">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关键字</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="boKeyword" autocomplete="off" class="layui-input"
+                                       id="boKeyword">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <!--倒计时-->
+        <!--<div class="container timeBar ys2" data="500"></div>-->
+
+        <!--<div class="container ys2" data="600" lay-active="e1"></div>-->
+        <!--<script type="text/html" id="date">-->
+            <!--<div class="container timeBar ys2" data="{{d.surplusSec}}" lay-active="e1"></div>-->
+        <!--</script>-->
+        <table class="layui-hide" id="currentTableId1" lay-filter="currentTableFilter1"></table>
+        <script type="text/html" id="currentTableBar1">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a>
+        </script>
+        <!--<script type="text/html" id="currentTableBar3">-->
+        <!--<a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit" id="countDown"></a>-->
+        <!--</script>-->
+
+        <table class="layui-hide" id="currentTableId2" lay-filter="currentTableFilter2"></table>
+        <script type="text/html" id="currentTableBar2">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a>
+        </script>
+
+    </div>
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/jquery-2.1.1.min.js" charset="utf-8"></script>
+<script src="../js/countdown.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+
+    layui.use(['form', 'table', 'laypage', 'util','zlhjConfig'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            enhanceForm = layui.enhanceForm,
+            layer = layui.layer,
+            util = layui.util;
+            zlhjConfig = layui.zlhjConfig;
+        table = layui.table;
+
+
+        // 待接受任务池 加载列表
+        window.DJStask = () => {
+            //获取form值
+            var boId = $("#boId").val(),
+                customerName = $("#customerName").val(),
+                customerContactWay = $("#customerContactWay").val(),
+                boKeyword = $("#boKeyword").val();
+
+            //console.log(111111111111,JSON.stringify(orgInfoForm.serializeJson()));
+            var tableDJSObj = table.render({
+                elem: '#currentTableId1',
+                toolbar: '<h5>待接受任务池</h5>',
+                defaultToolbar: ['filter'],
+                method: "post",
+                url: `${zlhjConfig.baseUrl}/businessOpportunity/getDJSBOList`,
+                where: {
+                    boId: boId,
+                    customerName: customerName,
+                    customerContactWay: customerContactWay,
+                    boKeyword: boKeyword
+                },
+                contentType: 'application/json',
+                request: {
+                    pageName: 'currentPage' //页码的参数名称，默认：page
+                    , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                response: {
+                    // statusName: 'state' //规定数据状态的字段名称，默认：code
+                    statusCode: 'Y' //规定成功的状态码，默认：0
+                    // ,dataName: 'userList' //规定数据列表的字段名称，默认：data
+                },
+                parseData: function (res) {
+                    //console.log(1111111,res.boList);
+                    return {
+                        "code": res.state,
+                        "msg": res.msg,
+                        "data": res.boList
+                    };
+                },
+                cols: [[
+                    {field: 'boId', minWidth: 200, title: '商机编号', align: "center"},
+                    {field: 'boCustomerName', minWidth: 150, title: '客户姓名', align: "center"},
+                    {
+                        field: 'boCustomerContactWay',
+                        minWidth: 150,
+                        title: '主要联系方式',
+                        align: "center",
+                        templet: (res) => {
+                            var s = res.boCustomerContactWay;
+                            //console.log(s.substr(s.length - 4))
+                            return "*******" + s.substr(s.length - 4);
+
+                        }
+                    },
+                    {field: 'boType', minWidth: 150, title: '商机类型', align: "center"},
+                    {field: 'boSource', minWidth: 150, title: '商机来源', align: "center"},
+                    {field: 'boProvince', minWidth: 150, title: '业务区域', align: "center"},
+                    {
+                        field: 'boState', minWidth: 150, title: '状态', align: "center", templet: (res) => {
+                            if (res.boState === 1) {
+                                return '待分配'
+                            }
+                            else if (res.boState === 2) {
+                                return '待接受'
+                            }
+                            else if (res.boState === 3) {
+                                return '待跟进'
+                            }
+                            else if (res.boState === 4) {
+                                return '成单'
+                            }
+                            else if (res.boState === 5) {
+                                return '结束'
+                            }
+                        }
+                    },
+                    // {field: 'boStartDate', minWidth: 150,title: '开始日期', align: "center"},
+                    {
+                        field: 'surplusSec', minWidth: 100, title: '剩余时间', align: "center", templet: (d) => {
+                            return '<div class="container timeBar ys2" data="'+ d.surplusSec +'"></div>'
+                        }
+                    },
+                    {title: '详情', minWidth: 100, templet: '#currentTableBar1', fixed: "right", align: "center"}
+                ]],
+                // limits: [10, 15, 20, 25, 50, 100],
+                // limit: 20,
+                // page: true
+                done: function (res, curr, count) {
+                    var elem = this.elem.next();
+                    var bodyElem = elem.find('.layui-table-main');
+                    layui.each(bodyElem.find('.timeBar'),function () {
+                        $(this).countdownsync({
+                            dayTag: "",
+                            hourTag: "<label class='tt hh dib vam'>00</label><span>时</span>",
+                            minTag: "<label class='tt mm dib vam'>00</label><span>分</span>",
+                            secTag: "<label class='tt ss dib vam'>00</label><span>秒</span>",
+                            dayClass: ".dd",
+                            hourClass: ".hh",
+                            minClass: ".mm",
+                            secClass: ".ss",
+                            isDefault: false,
+                            showTemp: 1
+                        }, function () {
+                            location.reload();
+                        });
+                    })
+
+                }
+            });
+        };
+
+        util.event('lay-active', {
+            e1: function(){
+                console.log("1");
+            }
+        });
+
+
+        // 待跟进任务池 加载列表
+        var tableDGJObj;
+        window.DGJtask = () => {
+            //获取form值
+            var boId = $("#boId").val(),
+                customerName = $("#customerName").val(),
+                customerContactWay = $("#customerContactWay").val(),
+                boKeyword = $("#boKeyword").val();
+
+            tableDGJObj = table.render({
+                elem: '#currentTableId2',
+                toolbar: '<h5>待跟进任务池</h5>',
+                defaultToolbar: ['filter'],
+                method: "post",
+                url: `${zlhjConfig.baseUrl}/businessOpportunity/getDGJBOList`,
+                where: {
+                    boId: boId,
+                    customerName: customerName,
+                    customerContactWay: customerContactWay,
+                    boKeyword: boKeyword,
+                },
+                contentType: 'application/json',
+                request: {
+                    pageName: 'currentPage' //页码的参数名称，默认：page
+                    , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                response: {
+                    // statusName: 'state' //规定数据状态的字段名称，默认：code
+                    statusCode: 'Y' //规定成功的状态码，默认：0
+                    // ,dataName: 'userList' //规定数据列表的字段名称，默认：data
+                },
+                parseData: function (res) {
+                    //console.log(1111111,res.boList);
+                    return {
+                        "code": res.state,
+                        "msg": res.msg,
+                        "count": res.boList.total,
+                        "data": res.boList.records
+                    };
+                },
+                cols: [[
+                    {field: 'boId', minWidth: 200, title: '商机编号', align: "center"},
+                    {field: 'boCustomerName', minWidth: 150, title: '客户姓名', align: "center"},
+                    {
+                        field: 'boCustomerContactWay',
+                        minWidth: 150,
+                        title: '主要联系方式',
+                        align: "center",
+                        templet: (res) => {
+                            var s = res.boCustomerContactWay;
+                            return "*******" + s.substr(s.length - 4);
+
+                        }
+                    },
+                    {field: 'boStartDate', minWidth: 150, title: '开始日期', align: "center"},
+                    {field: 'boSource', minWidth: 150, title: '商机来源', align: "center"},
+                    {field: 'boProvince', minWidth: 150, title: '业务区域', align: "center"},
+                    {
+                        field: 'boState', minWidth: 150, title: '状态', align: "center", templet: (res) => {
+                            if (res.boState === 1) {
+                                return '待分配'
+                            }
+                            else if (res.boState === 2) {
+                                return '待接受'
+                            }
+                            else if (res.boState === 3) {
+                                return '待跟进'
+                            }
+                            else if (res.boState === 4) {
+                                return '成单'
+                            }
+                            else if (res.boState === 5) {
+                                return '结束'
+                            }
+                        }
+                    },
+                    {field: 'boType', minWidth: 150, title: '商机类型', align: "center"},
+                    {title: '详情', minWidth: 100, templet: '#currentTableBar2', fixed: "right", align: "center"}
+                ]],
+                page: true,
+                limits: [1,10, 15, 20, 25, 50, 100],
+                limit: 20,
+                done: function(res, curr, count){
+                    let currentPage = $(".layui-laypage-em").next().html(); //当前页码值;
+                    let currentNums = $(".layui-laypage-limits").find("option:selected").val(); //分页数目;
+                    console.log("************当前页码跟分页数目************"+currentPage+"************"+currentNums);
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    console.log(res);
+                    //得到当前页码
+                    console.log('当前页码哦哦哦',curr);
+                    //得到数据总量
+                    console.log('当前总数量哦哦哦',count);
+                }
+
+            });
+        }
+
+        //初始化列表
+        function init() {
+            //console.log(66666666)
+            // DJStask();
+            DGJtask();
+        }
+        init();
+
+        //搜索查询并展示列表
+        form.on('submit(data-search-btn)', function (data) {
+            // console.log(22222222,data.field)
+            // DJStask();
+            DGJtask();
+            return false;
+        })
+
+
+        //待接收任务池详情
+        table.on('tool(currentTableFilter1)', (obj) => {
+            console.log(obj);
+            var data = obj.data;
+            //console.log(JSON.stringify(data));
+            if (obj.event === 'edit') {
+                let index = layer.alert('是否接受并跟进该条商机？', {
+                    skin: 'layui-layer-molv' //样式类名
+                    ,closeBtn: 0,
+                    btn: ['确认','取消']
+                }, function(){
+                    $.ajax({
+                        type: "post",
+                        url: `${zlhjConfig.baseUrl}/businessOpportunity/acceptBO`,
+                        data: `{"boId":'${data.boId}'}`,
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function () {
+                            layer.close(index);
+                            //跳转到商机跟进详情页面
+                            layer.open({
+                                type: 2,
+                                title: '商机跟进详情',
+                                shadeClose: true,
+                                shade: false,
+                                maxmin: true, //开启最大化最小化按钮
+                                area: ['100%', '100%'],
+                                content: `./follow-detail.html?id=${data.boId}`,
+                                data: {id: `${data.boId}`},
+                                success: (layero, index) => {
+                                    let body = layer.getChildFrame('body', index);//建立父子联系
+                                    let iframeWin = window[layero.find('iframe')[0]['name']];
+                                    body.find('#boId').val(data.boId);
+                                    body.find('#reset').hide();
+                                },
+                                end: () => {
+                                    DJStask();
+                                    //tableDJSObj.reload();
+                                }
+                            });
+
+                        },
+                        error: function (e) {
+                            console.log("sorry，error");
+                        }
+                    });
+                });
+
+
+            }
+        });
+
+        //待跟进任务池
+        table.on('tool(currentTableFilter2)', (obj) => {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '商机跟进详情',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['100%', '100%'],
+                    content: `./follow-detail.html?id=${data.boId}`,
+                    // data: {boid: `${data.boId}`},
+                    success: (layero, index) => {
+                        let body = layer.getChildFrame('body', index);//建立父子联系
+                        let iframeWin = window[layero.find('iframe')[0]['name']];
+                        body.find('#boId').val(data.boId);  //传boId给字iframe
+                        body.find('#contactWayFlag').val(1);
+                        body.find('#reset').hide();
+                    },
+                    end: () => {
+                        // DGJtask();
+                        tableDGJObj.reload();
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

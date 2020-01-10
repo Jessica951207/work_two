@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>话务统计</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>查询条件</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" lay-filter="condition">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">机构</label>
+                            <div class="layui-input-inline">
+                                <select name="org_id" id="org_id" lay-filter="org_id">
+                                    <option value="0">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">人员姓名</label>
+                            <div class="layui-input-inline">
+                                <select name="user_name" id="user_name">
+                                    <option value="">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">日期范围</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" id="dateRange" name="dateRange" lay-filter="dateRange" autocomplete="off" >
+                                <!--<i class="layui-icon layui-icon-date d1" style="position: absolute;top:8px;right: 8px;font-size: 22px;"></i>-->
+                            </div>
+                            <!--<label class="layui-form-label">起始日期</label>-->
+                            <div class="layui-input-inline" style="display: none">
+                                <input type="text" class="layui-input" id="startDate" name="startDate" lay-filter="startDate" autocomplete="off">
+                            </div>
+                            <!--<label class="layui-form-label">结束日期</label>-->
+                            <div class="layui-input-inline" style="display: none">
+                                <input type="text" class="layui-input" id="endDate" name="endDate" lay-filter="endDate" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="search">搜索</a>
+                            <!--<a class="layui-btn" id="addBtn" lay-submit="" lay-filter="add">新增</a>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a>
+            <!-- <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a> -->
+        </script>
+    </div>
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="js/common.js?v=1.0.4"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    // add by LQY 20191211
+    layui.use(['form', 'table', 'laydate','zlhjConfig'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            zlhjConfig = layui.zlhjConfig,
+            table = layui.table;
+
+        //日期选择
+        laydate.render({
+            elem: '#dateRange' //指定元素
+            ,trigger: 'click'
+            ,eventElem: '.d1'
+            ,range: true
+            ,value: getNowDate()+" - "+getNowDate()
+            ,isInitValue: true,
+            done:function (value,date) {
+                console.log(value);
+                var dateArr = value.split(" - ");
+                console.log(dateArr);
+                $('#startDate').val(dateArr[0]);
+                $('#endDate').val(dateArr[1]);
+
+                // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+                // startDateYear = date.year;
+                // startDateMonth = date.month;
+                // startDateDay = date.day;
+                // console.log(startDateYear)
+            }
+        });
+        // laydate.render({
+        //     elem: '#endDate' //指定元素
+        //     ,trigger: 'click'
+        //     ,eventElem: '.d2',
+        //     done:function (value,date) {
+        //         // layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+        //         // endDateYear = date.year;
+        //         // endDateMonth = date.month;
+        //         // endDateDay = date.day;
+        //     }
+        // });
+
+        init();
+        form.render("select");
+        //权限控制
+        let userInfo = layui.sessionData('sessionData').userSession;
+        if (userInfo.userRole===3){//管理人员不显示新增按钮
+            $('#addBtn').hide();
+        }
+
+        let expiry_BOlist_table = table.render({
+            elem: '#currentTableId',
+            toolbar: '<h5>查询结果</h5>',
+            defaultToolbar: ['filter'],
+            url: `${zlhjConfig.baseUrl}/traceInfo/getCallAnalysis`,
+            method: 'POST',
+            contentType: 'application/json',
+            request: {
+                pageName: 'currentPage', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                statusCode: 'Y'
+            },
+            where: {
+                "orgId": $('#org_id').val(),//机构
+                "userName": $('#user_name').val(),//人员姓名
+                "startDate": $('#startDate').val(),//日期开始
+                "endDate": $('#endDate').val() //日期结束
+            },
+            parseData: function (res) {
+                return {
+                    code: res.state, //解析接口状态
+                    msg: res.msg, //解析提示文本
+                    // count: res.callList.total, //解析数据长度
+                    data: res.callList //解析数据列表
+                };
+            },
+            cols: [[
+                {field: 'orgName', minWidth: 88, title: '机构', align: "center"},
+                {field: 'userName', minWidth: 88, title: '人员姓名', align: "center"},
+                {field: 'userNo', minWidth: 88, title: '工号', align: "center"},
+                {field: 'callCount', minWidth: 88, title: '拨出次数', align: "center"},
+                {field: 'successCount', minWidth: 88, title: '拨通次数', align: "center"},
+                {field: 'success30', minWidth: 88, title: '拨通30s以上的次数', align: "center"},
+                {field: 'successPre', minWidth: 88, title: '拨通率', align: "center"},
+                {field: 'totalTime', minWidth: 88, title: '拨通总时长', align: "center"}
+
+            ]],
+            // limits: [10, 20, 50, 100],
+            // limit: 20,
+            // page: true
+            page: false
+        });
+
+        /**
+         * 根据条件查询符合的商机列表
+         */
+        form.on('submit(search)', function (res) {
+            expiry_BOlist_table.reload({
+                where: {
+                    "orgId": res.field.org_id,
+                    "userName": res.field.user_name,
+                    "startDate": res.field.startDate,
+                    "endDate": res.field.endDate,
+
+                }
+            });
+        });
+
+        /**
+         * 根据机构ID查询有效用户
+         */
+        form.on('select(org_id)', (res) => {
+            fetch(`${zlhjConfig.baseUrl}/user/listActiveUser`, {
+                method: 'POST',
+                body: JSON.stringify({orgId: res.value}),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res => res.json()).then(res => {
+                $('#user_name').empty().append(new Option('全部', ''));
+                for (let user of res.userList) {
+                    $('#user_name').append(new Option(user.userName, user.userName));
+                }
+                form.render('select');
+            });
+        });
+
+        /**
+         * 页面初始化
+         */
+        function init() {
+            if (loginUser.userType === 1) {
+                // $('#org_id').append(new Option(loginUser.userOrgName, loginUser.userOrgId, true, true)).attr('disabled', 'disabled');
+                // $('#user_name').append(new Option(loginUser.userName, loginUser.userId, true, true)).attr('disabled', 'disabled');
+                loadOrg();
+            } else if (loginUser.userType === 2) {
+                loadOrg();
+            }
+
+            //加载日期隐藏域初始值为当天
+            $("#startDate").val(getNowDate());//开始日期
+            $("#endDate").val(getNowDate());//结束日期
+        }
+
+        /**
+         *  加载全部有效机构
+         */
+        function loadOrg() {
+            fetch(`${zlhjConfig.baseUrl}/org/getSSOrgList`).then(res => res.json()).then(res => res.boSourceList).then(
+                boSourceList => {
+                    for (let org of boSourceList) {
+                        $('#org_id').append(new Option(org.orgName, org.orgId));
+                    }
+                    form.render("select");
+                }
+            ).catch(reason => console.log(reason));
+        }
+
+        /**
+         * 加载今天日期
+         * @returns {string}
+         */
+        function getNowDate(){
+            var mydate = new Date();
+            var str = "" + mydate.getFullYear() + "-";
+            str += (mydate.getMonth()+1) + "-";
+            str += mydate.getDate();
+            return str;
+        }
+    });
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

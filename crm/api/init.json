@@ -1,0 +1,139 @@
+{
+  "clearInfo": {
+    "clearUrl": "api/clear.json"
+  },
+  "homeInfo": {
+    "title": "首页",
+    "icon": "fa fa-home",
+    "href": "page/welcome.html?mpi=m-p-i-1"
+  },
+  "logoInfo": {
+    "title": "中联惠捷",
+    "image": "images/zlhjLogo.png",
+    "href": ""
+  },
+  "menuInfo": {
+    "zlhjMenu":{
+      "title": "中联管理",
+      "icon": "fa fa-archive",
+      "child": [
+        {
+          "title": "我的工作室",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "",
+          "child": [
+            {
+              "title": "新建商机",
+              "href": "page/business-add.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "待分配商机",
+              "href": "page/business-allot.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "待接受商机",
+              "href": "page/business-accept.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "待跟进商机",
+              "href": "page/business-follow.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "我的管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "",
+          "child": [
+            {
+              "title": "商机分配设置",
+              "href": "page/business-set.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "商机清单",
+              "href": "page/business-list.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "跟进预警",
+              "href": "page/follow-warning.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "成功订单",
+              "href": "page/order-list.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "客户管理",
+              "href": "page/customer-manage.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "话务统计",
+              "href": "page/traffic-statistic.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "系统设置",
+          "href": "",
+          "icon": "fa fa-gears",
+          "target": "",
+          "child": [
+            {
+              "title": "机构管理",
+              "href": "page/org.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "用户管理",
+              "href": "page/user.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "公海任务池",
+          "href": "",
+          "icon": "fa fa-gears",
+          "target": "",
+          "child": [
+            {
+              "title": "部门公海池",
+              "href": "page/expiry-BO.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "全体公海池",
+              "href": "page/end-BO.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  } 
+}

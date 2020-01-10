@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商机跟进详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <!-- <link rel="stylesheet" href="../js/lay-module/inputTags/inputTags.css" media="all"> -->
+    <style>
+        .layui-form-label{
+            width: 85px;
+        };
+        legend {
+            color:orange;
+        };
+        .layui-form-item .layui-input-inline {
+            display: block;
+            float: none;
+            left: 0px;
+            width: auto;
+            margin: 0 0 0px 120px;
+        };
+        #tags #inputTags[type='text'], #inputTags[type='text']:focus{
+            background: #1aa094!important;
+            width: auto;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <!-- 客户基本信息 -->
+        <div id="customerInfoDiv">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>客户基本信息</legend>
+            </fieldset>
+            <!-- 隐藏栏位 -->
+            <input type="hidden" id="traceId" name="traceId"/>
+            <input type="hidden" id="boId" name="boId"/>
+            <!-- 控制是否有权限查看联系方式 -->
+            <input type="hidden" id="contactWayFlag" name="contactWayFlag" value="0"/>
+            <!-- 是否跟进预警跳转页面 1、是；2、否 -->
+            <input type="hidden" id="followWarningFlag" name="followWarningFlag" value="0"/>
+            <form class="layui-form" action="" lay-filter="orgInfo" id="orgInfo">
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">客户姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="boCustomerName" name="boCustomerName" lay-verify="required" autocomplete="off" class="layui-input" disabled>
+                    </div>
+                </div>
+                <div class="layui-inline"style="line-height:37px">
+                    <label class="layui-form-label">客户编号</label>
+                    <div class="layui-input-inline">
+                        <font id="boCustomerId" ></font>
+                    </div>
+                </div>
+            </div>
+            <!-- modify by tzm 20191125 去除 客户信息描述 栏位 -->
+            <!-- <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">客户信息描述</label>
+                <div class="layui-input-block">
+                    <textarea id="boCustomerDesc" name="boCustomerDesc" placeholder="请输入内容..." class="layui-textarea" style="width:99.4%" disabled></textarea>
+                </div>
+            </div> -->
+
+        </form>
+        </div>
+        <!-- 客户联系方式-->
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>客户联系方式</legend>
+        </fieldset>
+        <table class="layui-hide" id="otherContacts" lay-filter="otherContacts"></table>
+
+        <!--商机信息-->
+        <form class="layui-form" action=""  lay-filter="orgInfo" id="businessInfo">
+        <!-- <div id="businessInfoDiv" style="display:none"> -->
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>商机信息</legend>
+            </fieldset>
+
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">商机类型</label>
+                    <div class="layui-input-inline">
+                        <select name="boType" id="boType" lay-verify="required">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商机来源</label>
+                    <div class="layui-input-inline">
+                        <select name="boSource" id="boSource" lay-verify="required">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" id="area-picker">
+                <div class="layui-inline">
+                    <label class="layui-form-label">业务区域</label>
+                    <div class="layui-input-inline">
+                        <select name="boProvince" class="province-selector" lay-verify="required">
+                            <option value="">省</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select name="boCity" id="boCity" class="city-selector" lay-verify="required">
+                            <option value="">市</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">客户真实姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" lay-filter="boCustomerRealname" name="boCustomerRealname" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">身份证号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" lay-filter="boCustomerIdno" lay-verify="customIdentity" name="boCustomerIdno" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">录单金额(元)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" lay-filter="boRegisterAmount" lay-verify="customMoney" name="boRegisterAmount" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键字</label>
+                    <!--<div class="layui-input-inline">-->
+                        <!--<input type="text" name="boKeyword" lay-verify="required" autocomplete="off" class="layui-input" disabled>-->
+                    <!--</div>-->
+                    <div class="layui-input-inline" id="tags">
+                        <input type="text" name="boKeyword" id="inputTags" placeholder="输入后回车生成关键字" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">商机描述</label>
+                <div class="layui-input-block">
+                    <textarea id="boDesc" name="boDesc" placeholder="请输入内容" class="layui-textarea" lay-verify="required" style="width:99.4%" disabled></textarea>
+                </div>
+            </div>
+
+        </form>
+
+        <!--跟踪记录-->
+        <div id="trace">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>跟踪记录</legend>
+            </fieldset>
+            <form class="layui-form" action="" lay-filter="orgInfo" id="traceConclusion">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">跟进结论</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="traceConclusion" value="3" lay-filter="follow-conclusion" title="下次跟进" checked>
+                        <input type="radio" name="traceConclusion" value="2" lay-filter="follow-conclusion" title="结束">
+                        <input type="radio" name="traceConclusion" value="1" lay-filter="follow-conclusion" title="成单">
+                        <input type="radio" name="traceConclusion" value="4" lay-filter="follow-conclusion" title="重新分配">
+                        <input type="radio" name="traceConclusion" value="5" lay-filter="follow-conclusion" title="移交">
+                        <!--<input type="radio" name="traceConclusion" value="6" lay-filter="follow-conclusion" title="重新分配">-->
+                    </div>
+                </div>
+                <div class="layui-form-item" id="nextTraceDateDiv" style="display: none;">
+                    <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <label class="layui-form-label">下次跟进日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="nextTraceDate" name="nextTraceDate" lay-filter="nextTraceDate" autocomplete="off">
+                            <i class="layui-icon layui-icon-date d1" style="position: absolute;top:8px;right: 8px;font-size: 22px;"></i>
+                            <!--<input type="text" name="traceNextDate" lay-verify="required" autocomplete="off" class="layui-input">-->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item" id="boSuccessDateDiv" style="display: none;">
+                    <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <label class="layui-form-label">成单日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="boSuccessDate" name="boSuccessDate" lay-filter="boSuccessDate" autocomplete="off">
+                            <i class="layui-icon layui-icon-date d2" style="position: absolute;top:8px;right: 8px;font-size: 22px;"></i>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">成单金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="boSuccessAmount" name="boSuccessAmount" lay-verify="customMoney" lay-filter="boSuccessAmount" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="reassignServiceDiv" style="display: none;">
+                    <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <label class="layui-form-label">主管客服</label>
+                        <div class="layui-input-inline">
+                            <select name="reassignService" id="reassignService">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item" id="relegateToSalerDiv" style="display: none;">
+                    <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6" style="display: none;">
+                        <label class="layui-form-label">销售机构</label>
+                        <div class="layui-input-inline">
+                            <select name="saleOrg" id="saleOrg" lay-filter="saleOrg">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">销售人员</label>
+                        <div class="layui-input-inline">
+                            <select name="saleUser" id="saleUser">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-block">
+                        <textarea id="traceDesc" name="traceDesc" placeholder="请输入内容..." class="layui-textarea" style="width:99.4%" lay-verify="required" lay-filter="traceDesc" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">电话录音记录</label>
+                    <div class="layui-input-block">
+                        <table class="layui-hide" id="recordVoice" lay-filter="recordVoice"></table>
+                    </div>
+                </div>
+                <div class="layui-form-item" id="btnDiv">
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="submitBusinessButton">提交</button>
+                        <button type="button" class="layui-btn" lay-filter="BusinessRecord" id="BusinessRecord">跟进记录</button>
+                        <button type="button" class="layui-btn" lay-filter="update" id="update">刷新</button>
+                        <!-- <button class="layui-btn" lay-submit="" lay-filter="submitBusinessBut1">保存1</button>
+                        <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <a class="layui-btn" href="javascript:;" data-title="222" data-iframe-tab="page/404.html">
+                            确认分配
+                        </a> -->
+                    </div>
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+        <script type="text/html" id="otherContactsBar">
+             <!--<a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a> -->
+            <!--<a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>-->
+             {{#  if(d.customerContactType === 2){ }}
+            <a class="layui-btn layui-btn-xs " lay-event="callPhone">拨打电话</a>
+            <a class="layui-btn layui-btn-xs " lay-event="killPhone">挂断电话</a>
+             {{#  }; }}
+        </script>
+        <script type="text/html" id="recordVoiceBar">
+            <a class="layui-btn layui-btn-xs " lay-event="recordVoices">录音</a>
+        </script>
+        <!--<script type="text/html" id="indexTpl">-->
+            <!--{{d.LAY_TABLE_INDEX+1}}-->
+        <!--</script>-->
+        <!-- </div> -->
+    </div>
+</div>
+
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['layuimini', 'form', 'layedit', 'laydate', 'table', 'layarea', 'inputTags', 'enhanceForm','laydate','zlhjConfig'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate
+            , table = layui.table
+            , layuimini = layui.layuimini
+            , layarea = layui.layarea
+            , inputTags = layui.inputTags
+            , enhanceForm = layui.enhanceForm
+            , zlhjConfig = layui.zlhjConfig
+            , $ = layui.jquery;
+        // modify by tzm 20191126
+        let businessInfoForm = new enhanceForm({
+                elem: '#businessInfo'
+            });
+        let traceConclusionForm = new enhanceForm({
+                elem: '#traceConclusion'
+            });
+        //日期选择
+
+        if (parseInt($('#followWarningFlag').val())!==1){
+            laydate.render({
+                elem: '#nextTraceDate' //指定元素
+                ,trigger: 'click'
+                ,eventElem: '.d1'
+                ,min: getNowDate()
+            });
+            laydate.render({
+                elem: '#boSuccessDate' //指定元素
+                ,trigger: 'click'
+                ,eventElem: '.d2'
+            });
+        }
+        // 查询所有商机类型
+        let typeList = fetch(`${zlhjConfig.baseUrl}/businessOpportunity/listBoType`).then(res=>res.json()).then(
+            data => {
+                $.each(data['boTypeList'], (index, item) => {
+                    $('#boType').append(new Option(item.codeName, item.codeValue));
+                });
+                console.log('商机类型');
+                form.render("select");
+            }
+        );
+        // 查询所有商机来源
+        let sourceList = fetch(`${zlhjConfig.baseUrl}/businessOpportunity/listBoSource`).then(res=>res.json()).then(
+            data => {
+                $.each(data['boSourceList'], (index, item) => {
+                    $('#boSource').append(new Option(item.codeName, item.codeValue));
+                });
+                console.log('商机来源');
+                form.render("select");
+            }
+        );
+        //add by LQY 20191213
+        // 查询所有销售机构 todo later
+        // window.getSSOrgList = () => {
+        //     fetch(`${zlhjConfig.baseUrl}/org/getSSOrgList`).then(res=>res.json()).then(
+        //         data => {
+        //             $.each(data['boSourceList'], (index, item) => {
+        //                 $('#saleOrg').append(new Option(item.orgName, item.orgId));
+        //                 console.log(67666666666666)
+        //             });
+        //             form.render("select");
+        //         }
+        //     )
+        // };
+
+        // 查询销售人员 todo later
+        let user = layui.sessionData('sessionData').userSession;
+        let saleOrgId = user.userOrgId;
+        let saleUser = user.saleUser;
+        console.log('当前销售orgId:',saleOrgId+"当前销售userId:"+saleUser);
+        window.listSSUser = () => {
+            // let saleOrgId = $("#saleOrg").val();
+            // if (saleOrgId===""){
+            //     let defaultTpl = `<option value=''>请选择</option>`;
+            //     $('#saleUser').html(defaultTpl);
+            //     $('#saleUser').html(tpl);
+            //     return false;
+            // }
+            fetch(`${zlhjConfig.baseUrl}/user/listSSUserCtrl`,{
+                method: 'POST',
+                body: `{'orgId':${saleOrgId}}`,
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res=>res.json()).then(
+                data => {
+                    let tpl = `<option value=''>请选择</option>`;
+                    $.each(data['userList'], (index, item) => {
+                        // $('#saleUser').append(new Option(item.userName, item.userId));
+                        tpl += `<option value='${item.userId}'>${item.userName}</option>`;
+                    });
+                    $('#saleUser').html(tpl);
+                    form.render("select");
+                }
+            )
+        };
+        listSSUser();
+        // getSSOrgList();
+        // 监听销售机构
+        // form.on('select(saleOrg)',()=>{
+        //     listSSUser();
+        // });
+        //add by LQY end
+
+        // 查询所有主管客服
+        let cusServiceList = fetch(`${zlhjConfig.baseUrl}/user/listCMUser`).then(res=>res.json()).then(
+            data => {
+                $.each(data['userList'], (index, item) => {
+                    $('#reassignService').append(new Option(item.userName,item.userId));
+                });
+                console.log('主管客服');
+                form.render("select");
+            }
+        );
+        // add by lqy 20191109
+        //表单初始赋值
+        var keyWordInfo;
+        var boIdVal = $('#boId').val();
+        window.init = () => {
+            $.ajax({
+                type: "post",
+                url: `${zlhjConfig.baseUrl}/businessOpportunity/getBO`,
+                data: `{"boId":"${boIdVal}"}`,
+                dataType: "json",
+                contentType :'application/json',
+                success:function (data) {
+                    console.log(JSON.stringify(data));
+                    $('#boCustomerId').html(data.boInfo.boCustomerId);
+                    // $('#boType').append(new Option(data.boInfo.boType));
+                    // $('#boSource').append(new Option(data.boInfo.boSource));
+                    $('#boCity').empty().append(new Option(data.boInfo.boCity));
+                    form.val('orgInfo', {
+                        "boCustomerName": data.boInfo.boCustomerName
+                        , "boCustomerId":  data.boInfo.boCustomerId
+                        // , "boCustomerDesc":  data.boInfo.boCustomerDesc
+                        , "userPhone":  data.boInfo.userPhone
+                        , "boType":  data.boInfo.boType
+                        , "boSource":  data.boInfo.boSource
+                        , "boProvince":  data.boInfo.boProvince
+                        , "boCity":  data.boInfo.boCity
+                        // , "boKeyword":  data.boInfo.boKeyword
+                        , "boDesc":  data.boInfo.boDesc
+                        , "boCustomerRealname":  data.boInfo.boCustomerRealname
+                        , "boCustomerIdno":  data.boInfo.boCustomerIdno
+                        , "boRegisterAmount":  data.boInfo.boRegisterAmount
+
+                    });
+                    let closeBtn = parseInt($('#followWarningFlag').val())===1 ? false : true;
+                    if (data.boInfo.boKeyword!==""){
+                        let defaultContent = data.boInfo.boKeyword.split("|");
+                        keyWordInfo = inputTags.render({
+                            elem:'#inputTags',//定义输入框input对象
+                            close: closeBtn,
+                            content: defaultContent,//默认标签
+                            // aldaBtn: true,//是否开启获取所有数据的按钮
+                            done: function(value){ //回车后的回调
+                                console.log(value)
+                            }
+                        });
+                    } else {
+                        keyWordInfo = inputTags.render({
+                            elem:'#inputTags',//定义输入框input对象
+                            close: closeBtn,
+                            // content: ['标题一','标题二'],//默认标签
+                            // aldaBtn: true,//是否开启获取所有数据的按钮
+                            done: function(value){ //回车后的回调
+                                console.log(value)
+                            }
+                        });
+                    };
+                    if (parseInt($('#followWarningFlag').val())===1){
+                        form.val('orgInfo', {
+                            "traceConclusion": data.boInfo.boState
+                            , "nextTraceDate":  data.boInfo.boStartDate
+                            , "boSuccessAmount":  data.boInfo.boSuccessAmount
+                            , "boSuccessDate":  data.boInfo.boSuccessDate
+                            , "traceDesc":  data.boInfo.traceInfoDesc
+
+                        });
+                        businessInfoForm.disableAll();
+                        traceConclusionForm.disableAll();
+                        $('.d1').unbind("click");
+                        $('.d2').unbind("click");
+                    }
+                    // $('#nextTraceDateDiv').show();
+                    // $('#nextTraceDate').attr("lay-verify","required");
+                    followRadio(""+data.boInfo.boState);
+                },
+                error:function (e) {
+                    console.log("sorry，error");
+
+                }
+            });
+        };
+        // modify by tzm 20191126 初始化数据完成后再处理表单赋值
+        Promise.all([typeList,sourceList,cusServiceList]).then((result) => {
+            init();
+        }).catch((error) => {
+            console.log(error)
+        });
+
+        //获取联系方式
+        table.render({
+            elem: '#otherContacts',
+            defaultToolbar: ['filter'],
+            request: {
+                pageName: 'currentPage' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                // statusName: 'state' //规定数据状态的字段名称，默认：code
+                statusCode: 'Y' //规定成功的状态码，默认：0
+                // ,dataName: 'userList' //规定数据列表的字段名称，默认：data
+            },
+            method:'post',
+            contentType: 'application/json',
+            where:{boId:boIdVal},
+            url: `${zlhjConfig.baseUrl}/businessOpportunity/getAllContactWay`,
+            toolbar: '<h5>联系方式</h5>',
+            parseData: function(res) {
+                return {
+                    "code": res.state,
+                    "msg": res.msg,
+                    "data": res.csList
+                };
+            },
+            // data: [
+            //     {customerContactType: '1', customerContactWay: '15003932087'},
+            //     {customerContactType: '2', customerContactWay: '15003932088'}
+            // ],
+            cols: [[
+                {field: 'customerContactType', minWidth:100,title: '联系方式(座机/手机/QQ/微信/e-mail)', align: "center", templet:(res) => {
+                        let result = "";
+                        switch(res.customerContactType) {
+                            case 1:
+                                result = "座机";
+                                break;
+                            case 2:
+                                result = "手机";
+                                break;
+                            case 3:
+                                result = "QQ";
+                                break;
+                            case 4:
+                                result = "微信";
+                                break;
+                            case 5:
+                                result = "e-mail";
+                                break;
+                        }
+                        return result;
+                    }},
+                {field: 'customerContactWay', minWidth:100, title: '联系号码', align: "center"
+                    ,templet:(res) => {
+                        let s = res.customerContactWay.substr(res.customerContactWay.length - 4);
+                        if (parseInt($('#contactWayFlag').val())===1){
+                            return `*******${s}&nbsp;&nbsp;<span id="${res.customerContactWay}" lay-event="plus" class="layui-icon layui-icon-search"></span>`;
+                        } else {
+                            return `*******${s}`;
+                        }
+                        
+                    }
+                    },
+                {title: '操作', minWidth:100, templet: '#otherContactsBar', fixed: "right", align: "center"}
+            ]],
+            // done: function(res, curr, count){
+            //     //如果是异步请求数据方式，res即为你接口返回的信息。
+            //     //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+            //     console.log(res);
+            //     //得到当前页码
+            //     console.log(curr);
+            //     //得到数据总量
+            //     console.log(count);
+            //     otherContactsInfoData = res.data;
+            //     console.log("初始化数据"+JSON.stringify(otherContactsInfoData));
+            //     otherContactsClick();
+            // }
+        });
+
+         //选择 跟进结论 显示控制 1、成单；2、结束；3、下次跟进；4、重新分配；5、移交
+        window.followRadio = (v) => {
+            if(v === "1"){
+                $('#nextTraceDateDiv').hide();
+                $('#boSuccessDateDiv').show();
+                $('#boSuccessDate').attr("lay-verify","required");
+                $('#boSuccessAmount').attr("lay-verify","required");
+                $('#nextTraceDate').removeAttr("lay-verify");
+                $('#relegateToSalerDiv').hide();
+                $('#reassignServiceDiv').hide();
+                $('#saleUser').removeAttr("lay-verify");
+                $('#reassignService').removeAttr("lay-verify");
+            }
+            else if(v === "3"){
+                $('#nextTraceDateDiv').show();
+                $('#boSuccessDateDiv').hide();
+                $('#nextTraceDate').attr("lay-verify","required");
+                $('#boSuccessDate').removeAttr("lay-verify");
+                $('#boSuccessAmount').removeAttr("lay-verify");
+                $('#relegateToSalerDiv').hide();
+                $('#reassignServiceDiv').hide();
+                $('#saleUser').removeAttr("lay-verify");
+                $('#reassignService').removeAttr("lay-verify");
+            }
+            else if(v === "4"){
+                $('#reassignServiceDiv').show();
+                $('#reassignService').attr("lay-verify","required");
+                $('#nextTraceDate').removeAttr("lay-verify");
+                $('#boSuccessDate').removeAttr("lay-verify");
+                $('#boSuccessAmount').removeAttr("lay-verify");
+                $('#saleUser').removeAttr("lay-verify");
+                $('#nextTraceDateDiv').hide();
+                $('#boSuccessDateDiv').hide();
+                $('#relegateToSalerDiv').hide();
+            }
+            else if(v === "5"){
+                $('#relegateToSalerDiv').show();
+                $('#saleUser').attr("lay-verify","required");
+                $('#nextTraceDate').removeAttr("lay-verify");
+                $('#boSuccessDate').removeAttr("lay-verify");
+                $('#boSuccessAmount').removeAttr("lay-verify");
+                $('#reassignService').removeAttr("lay-verify");
+                $('#nextTraceDateDiv').hide();
+                $('#boSuccessDateDiv').hide();
+                $('#reassignServiceDiv').hide();
+            }
+            else {
+                $('#nextTraceDate').removeAttr("lay-verify");
+                $('#boSuccessDate').removeAttr("lay-verify");
+                $('#boSuccessAmount').removeAttr("lay-verify");
+                $('#saleUser').removeAttr("lay-verify");
+                $('#reassignService').removeAttr("lay-verify");
+                $('#nextTraceDateDiv').hide();
+                $('#boSuccessDateDiv').hide();
+                $('#relegateToSalerDiv').hide();
+                $('#reassignServiceDiv').hide();
+            }
+        };
+        
+        form.on('radio(follow-conclusion)', function (data) {
+            followRadio(data.value);
+        })
+
+        //获取电话录音记录
+        var RecordVoice = table.render({
+            elem: '#recordVoice',
+            defaultToolbar: ['filter'],
+            request: {
+                pageName: 'currentPage' //页码的参数名称，默认：page
+                ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                // statusName: 'state' //规定数据状态的字段名称，默认：code
+                statusCode: 'Y' //规定成功的状态码，默认：0
+                // ,dataName: 'userList' //规定数据列表的字段名称，默认：data
+            },
+            method:'post',
+            contentType: 'application/json',
+            where:{boId:boIdVal},
+            url: `${zlhjConfig.baseUrl}/traceInfo/getCallList`,
+            //toolbar: '<h5>电话录音记录</h5>',
+            parseData: function(res) {
+                return {
+                    "code": res.state,
+                    "msg": res.msg,
+                    "data": res.callList
+                };
+            },
+            cols: [[
+                {field: 'traceId', minWidth:100,title: '跟进Id', align: "center"},
+                {field: 'callId', minWidth:100,title: '录音序号', align: "center"},
+                {field: 'path', minWidth:100,title: '录音路径', align: "center",hide:"true"},
+                {title: '录音', minWidth: 100, templet: '#recordVoiceBar', fixed: "right", align: "center"}
+            ]],
+
+        });
+
+
+        // 跟进提交
+        form.on('submit(submitBusinessButton)', function (data) {
+            var userId=0;
+            if(data.field.traceConclusion === "4"){
+                userId = data.field.reassignService;
+            }else if(data.field.traceConclusion === "5"){
+                userId =  data.field.saleUser;
+            }
+            console.log(`入参${JSON.stringify(data.field)}`);
+            if ($('#inputTags').val().replace(/\s/g,'')!==''){
+                layer.msg('关键字格式不正确',{icon: 5,anim: 6});
+                return;
+            }
+            var traceInfo = $.extend(businessInfoForm.serializeJson(),data.field,{"boId":boIdVal,"boKeyword":keyWordInfo.config.content.join("|"),"userId":userId});
+            console.log(66666666666666,traceInfo)
+            $.ajax({
+                type: "post",
+                url: `${zlhjConfig.baseUrl}/businessOpportunity/traceSubmit`,
+                data: JSON.stringify(traceInfo),
+                dataType: "json",
+                contentType :'application/json',
+                success:function (data){
+                    layer.msg('提交成功', {icon: 1});
+                    console.log("success");
+                },
+                error(e){
+                    console.log("error");
+                }
+            })
+        });
+
+        //跟进记录跳转
+        $("#BusinessRecord").on("click", () => {
+            layer.open({
+                type: 2,
+                title: '跟进记录',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['100%', '100%'],
+                content: './follow-records.html',
+                success:(layero, index) => {
+                    let body = layer.getChildFrame('body', index);//建立父子联系
+                    let iframeWin = window[layero.find('iframe')[0]['name']];
+                    body.find('#boId').val(boIdVal);
+                    body.find('#traceId').val(traceId);
+                    body.find('#reset').hide();
+                    $('.layui-layer-setwin').hide();
+                }
+                // end: () => {
+                //     table.reload('currentTableId', {
+                //         url: `${zlhjConfig.baseUrl}/user/list`
+                //         ,where: {} //设定异步数据接口的额外参数
+                //     });
+                // }
+            });
+        });
+
+        // 刷新电话录音记录
+        $("#update").on("click", () => {
+            table.render({
+                elem: '#recordVoice',
+                defaultToolbar: ['filter'],
+                request: {
+                    pageName: 'currentPage' //页码的参数名称，默认：page
+                    ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                response: {
+                    // statusName: 'state' //规定数据状态的字段名称，默认：code
+                    statusCode: 'Y' //规定成功的状态码，默认：0
+                    // ,dataName: 'userList' //规定数据列表的字段名称，默认：data
+                },
+                method:'post',
+                contentType: 'application/json',
+                where:{boId:boIdVal},
+                url: `${zlhjConfig.baseUrl}/traceInfo/refresh`,
+                //toolbar: '<h5>刷新电话录音记录</h5>',
+                parseData: function(res) {
+                    return {
+                        "code": res.state,
+                        "msg": res.msg,
+                        "data": res.callList
+                    };
+                },
+                cols: [[
+                    {field: 'traceId', minWidth:100,title: '跟进Id', align: "center"},
+                    {field: 'callId', minWidth:100,title: '录音序号', align: "center"},
+                    {field: 'path', minWidth:100,title: '录音路径', align: "center",hide:"true"},
+                    {title: '录音', minWidth: 100, templet: '#recordVoiceBar', fixed: "right", align: "center"}
+                ]],
+                done:function (res,curr,count) {
+                    console.log(res)
+                    // layer.msg(res.msg, {icon: 1});
+                }
+
+            });
+
+
+        });
+
+        // 监听录音表格
+        table.on('tool(recordVoice)',(obj) => {
+            let data = obj.data;//获得当前行数据
+            let layEvent = obj.event;
+            if(obj.event = 'recordVoices'){
+                window.location.href = data.path;
+                console.log(data)
+                console.log('下载成功！')
+            }
+        })
+
+        // 监听联系方式表格
+        table.on('tool(otherContacts)', (obj) => {
+            let data = obj.data; //获得当前行数据
+            console.log(obj);
+            console.log(`data:${JSON.stringify(data)}`);
+            let layEvent = obj.event;
+            console.log(`data:${layEvent}`);
+            let tr = obj.tr;
+            console.log(`data:${JSON.stringify(tr)}`);
+        //拨打电话
+            if (obj.event === 'callPhone'){
+                $.ajax({
+                    type: "post",
+                    url: `${zlhjConfig.baseUrl}/traceInfo/call`,
+                    data: `{"boId":'${boIdVal}',"phone":${data.customerContactWay},"customerContactType":${data.customerContactType}}`,
+                    dataType: "json",
+                    contentType :'application/json',
+                    success:function (data) {
+                        console.log("call success")
+                    },
+                    error:function (e) {
+                        console.log("error")
+                    }
+                })
+            }
+            //挂断电话
+            else if (obj.event === 'killPhone'){
+                $.ajax({
+                    type: "post",
+                    url: `${zlhjConfig.baseUrl}/traceInfo/hangUp`,
+                    data: `{"boId":'${boIdVal}'}`,
+                    dataType: "json",
+                    contentType :'application/json',
+                    success:function (data) {
+                        console.log(data)
+                        console.log("call success")
+                    },
+                    error:function (e) {
+                        console.log("error")
+                    }
+                })
+            }
+            //查看联系方式
+            else if (obj.event === 'plus'){
+                layer.tips(`${data.customerContactWay}`, `#${data.customerContactWay}`, {
+                    tips: [1, '#3595CC'],
+                    time: 2000
+                });
+                // obj.update({
+                //     customerContactWay: data.customerContactWay
+                // });
+            }
+
+        });
+        // 其他联系方式 end
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            }
+            , pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+            , content: function (value) {
+                layedit.sync(editIndex);
+            },
+            customPhone: [/(^$)|^1\d{10}$/, '请输入正确的手机号'],
+            customEmail: [/(^$)|^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, '邮箱格式不正确'],
+            customUrl: [/(^$)|(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, '链接格式不正确'],
+            customNumber: [/(^$)|^\d+$/, '只能填写数字'],
+            customMoney: [/(^$)|^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/, '请填写正确的金额,最多两位小数'],
+            customDate: [/(^$)|^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/, '日期格式不正确'],
+            customIdentity: [/(^$)|(^\d{15}$)|(^\d{17}(x|X|\d)$)/, '请输入正确的身份证号']
+        });
+
+        $("#divCloseBut").on("click", () => {
+            layer.close(layer.index);
+        });
+
+        // 接收联系方式的数据
+        window.otherContactsInfoData;
+        let orgInfoForm = new enhanceForm({
+            elem: '#orgInfo'
+        });
+        // let supInfoForm = new enhanceForm({
+        //         elem: '#supInfo'
+        //     });
+        // 初始加载
+        layarea.render({
+            elem: '#area-picker',
+            change: function (res) {
+                //选择结果
+                //console.log(res);
+            }
+        });
+        // let keyWordInfo = inputTags.render({
+        //     elem:'#inputTags',//定义输入框input对象
+        //     close: true,
+        //     // content: ['标题一','标题二'],//默认标签
+        //     // aldaBtn: true,//是否开启获取所有数据的按钮
+        //     done: function(value){ //回车后的回调
+        //         //console.log(value)
+        //     }
+        // });
+        $('#boCustomerName').focus();
+        /**
+         * 加载今天日期
+         * @returns {string}
+         */
+        function getNowDate(){
+            var mydate = new Date();
+            var str = "" + mydate.getFullYear() + "-";
+            str += (mydate.getMonth()+1) + "-";
+            str += mydate.getDate();
+            return str;
+        }
+    });
+</script>
+
+</body>
+</html>

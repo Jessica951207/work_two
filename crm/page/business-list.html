@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商机清单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>查询条件</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" lay-filter="condition">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登记机构</label>
+                            <div class="layui-input-inline">
+                                <select name="org_id" id="org_id" lay-filter="org_id">
+                                    <option value="0">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登记用户</label>
+                            <div class="layui-input-inline">
+                                <select name="user_id" id="user_id">
+                                    <option value="0">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商机编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="bo_id" name="bo_id" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客户姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="customer_name" name="customer_name" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">联系方式</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="customer_contact_way" name="customer_contact_way"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商机状态</label>
+                            <div class="layui-input-inline">
+                                <select name="bo_state" id="bo_state">
+                                    <option value="0">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="search">搜索</a>
+                            <a class="layui-btn" id="addBtn" lay-submit="" lay-filter="add">新增</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">详情</a>
+            <!-- <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a> -->
+        </script>
+    </div>
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="js/common.js?v=1.0.4"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+
+    layui.use(['form', 'table', 'laydate','zlhjConfig'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            laydate = layui.laydate,
+            zlhjConfig = layui.zlhjConfig,
+            table = layui.table;
+
+        init();
+        form.render("select");
+        // add by tzm 20191112 权限控制
+        let userInfo = layui.sessionData('sessionData').userSession;
+        if (userInfo.userRole===3){//管理人员不显示新增按钮
+            $('#addBtn').hide();
+        }
+
+        let business_list_table = table.render({
+            elem: '#currentTableId',
+            toolbar: '<h5>查询结果</h5>',
+            defaultToolbar: ['filter'],
+            url: `${zlhjConfig.baseUrl}/businessOpportunity/getBOPage`,
+            method: 'POST',
+            contentType: 'application/json',
+            request: {
+                pageName: 'currentPage', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                statusCode: 'Y'
+            },
+            where: {
+                "orgId": $('#org_id').val(),
+                "userId": $('#user_id').val(),
+                "boId": "",
+                "customerName": "",
+                "customerContactWay": "",
+                "boState": 0
+            },
+            parseData: function (res) {
+                return {
+                    code: res.state, //解析接口状态
+                    msg: res.msg, //解析提示文本
+                    count: res.boPage.total, //解析数据长度
+                    data: res.boPage.records //解析数据列表
+                };
+            },
+            cols: [[
+                {field: 'boId', minWidth: 88, title: '商机编号', align: "center"},
+                {field: 'boCustomerName', minWidth: 88, title: '客户姓名', align: "center"},
+                {field: 'boCustomerContactWay', minWidth: 88, title: '联系方式', align: "center",templet: (res) => {
+                    var s = res.boCustomerContactWay;
+                    return "*******" + s.substr(s.length - 4);
+                }},
+                {field: 'boSource', minWidth: 88, title: '商机来源', align: "center"},
+                {
+                    field: 'boDistributionTime', minWidth: 88, title: '分配日期', align: "center", templet: function (row) {
+                        return row.boDistributionTime == null ? "" : layui.util.toDateString(row.boDistributionTime, 'yyyy-MM-dd');
+                    }
+                },
+                {
+                    field: 'boArea', minWidth: 88, title: '业务区域', align: "center", templet: (res) => {
+                        return res.boProvince + res.boCity;
+                    }
+                },
+                {field: 'boType', minWidth: 88, title: '商机类型', align: "center"},
+                {field: 'boRegisterUserName', minWidth: 88, title: '登记人员', align: "center"},
+                {field: 'boSaleOrgName', minWidth: 88, title: '销售机构', align: "center"},
+                {field: 'boSaleUserName', minWidth: 88, title: '销售人员', align: "center"},
+                {
+                    field: 'flag', minWidth: 88, title: '商机状态', align: "center", templet: (res) => {
+                        for (let index in bo_state) {
+                            if (bo_state[index].value === res.boState) {
+                                return bo_state[index].html;
+                            }
+                        }
+                        return '未知';
+                    }
+                },
+                {title: '操作', minWidth: 78, templet: '#currentTableBar', fixed: "right", align: "center"}
+            ]],
+            limits: [10, 20, 50, 100],
+            limit: 20,
+            page: true
+        });
+        /**
+         * 新增商机页面
+         */
+        form.on('submit(add)', () => {
+            layer.open({
+                type: 2,
+                title: '新增商机',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                scrollbar: false,
+                area: ['100%', '100%'],
+                content: './business-add.html',
+                end: () => {
+                    business_list_table.reload();
+                }
+            });
+        });
+
+        /**
+         * 根据条件查询符合的商机列表
+         */
+        form.on('submit(search)', function (res) {
+            business_list_table.reload({
+                where: {
+                    "orgId": res.field.org_id,
+                    "userId": res.field.user_id,
+                    "boId": res.field.bo_id,
+                    "customerName": res.field.customer_name,
+                    "customerContactWay": res.field.customer_contact_way,
+                    "boState": res.field.bo_state
+                }
+            });
+        });
+        // modify by tzm 20191110 跳转至商机详情页面
+        table.on('tool(currentTableFilter)', (obj) => {
+            let data = obj.data;
+            if (obj.event === 'edit') {
+                layer.open({
+                    type: 2,
+                    title: '商机详情',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    scrollbar: false,
+                    area: ['100%', '100%'],
+                    content: `./business-add.html`,
+                    success: (layero, index) => {
+                        let body = layer.getChildFrame('body', index);//建立父子联系
+                        let iframeWin = window[layero.find('iframe')[0]['name']];
+                        body.find('#otherContacts_operation').val(1);
+                        body.find('#boIdHidden').val(data.boId);
+                        body.find('#businessInfoHideDiv').show();
+                        body.find('#distributionInfoDiv').show();
+                    },
+                    end: () => {
+                        business_list_table.reload();
+                    }
+                });
+            }
+        });
+
+        form.on('select(org_id)', (res) => {
+            fetch(`${zlhjConfig.baseUrl}/user/listActiveUser`, {
+                method: 'POST',
+                body: JSON.stringify({orgId: res.value}),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(res => res.json()).then(res => {
+                $('#user_id').empty().append(new Option('全部', '0'));
+                for (let user of res.userList) {
+                    $('#user_id').append(new Option(user.userName, user.userId));
+                }
+                form.render('select');
+            });
+        });
+
+        /**
+         * 页面初始化
+         */
+        function init() {
+            if (loginUser.userType === 1) {
+                $('#org_id').append(new Option(loginUser.userOrgName, loginUser.userOrgId, true, true)).attr('disabled', 'disabled');
+                $('#user_id').append(new Option(loginUser.userName, loginUser.userId, true, true)).attr('disabled', 'disabled');
+            } else if (loginUser.userType === 2) {
+                loadOrg();
+            }
+
+            for (let index in bo_state) {
+                $('#bo_state').append(new Option(bo_state[index].html, bo_state[index].value));
+            }
+        }
+
+        function loadOrg() {
+            fetch(`${zlhjConfig.baseUrl}/org/getActiveOrgSelfList`).then(res => res.json()).then(res => res.orgList).then(
+                orgList => {
+                    for (let org of orgList) {
+                        $('#org_id').append(new Option(org.orgName, org.orgId));
+                    }
+                    form.render("select");
+                }
+            ).catch(reason => console.log(reason));
+        }
+
+    });
+</script>
+<script>
+
+</script>
+
+</body>
+</html>

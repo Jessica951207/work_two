@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商机分配设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>查询条件</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登记机构</label>
+                            <div class="layui-input-inline">
+                                <select name="org" id="org">
+                                    <option value="0">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit lay-filter="data-search-btn">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <table class="layui-table" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <div style="text-align:center">
+            <button id='submitBut' class="layui-btn">保存</button>
+        </div>
+    </div>
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table', 'layer','zlhjConfig'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer,
+            zlhjConfig = layui.zlhjConfig,
+            table = layui.table;
+
+        loadOrgList();
+
+        let business_set = table.render({
+            elem: '#currentTableId',
+            url: `${zlhjConfig.baseUrl}/user/listSSUser`,
+            method: 'POST',
+            contentType: 'application/json',
+            where: {orgId: $('#org').val()},
+            toolbar: '<h5>查询结构</h5>',
+            defaultToolbar: ['filter'],
+            response: {
+                statusCode: 'Y'
+            },
+            parseData: function (res) {
+                return {
+                    code: res.state, //解析接口状态
+                    msg: res.msg, //解析提示文本
+                    count: res.userList.length, //解析数据长度
+                    data: res.userList //解析数据列表
+                };
+            },
+            cols: [[
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'userName', title: '用户', align: "center"},
+                {field: 'userDailyLimit', title: '每日分配限额', align: "center", edit: 'text'}
+            ]]
+        });
+
+        table.on('edit(currentTableFilter)', function (obj) {
+            let pattern = /^[1-9]|[1-9]\d+$/;
+            if (pattern.test(obj.value)) {
+                $(obj.tr[1]).find("div.layui-form-checkbox").click();
+            }
+        });
+
+        form.on('submit(data-search-btn)', function (data) {
+            table.reload('currentTableId', {
+                url: `${zlhjConfig.baseUrl}/user/listSSUser`,
+                method: 'POST',
+                contentType: 'application/json',
+                where: {orgId: data.field.org}
+            });
+        });
+
+        $('#submitBut').on('click', function () {
+            let checkStatus = table.checkStatus('currentTableId'); //idTest 即为基础参数 id 对应的值
+            let param = [];
+            for (let row in checkStatus.data) {
+                param.push({
+                    userId: checkStatus.data[row].userId,
+                    dailyLimit: checkStatus.data[row].userDailyLimit
+                })
+            }
+            $.ajax({
+                url: `${zlhjConfig.baseUrl}/user/saveDailyLimit`,
+                contentType: 'application/json',
+                dataType: 'json',
+                type: 'post',
+                data: JSON.stringify(param),
+                success: function (res) {
+                    layer.msg(res.msg);
+                    business_set.reload();
+                }
+            });
+        });
+
+        function loadOrgList() {
+            $.ajax({
+                url: `${zlhjConfig.baseUrl}/org/getSSOrgList`,
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    if (data.state === 'Y') {
+                        $.each(data.boSourceList, function (index, item) {
+                            // 下拉菜单里添加元素
+                            $('#org').append(new Option(item.orgName, item.orgId));
+                        });
+                        //重新渲染 固定写法
+                        form.render("select");
+                    }
+                }
+            });
+        }
+    });
+
+
+</script>
+</body>
+</html>

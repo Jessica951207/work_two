@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<style>
+    .layui-col-md4{
+        padding: 10px;
+        line-height: 50px;
+        text-align: center;
+        border-right: 1px dotted #E0E0E3 ;
+        cursor: pointer;
+    }
+    .layui-col-md4:last-child{border-right: none;}
+    .layui-card-header{font-weight: bold}
+    .layui-col-md4 p{color: #9a9696}
+    .layui-col-md4 span{color: #1aa094;font-size: 20px;margin-right: 4px;}
+    .hide{display: none}
+</style>
+<body>
+<div class="layuimini-container">
+    <div class="layui-card" id="todayDiv" style="display: none;">
+        <div class="layui-card-header">今日头条</div>
+        <div class="layui-card-body">
+            <div class="layui-row todayCount">
+                <div class="layui-col-md4 todayBusinessCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="today_business_count">0</span>条
+                            <p>商机数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 todayDistributionCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-allot.html" data-title="待分配商机">
+                        <div class="grid-demo">
+                            <span class="today_distribution_count">0</span>条
+                            <p>待分配数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 todayReceiveCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-accept.html" data-title="待接受商机">
+                        <div class="grid-demo">
+                            <span class="today_receive_count">0</span>条
+                            <p>待接受数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 todayFollowCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-follow.html" data-title="待跟进商机">
+                        <div class="grid-demo">
+                            <span class="today_follow_count">0</span>条
+                            <p>待跟进数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 todaySuccessCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="today_success_count">0</span>条
+                            <p>成功数量</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card" id="teamDiv" style="display: none;">
+        <div class="layui-card-header">今日头条（团队）</div>
+        <div class="layui-card-body">
+            <div class="layui-row teamCount">
+                <div class="layui-col-md4 teamBusinessCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="team_business_count">0</span>条
+                            <p>商机数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 teamReceiveCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo">
+                            <span class="team_receive_count">0</span>条
+                            <p>待接受数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 teamDistributionCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-allot.html" data-title="待分配商机">
+                        <div class="grid-demo">
+                            <span class="team_distribution_count">0</span>条
+                            <p>待分配数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 teamFollowCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo">
+                            <span class="team_follow_count">0</span>条
+                            <p>待跟进数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 teamSuccessCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="team_success_count">0</span>条
+                            <p>成功数量</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card" id="monthDiv" style="display: none;">
+        <div class="layui-card-header">本月完成</div>
+        <div class="layui-card-body">
+            <div class="layui-row monthCount">
+                <div class="layui-col-md4 monthBusinessCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="month_business_count">0</span>条
+                            <p>商机数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 monthFollowCount">
+                    <a href="javascript:;" data-iframe-tab="page/business-list.html" data-title="商机清单">
+                        <div class="grid-demo">
+                            <span class="month_follow_count">0</span>条
+                            <p>跟进数量</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="layui-col-md4 monthSuccessCount">
+                    <a href="javascript:;" data-iframe-tab="page/order-list.html" data-title="成功订单">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="month_success_count">0</span>条
+                            <p>成功数量</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sysUserDiv" style="width: 100%;height: 100%;display: none;text-align:center;padding-top: 20%;background-color: #f2f2f2;">
+        <em style="font-size: 45px;">CRM系统欢迎您！</em>
+    </div>
+    <!--<div class="layuimini-main">-->
+        <!--<div class="layui-row layui-col-space15">-->
+                <!--<div class="layui-card">-->
+                    <!--<div class="layui-card-header"><i class="fa fa-line-chart icon"></i>报表统计</div>-->
+                    <!--<div class="layui-card-body">-->
+                        <!--<div id="echarts-records" style="width: 100%;min-height:500px"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+<script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/ajaxhook.min.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/httpIntercept.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['layer', 'layuimini', 'echarts', 'zlhjConfig'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            layuimini = layui.layuimini,
+            zlhjConfig = layui.zlhjConfig,
+            echarts = layui.echarts;
+
+        let user = layui.sessionData('sessionData').userSession;
+        console.log(user);
+        // user.userRole:用户角色(1:客服人员,2:销售人员,3:管理人员,4:系统管理员)
+        // user.userType:用户类型(1:普通员工,2:主管)
+        if(user.userRole === 1){//客服人员
+            $('#todayDiv').show();
+            $('#monthDiv').show();
+            //改变本月完成成功数量的跳转链接
+            $('.monthSuccessCount a').attr('data-iframe-tab','page/business-list.html');
+            $('.monthSuccessCount a').attr('data-title','商机清单');
+            //今日头条
+            $('.todayReceiveCount').hide();//隐藏待接收数量
+            $('.todayFollowCount').hide();//隐藏待跟进数量
+            if (user.userType === 1){//普通员工
+                $('#teamDiv').hide();//隐藏今日头条（团队）
+            } else {//主管
+                $('#teamDiv').show();
+                $('.teamReceiveCount').hide();//隐藏待接收数量
+                $('.teamFollowCount').hide();//隐藏待跟进数量
+            }
+            //本月完成
+            $('.monthFollowCount').hide();//隐藏本月完成跟进数量
+            $('#monthDiv .layui-col-md4').css("width","50%");
+        }else if(user.userRole === 2){//销售人员
+            $('#todayDiv').show();
+            $('#monthDiv').show();
+            $('.todaySuccessCount a').attr('data-iframe-tab','page/order-list.html');
+            $('.todaySuccessCount a').attr('data-title','成功订单');
+            //今日头条
+            $('.todayBusinessCount').hide();//隐藏商机数量
+            $('.todayDistributionCount').hide();//隐藏待分配数量
+            if (user.userType === 1){//普通员工
+                $('#teamDiv').hide();//隐藏今日头条（团队）
+            } else {//主管
+                $('.teamSuccessCount a').attr('data-iframe-tab','page/order-list.html');
+                $('.teamSuccessCount a').attr('data-title','成功订单');
+                $('#teamDiv').show();
+                $('.teamBusinessCount').hide();//隐藏商机数量
+                $('.teamDistributionCount').hide();//隐藏待分配数量
+            }
+            //本月完成
+            $('.monthBusinessCount').hide();//隐藏本月完成商机数量
+            $('#monthDiv .layui-col-md4').css("width","50%");
+        }else if(user.userRole === 3){//管理人员,系统管理员
+            $('#todayDiv').show();
+            $('#monthDiv').show();
+            $('.todayFollowCount a').attr('data-iframe-tab','page/business-list.html');
+            $('.todayFollowCount a').attr('data-title','商机清单');
+            $('.todaySuccessCount a').attr('data-iframe-tab','page/order-list.html');
+            $('.todaySuccessCount a').attr('data-title','成功订单');
+            $('.todayDistributionCount').hide();
+            $('.todayReceiveCount').hide();
+            $('.monthDistributionCount').hide();
+            $('.monthReceiveCount').hide();
+        }else{
+            $('#sysUserDiv').show();
+        }
+        //给span赋值
+        window.init = () => {
+            $.ajax({
+                type: "get",
+                url: `${zlhjConfig.baseUrl}/businessOpportunity/getHomePage`,
+                dataType: "json",
+                contentType :'application/json',
+                success:function (res) {
+                    console.log(`首页数据-->${JSON.stringify(res)}`);
+                    let data = res.statisticMap;
+                    //赋值今日头条
+                    $('.today_business_count').text(data.curDayCreate);
+                    $('.today_distribution_count').text(data.dfp);//分配
+                    $('.today_receive_count').text(data.djs);//接受
+                    $('.today_follow_count').text(data.dgj);//跟进
+                    $('.today_success_count').text(data.curDaySuccess);
+                    //赋值今日头条（团队）
+                    $('.team_business_count').text(data.curDayOrgCreate);
+                    $('.team_receive_count').text(data.djsOrg);//接受
+                    $('.team_distribution_count').text(data.dfpOrg);//分配
+                    $('.team_follow_count').text(data.dgjOrg);//跟进
+                    $('.team_success_count').text(data.curDayOrgSuccess);
+                    //赋值本月完成
+                    $('.month_business_count').text(data.curMonthCreate);
+                    $('.month_follow_count').text(data.curMonthGj);
+                    if (user.userType===2){
+                        $('.month_success_count').text(data.curMonthOrgSuccess);
+                    } else {
+                        $('.month_success_count').text(data.curMonthSuccess);
+                    }
+                },
+                error:function () {
+                    console.log("error");
+                }
+            });
+        };
+        init();
+        // 定时器
+        setInterval("init()",30000);
+        /**
+         * 报表功能
+         */
+        // var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+        // var optionRecords = {
+        //     tooltip: {
+        //         trigger: 'axis'
+        //     },
+        //     legend: {
+        //         data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+        //     },
+        //     grid: {
+        //         left: '3%',
+        //         right: '4%',
+        //         bottom: '3%',
+        //         containLabel: true
+        //     },
+        //     toolbox: {
+        //         feature: {
+        //             saveAsImage: {}
+        //         }
+        //     },
+        //     xAxis: {
+        //         type: 'category',
+        //         boundaryGap: false,
+        //         data: ['周一','周二','周三','周四','周五','周六','周日']
+        //     },
+        //     yAxis: {
+        //         type: 'value'
+        //     },
+        //     series: [
+        //         {
+        //             name:'邮件营销',
+        //             type:'line',
+        //             data:[120, 132, 101, 134, 90, 230, 210]
+        //         },
+        //         {
+        //             name:'联盟广告',
+        //             type:'line',
+        //             data:[220, 182, 191, 234, 290, 330, 310]
+        //         },
+        //         {
+        //             name:'视频广告',
+        //             type:'line',
+        //             data:[150, 232, 201, 154, 190, 330, 410]
+        //         },
+        //         {
+        //             name:'直接访问',
+        //             type:'line',
+        //             data:[320, 332, 301, 334, 390, 330, 320]
+        //         },
+        //         {
+        //             name:'搜索引擎',
+        //             type:'line',
+        //             data:[820, 932, 901, 934, 1290, 1330, 1320]
+        //         }
+        //     ]
+        // };
+        // echartsRecords.setOption(optionRecords);
+        //
+        // // echarts 窗口缩放自适应
+        // window.onresize = function(){
+        //     echartsRecords.resize();
+        // }
+
+    });
+</script>
+</body>
+</html>
