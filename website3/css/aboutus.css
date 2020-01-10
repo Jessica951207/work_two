@@ -1,0 +1,351 @@
+/*h1标签的飞入飞出*/
+.swiper-slide h1{
+    transform:translateX(-500px);
+    opacity:0;
+    transition:all .4s ;
+}
+.ani-slide h1{
+    transform:translateX(0);
+    opacity:1;
+}
+/*p标签的飞入飞出*/
+.swiper-slide p{
+    transform:translateX(-500px);
+    opacity:0;
+    transition:all .4s .3s;
+}
+.ani-slide p{
+    transform:translateX(0);
+    opacity:1;
+    line-height: 2.4rem;
+}
+/*高度从零到100*/
+.swiper-slide .slideUpBig{
+    transform: translateY(1000px);
+    opacity:0;
+    transition: all .4s;
+}
+.ani-slide .slideUpBig{
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/*延迟*/
+.swiper-slide .delay_three{
+    transition:all .4s .3s;
+}
+.swiper-slide .delay_five{
+    transition:all .4s .5s;
+}
+.swiper-slide .delay_six{
+    transition:all .4s .6s;
+}
+.swiper-slide .delay_seven{
+    transition:all .4s .7s;
+}
+.swiper-slide .delay_eight{
+    transition:all .4s .8s;
+}
+
+section p{
+    padding-right: 10%;
+    text-align: justify;
+    font-size: 22px;
+    line-height: 34px;
+}
+
+/*第一屏*/
+.first_section{
+    /*background: url("../images/banner_04.jpg");*/
+}
+
+/*第二屏*/
+.second_section{
+    width: 100%;
+}
+.second_left{
+    background-image: -webkit-linear-gradient(top,#f3daa7,#e1a670);
+    background-image: -moz-linear-gradient(top,#f3daa7,#e1a670);
+    background-image: -ms-linear-gradient(top,#f3daa7,#e1a670);
+    background-image: linear-gradient(top,#f3daa7,#e1a670);
+    transform: translate3d(0,100%,0);
+    -webkit-transform: translate3d(0,100%,0);
+    transition: transform .5s ease .5s;
+    -webkit-transition: transform .5s ease .5s;
+    background-image: -webkit-linear-gradient(top,#f3daa7,#e1a670);
+}
+
+/*公司简介*/
+.introduce .first_txt{left: 10%;}
+.introduce .first_left{
+    background: #e3af80;
+}
+.introduce .second_left{
+    background: #294f80;
+}
+.introduce .third_right{
+    background: #3c3e40;
+}
+
+/*团队管理*/
+.change_rotate{
+    transform: rotate(45deg);
+    transition: all ease-out .3s;
+}
+.management{
+    background: url("../images/bg_banner_51.jpg") no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.manager{
+    width: 100%;
+    height: auto;
+}
+.manager .text-center{
+    padding-top:7%;
+    text-align: center;
+    color: #0a3c81;
+    margin-bottom: 3%;
+}
+.manager .text-center .p_font{
+    font-size: 1.7rem;
+    margin-bottom: 2%;
+}
+.manager .detail_intro{
+    width: 60%;
+    margin: 0 auto;
+    padding-bottom: 5%;
+}
+.manager .detail_intro .deal{
+    width: 100%;
+    margin-bottom: 2%;
+    background: #fff;
+    box-shadow: 2px 3px 2px #CCCCCC;
+}
+.manager .detail_intro .deal:last-child{
+    margin-bottom:0;
+}
+.manager .detail_intro .item{
+    display: flex;
+    padding: 20px 50px;
+    border-radius: 5px;
+}
+.manager_name{
+    font-size: 1.3rem;
+    padding-right: 5%;
+    color: #0b3c81;
+}
+.p_padding{
+    padding: 25px 0;
+}
+.mimi_font{
+    font-size: 14px;
+    line-height: 1.6rem;
+}
+.mimi_font span{font-weight: bold}
+.manager .open{
+    width: 5%;
+    object-fit: contain;
+    margin-left: 2%;
+}
+
+.manager .person{
+    width: 10%;
+    margin-right: 4%;
+    object-fit: contain;
+}
+.detail_info{
+    display: none;
+    width: 75%;
+    margin-left: 17%;
+    padding: 10px 0;
+    border-top: 1px solid #e5e5e5;
+}
+.management .footer{
+    bottom: 0;
+}
+.change{
+    transform: rotateX(180deg);
+}
+
+/*企业文化*/
+
+.culture{
+    width: 100%;
+    background: url("../images/bg_banner_52.jpg") no-repeat;
+    background-size: cover;
+    position: relative;
+   height: 100vh;
+}
+.culture .culture_info{
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 6%;
+}
+.culture .detail_culture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon_width{
+    width: 4%;
+    margin: 1% auto;
+}
+.icon_width2{
+    width: 14%;
+    margin: 1% auto;
+}
+
+ .culture_icon{
+    width: 74%;
+    margin: 0 auto;
+}
+.culture .p_font{
+    color: #000000;
+}
+
+.culture .item{
+    width: 30%;
+}
+.culture .vision{
+    margin: 0 auto;
+}
+.culture .txt_font{
+    font-size: 36px;
+    color: #5d5658;
+    text-align: center;
+    margin: 1% 0;
+    font-weight: bold;
+    line-height: 68px;
+}
+
+.culture .swiper-container{
+    width: 40%;
+    height: auto;
+     position: absolute;
+    top: 18%;
+    left:3%;
+}
+.culture .swiper-container img{
+    width: 100%
+}
+.culture .swiper-slide:after{
+    display: none;
+}
+.culture .swiper-container .swiper-slide{
+    width: 100%;
+}
+.culture .swiper-pagination-bullet-active{
+    background: #ffffff;
+}
+
+.culture .footer a{
+    color: #000000;
+}
+.culture .copyright{
+    border-top: 1px solid #000000;
+}
+
+    /*企业大事记*/
+.event .BigEvent{
+    width: 100%;
+    background: url("../images/bg_banner_22.jpg") no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+}
+.event .detail_eve{
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 8%;
+}
+.event .history{
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 7px;
+}
+.event .timeline{
+    display: flex;
+}
+ .p_font {
+    font-size: 1.8rem;
+    margin-bottom: 4%;
+    font-weight: bold;
+    text-align: center;
+}
+ .event .timeblock{
+     width: 11%;
+     position: relative;
+ }
+ .event .timeline_event{
+     width: 100%;
+     background: #4572c3;
+     color: #ffffff;
+     text-align: center;
+     padding: 10% 0;
+ }
+ .event .timeline_icon{
+     width: 11%;
+     margin: 0% auto;
+     margin-top: 4%;
+ }
+.event .timeline_icon2{
+    width: 11%;
+    margin: 0% auto;
+    margin-bottom: 4%;
+}
+
+.event .vertical{
+    width: 2px;
+    height: 80px;
+    background: #8ca0b8;
+    margin: 0 auto;
+    margin-top: -10%;
+}
+.event .vert{
+    margin-top: 0;
+}
+.event .p_margin{
+    margin-top: 5%;
+}
+.event .p_margin2{
+    margin-bottom: 5%;
+}
+.event .time_txt{
+    position: absolute;
+    top: -53%;
+    left: 0;
+}
+
+.event .timearrow{
+    width: 43%;
+    position: absolute;
+    top: -54%;
+    transform: translate(0,50%);
+}
+.event .p_margin3{
+    margin-bottom: 15%;
+}
+.event .footer a{
+    color: #000000;
+}
+.event .copyright{
+    border-top: 1px solid #000000;
+}
+
+
+@media screen and (max-width: 750px) {
+    section h1{
+        font-size: 1.8rem;
+    }
+    section p{
+        font-size: 1.2rem;
+        line-height: 2rem;
+    }
+    /*团队管理*/
+    .management .first_txt {left: 2%;}
+    .management .first_txt{text-align: center;}
+    /*公司简介*/
+    .introduce .second_txt{top: 8%;}
+}
