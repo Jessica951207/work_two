@@ -1,0 +1,135 @@
+body {
+    font-family: Microsoft YaHei, Interstate, Arial, sans-serif;
+
+}
+body, h1, h2, h3, h4, h5, p, ul, li, dl, dt {
+	margin: 0;
+	padding: 0;
+}
+h1, h2, h3, h4, h5, strong, sub, sup, em {
+	font-style: normal;
+	font-weight: normal;
+	vertical-align: middle;
+}
+ul, li, dl, dt {
+	list-style: none;
+}
+
+#app{width: 100%; max-width: 750px; margin: 0 auto;overflow: hidden;}
+*{margin: 0; padding: 0;}
+body{font-family: Microsoft YaHei, Arial, sans-serif;}
+img{display: block; border: none; width: 100%;}
+
+.first-box {
+    width: 100%;
+    background: url("../images/maleDog_backg.jpg") no-repeat;
+    background-size: cover;
+    color: #fff;
+    padding-bottom: 10%;
+}
+.first-box .top{
+    text-align: center;
+}
+.title_pic{
+    width: 94%;
+    margin: 0 auto;
+    padding-top: 32%;
+}
+.txt{
+    margin-bottom: 16% ;
+}
+.dream{
+    width: 50%;
+    margin: 0 auto;
+}
+.dream2{
+    width: 17%;
+    margin: 0 auto;
+}
+.discount{
+    font-size: 1.2rem;
+    color: #f2d176;
+    margin-top: 5%;
+}
+.courage{
+    position: relative;
+    margin-bottom: 5%;
+}
+.courage .star_one{
+    animation: breath 1s .5s infinite alternate ease-out;
+    width: 8%;
+    position: absolute;
+    right: 20%;
+    bottom: 24%;
+}
+.star_two{
+    /*animation: move2 1s infinite alternate ease-out;*/
+    width: 24%;
+    margin: 0 auto;
+    margin-top: -2%;
+}
+.star_three{
+    position: absolute;
+    width: 22%;
+    margin-top: -3%;
+    right: 36%;
+}
+.star_four{
+    animation: move 1s infinite alternate ease-out;
+    width: 55%;
+    margin: 0 auto;
+    margin-top: -2.5%;
+    right: 36%;
+}
+
+.first-box .btn{
+    color: #fff;
+    font-size: 1.4rem;
+    text-decoration: none;
+    text-align: center;
+}
+.first-box .footer{
+   width: 50%;
+    margin: 15% auto;
+}
+.first-box .left_icon{
+    width: 10%;
+}
+.come{
+    animation: breath 1s infinite alternate ease-out;
+    width: 38%;
+    margin: 0 auto;
+    margin-bottom: 3%;
+}
+
+
+
+@keyframes breath {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+@keyframes arrow {
+    to{
+        transform: translateY(1vh);
+    }
+}
+
+@keyframes move {
+    to{
+       transform: translateX(30px);
+    }
+}
+@keyframes move2 {
+    to{
+        transform: translateX(10px);
+    }
+}
+
+
+
+

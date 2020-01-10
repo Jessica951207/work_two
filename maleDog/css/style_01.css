@@ -1,0 +1,214 @@
+body {
+    font-family: Microsoft YaHei, Interstate, Arial, sans-serif;
+
+}
+body, h1, h2, h3, h4, h5, p, ul, li, dl, dt {
+	margin: 0;
+	padding: 0;
+}
+h1, h2, h3, h4, h5, strong, sub, sup, em {
+	font-style: normal;
+	font-weight: normal;
+	vertical-align: middle;
+}
+ul, li, dl, dt {
+	list-style: none;
+}
+
+.first-box {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background: url("../images/stage_01.jpg") no-repeat;
+    background-size: 100% 100%;
+    background-size: cover;
+}
+.first-box .title{
+    color: #ffffff;
+    font-size: 2.2rem;
+    text-align: center;
+    font-weight: bold;
+}
+.first-box .btn{
+    background: #060606;
+    color: #fff;
+    border: none;
+    padding: 4% 17%;
+    margin-top: 17%;
+}
+.first-box .txt{
+    background: rgba(0,0,0,.7);
+    padding: 5% 7%;
+    border-radius: 8px;
+    text-align: justify;
+}
+.first-box .txt p{
+   color: rgb(255, 255, 255);
+   font-size: 17px;
+   line-height: 2.3rem;
+}
+.first-box .footer{
+    position: absolute;left: 0;bottom: 0;height: 150px;color: white;width:100%;padding-left: 10px;padding-right: 10px
+}
+.first-box .buy_ticket{
+    display: inline-block;width: 49%;float: left
+}
+.first-box .scan{
+    display: inline-block;width: 49%;float: left;text-align: center
+}
+.first-box .scan_code{
+    height: 100px;width: 100px;
+}
+
+
+.wrap{
+    height: 100vh;
+    overflow: hidden;
+}
+.container {
+	width: 750px;
+	height: auto;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	font-size: .3rem;
+}
+.container section {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background: url("../images/stage_08.jpg") no-repeat center center;
+    background-size: 100% 100%;
+    color: #fff;
+    background-size: cover;
+
+}
+.container .title{
+    margin-top: 4%;
+    margin-bottom: 10%;
+    text-align: center;
+}
+.container section p{
+    margin: 2% 0 4% 0;
+}
+.little_pic{
+   width: 80%;
+    margin: 0 auto;
+    margin-top:3%;
+}
+.checkBox{
+    width: 30px;
+    height: 30px;
+    margin: 0 3% 5% 12%;
+}
+
+.container section.active{
+    width: 100%!important;
+}
+.container section:last-child:after {
+	display: none;
+}
+.stepChange{
+    width: 80%;
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    /*transform: scale(0.9);*/
+}
+
+.Pd-ImageSwitch{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.stepChange a{
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.15rem;
+    background: #e0e0e0;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    padding: 0.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 0 0 var(--lineW);
+    --lineW: .6rem;
+    --lineOut: .21rem;
+    transition: all .3s;
+    flex-shrink: 0;
+}
+.stepChange a.active{
+    background: #014784;
+    font-size: 0.15rem;
+    /* color: #ffffff;*/
+    /* font-size: 0.29rem; */
+    /* margin: 0 0 0 calc(var(--lineW) - var(--lineOut));*/
+}
+.stepChange a:before{
+    content: "";
+    width: var(--lineW);
+    height: 1px;
+    background: #e0e0e0;
+    display: block;
+    flex-shrink: 0;
+    position: absolute;
+    left: calc(-1 * var(--lineW));
+    transition: all .3s;
+}
+.stepChange a.active:before{
+    background: #014784;
+    /*width: calc(var(--lineW) - var(--lineOut));*/
+    /*left: calc(-1 * (var(--lineW) - var(--lineOut)));*/
+}
+.stepChange a:first-child.active{
+    margin: 0;
+}
+.stepChange a:first-child:before{
+    display: none;
+}
+
+.container section:after{
+    animation: arrow 0.6s infinite alternate ease-out;
+    content: "";
+    display: block;
+    background-image: url("../images/arrow.png");
+    width: 75px;
+    height: 62px;
+    position: absolute;
+    bottom: calc(62px + 14vh);
+    left: calc(50% - 75px / 2);
+}
+html.iphone .container section:after{
+    bottom: calc(62px + 14vh);
+}
+/*关键帧*/
+@keyframes arrow {
+    to{
+        transform: translateY(1vh);
+    }
+}
+.container section .footer{padding: 0 3%;margin-top: 2%;}
+.container section .footer img{width: 6%;height: 3vh;display: inline-block;}
+.container section .footer span{text-align: left;vertical-align: super;}
+
+.button{
+    width: 26%;
+    margin: 0 auto;
+    color: #ffffff;
+    padding: 3%;
+    background: #000;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 8%;
+}
+
+

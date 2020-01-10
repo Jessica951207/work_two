@@ -1,0 +1,98 @@
+{
+  "code": "200",
+  "message": "success",
+  "data": [
+    {
+      "questionName": "第一题",
+      "questionAnswer": "1",
+      "questionContent": "第一题的内容第一题的内容第一题的内容",
+      "questionChoose": [
+        {
+          name: "一选项",
+          "id": "1"
+        },
+        {
+          name: "二选项",
+          "id": "2"
+        },
+        {
+          name: "三选项",
+          "id": "3"
+        },
+        {
+          name: "四选项",
+          "id": "4"
+        }
+      ]
+    },
+    {
+      "questionName": "第二题",
+      "questionAnswer": "2",
+      "questionContent": "第一题的内容第一题的内容第一题的内容",
+      "questionChoose": [
+        {
+          name: "一选项",
+          "id": "1"
+        },
+        {
+          name: "二选项",
+          "id": "2"
+        },
+        {
+          name: "三选项",
+          "id": "3"
+        },
+        {
+          name: "四选项",
+          "id": "4"
+        }
+      ]
+    },
+    {
+      "questionName": "第三题",
+      "questionAnswer": "3",
+      "questionContent": "第一题的内容第一题的内容第一题的内容",
+      "questionChoose": [
+        {
+          name: "一选项",
+          "id": "1"
+        },
+        {
+          name: "二选项",
+          "id": "2"
+        },
+        {
+          name: "三选项",
+          "id": "3"
+        },
+        {
+          name: "四选项",
+          "id": "4"
+        }
+      ]
+    },
+    {
+      "questionName": "第四题",
+      "questionAnswer": "4",
+      "questionContent": "第一题的内容第一题的内容第一题的内容",
+      "questionChoose": [
+        {
+          name: "一选项",
+          "id": "1"
+        },
+        {
+          name: "二选项",
+          "id": "2"
+        },
+        {
+          name: "三选项",
+          "id": "3"
+        },
+        {
+          name: "四选项",
+          "id": "4"
+        }
+      ]
+    }
+  ]
+}
