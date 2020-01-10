@@ -1,0 +1,60 @@
+<html>
+<title>canvas转图片</title>
+<body>
+<div class="canvasPic" id="canvasPic">
+    <canvas width="300" height="300" id="myCanvas" ></canvas>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script type="text/javascript">
+$(function(){
+	/*start*/
+	var deadLine = GetDateStr(30);
+	var bg = {
+	    name: "车惠贷邀请码（仅限微信公众号使用）",
+	    width: 200,
+	    height: 200,
+	    src: "images/FStar_travel_18.jpg",
+	    text:"该二维码30天内（"+deadLine+"）前有效"
+	}
+	// debugger;
+	var image = new Image();
+	image.src = bg.src;
+	// image1.src = code.src;
+	// image2.src = userInfo.src;
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	image.onload = function() {
+	    ctx.drawImage(image, 50, 50, bg.width, bg.height);
+	    // ctx.drawImage(image1, 305, 980, code.width, code.height);
+	    ctx.save();
+	    ctx.arc(185, 1235, 65, 0, Math.PI * 2, false);
+	    ctx.clip();
+	    // ctx.drawImage(image2, 120, 1171, userInfo.width, userInfo.height); // 在刚刚裁剪的园上画图
+	    ctx.restore(); // 还原状态
+	    ctx.font = "16px Georgia";
+	    ctx.fillStyle = '#000000';
+	    ctx.fillText(bg.name, 10, 50);
+	    ctx.fillText(bg.text, 10, 270);
+        var mycanvas = document.getElementById('myCanvas');
+        document.getElementById("canvasPic").appendChild(convertCanvasToImage(mycanvas));
+	}
+
+})
+function convertCanvasToImage(canvas) {
+    var image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    return image;
+}
+//获取当前日期加30天
+function GetDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+    var y = dd.getFullYear();
+    var m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+    var d = dd.getDate()<10?"0"+dd.getDate():dd.getDate();//获取当前几号，不足10补0
+    return y+"-"+m+"-"+d;
+}
+</script>
+</html>

@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>用JavaScript将Canvas内容转化成图片的方法 &#8211; WEB骇客</title>
+    <style type="text/css">
+        /*
+    Theme Name: webhek2016
+    Theme URI: http://www.webhek.com
+    Author: the WordPress team
+    Author URI: http://www.webhek.com
+    */
+
+        body{color:#333; margin: 0;font-family: "Microsoft YaHei","微软雅黑",Lucida,Verdana,"Hiragino Sans GB","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif,Serif;}
+        h1, h2, h3, h4, h5{color: #000}
+
+        .full-width{
+            display: block;
+            position: relative;
+            margin: 0 auto;
+        }
+        .body-width{
+            display: block;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+
+        }
+        #body-wrapper{margin-top: 30px}
+        .comment-body .comment-meta{background-color:#eee}
+        .columns{position: relative;}
+        .column1{line-height: 2em; font-size: 14px;word-break: break-word; width: calc( 100% - 3rem - 300px ); float: left}
+        .column3{width: 300px; padding-left: 3rem; float: right;}
+
+        .column1 h2 a, .column1 h3 a{color: #000;}
+
+        #top-nav{width: 100%; background-color: #000; height: 48px; line-height: 48px; position: relative;}
+
+        #top-menu a{color: #fff; font-size: 1rem; text-decoration: none;padding-right: 20px;}
+
+        .best-title a{color: #fff; text-decoration: none; }
+
+        .best-title h2{font-size: 20px; color: #fff}
+
+        .best-title {    text-align: center; }
+
+        .best-img{position: relative;}
+        .best-txt {
+            background-color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            bottom: 0;
+            width: 300px;
+        }
+        .best-wrapper {    margin-bottom: 5px;}
+
+        .entry-title{font-size: 45px;}
+
+        .Header-wrapper{background-color: #000; }
+
+        #top-header{background-color: #000; color: #fff; height: 140px;overflow: hidden;}
+
+        #top-header a{color: #fff;}
+
+        #top-header ul, #top-header li{margin: 0; padding: 0; display: inline-block;}
+        #top-header ul{width: 100%}
+
+        .post-meta a{ font-size: 12px; color: #666;margin-right: 15px; }
+
+        .entry-meta{display: inline;}
+
+        .alignleft,
+        img.alignleft {
+            display: inline;
+            float: left;
+            margin-right: 24px;
+            margin-top: 4px;
+        }
+        .alignright,
+        img.alignright {
+            display: inline;
+            float: right;
+            margin-left: 24px;
+            margin-top: 4px;
+        }
+        .aligncenter,
+        img.aligncenter {
+            clear: both;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        img.alignleft,
+        img.alignright,
+        img.aligncenter {
+            margin-bottom: 12px;
+        }
+        .wp-caption {
+            background: #f1f1f1;
+            line-height: 18px;
+            margin-bottom: 20px;
+            max-width: 632px !important; /* prevent too-wide images from breaking layout */
+            padding: 4px;
+            text-align: center;
+        }
+
+
+        .comment-author{display: inline-block;}
+
+        .comment-metadata{float: right;}
+
+        .comment-metadata a{font-size: 12px; color: #666;text-decoration: none}
+
+        .commentlist{padding: 0; margin: 0}
+
+        .commentlist li{list-style-type: none;}
+
+        .commentlist .comment{border-top: 1px solid #666;}
+
+        .content-sidebar{width: 300px;overflow: hidden;}
+
+        .list-title .entry-title{font-size: 20px;}
+
+        .list-title .entry-title a{text-decoration: none; color: #333;}
+
+        .list-desc{line-height: 1.3}
+
+        .list-wrapper{box-sizing: border-box; position: relative;}
+        .list-wrapper *{box-sizing: inherit;}
+
+        .list-img-wrapper{
+            width: 200px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            background-position: 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: #e2e2e2;
+        }
+        .list-txt-wrapper{margin-left: 220px;}
+
+        .list-wrapper:nth-child(even) .list-img-wrapper{float: right; padding-left: 1rem}}
+        .list-wrapper:nth-child(even) .list-txt-wrapper{float: left;padding-left: 0}
+
+        .list-wrapper{margin-bottom: 1rem; margin-top: 1rem}
+
+        .list-wrapper a{color: #666; text-decoration: none;}
+
+        .column1 .list-img-wrapper img{  max-width: 100%;}
+
+        .clearfix:after {
+            clear:both;
+            content:".";
+            display:block;
+            height:0;
+            line-height:0;
+            visibility:hidden;
+        }
+
+
+
+        pre{max-width: 100%; max-height: 500px}
+        pre{
+            white-space: pre-wrap;
+
+        }
+        .column1 img {max-width: 100%;}
+
+        .share-title{ display: inline-block;    height: 32px;    line-height: 32px;    vertical-align: top; font-weight: bold;}
+        .sharebar{ height: 32px;    line-height: 32px;    vertical-align: top;}
+
+        .adblocked_view .adsense{ display: none; }
+        .adblocked_view .mysense{ display: block; }
+
+        .mysense{ display: none; }
+        .adblocked_view .mysense.inline{ display: inline-block; }
+
+        .single_responsive_wrapper{text-align: center; display: none;}
+        .single_responsive_1 { display: none; }
+
+
+
+        .demo-link {
+            display: inline-block;
+            margin-right: 20px;
+            padding-bottom: 30px;
+            margin-left: 2em;
+        }
+
+        .list-view .demo-link{display: inline-block; margin-right: 20px;}
+
+        button, .demo-link a,
+        .contributor-posts-link,
+        input[type="button"],
+        input[type="reset"],
+        input[type="submit"] {
+            background-color: #24890d;
+            border: 0;
+            border-radius: 2px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 30px 11px;
+            text-transform: uppercase;
+            vertical-align: bottom;
+        }
+
+        button:hover,.demo-link:hover a,
+        button:focus,
+        .contributor-posts-link:hover,
+        input[type="button"]:hover,
+        input[type="button"]:focus,
+        input[type="reset"]:hover,
+        input[type="reset"]:focus,
+        input[type="submit"]:hover,
+        input[type="submit"]:focus {
+            background-color: #41a62a;
+            color: #fff;
+        }
+
+
+        /* Comments form */
+        input[type="submit"] {
+            color: #333;
+        }
+        #respond {
+            border-top: 1px solid #e7e7e7;
+            margin: 24px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        #respond p {
+            margin: 0;
+        }
+        #respond .comment-notes {
+            margin-bottom: 1em;
+        }
+        .form-allowed-tags {
+            line-height: 1em;
+        }
+        .children #respond {
+            margin: 0 48px 0 0;
+        }
+        h3#reply-title {
+            margin: 18px 0;
+        }
+        #comments-list #respond {
+            margin: 0 0 18px 0;
+        }
+        #comments-list ul #respond {
+            margin: 0;
+        }
+        #cancel-comment-reply-link {
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 18px;
+        }
+        #respond .required {
+            color: #ff4b33;
+            font-weight: bold;
+        }
+        #respond label {
+            color: #777;
+            font-size: 12px;
+        }
+        #respond input {
+            margin: 0 0 9px;
+            width: 98%;
+        }
+        #respond textarea {
+            width: 98%;
+        }
+        #respond .form-allowed-tags {
+            color: #777;
+            font-size: 12px;
+            line-height: 18px;
+        }
+        #respond .form-allowed-tags code {
+            font-size: 11px;
+        }
+        #respond .form-submit {
+            margin: 12px 0;
+        }
+        #respond .form-submit input {
+            font-size: 14px;
+            width: auto;
+        }
+
+        #respond .comment-form-author{width: 20%}
+        #respond .comment-form-url{width: 50%}
+        #respond .comment-form-author{float: left}
+        #respond .comment-form-url{float: right;}
+        #respond .comment-form-email{width: 30%; margin-left: 20%; margin-right: 50%;}
+        .says{font-weight: bold;}
+
+        #comment{height: 100px}
+
+        .comment-content{word-wrap: break-word;}
+
+        /* Comments form end */
+
+        #demo-frame{display: none;z-index: 9999; width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-color: #ffffff;}
+        #demo-menu{ display: block; max-width: 1366px; width: 100%; margin: 0 auto; background-color: #000; position: fixed; top: 0; height: 50px;}
+        #demo-iframe{max-width: 1366px; width: 100%; height: 100%; height: calc(100% - 50px); margin: 0 auto;}
+        #demo-menu a{margin-left: 20px;line-height: 50px; vertical-align: middle; color: #ffffff;float: left;}
+        #demo-menu a.close-demo-menu{margin-right: 20px; font-weight: bold;float: right;}
+        .demo-frame-warp{height: 100%; width: 100%; margin: 0 auto;}
+
+        #comment{max-width: 560px; width: 100%}
+
+
+
+        #recomment-container{
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-align-items: flex-start;
+            -ms-flex-align: flex-start;
+            align-items: flex-start;
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-justify-content: space-around;
+            -webkit-justify-content: space-around;
+            justify-content:         space-around;
+        }
+
+        #recomment-container a{
+            display: inline-block;
+            width: calc(100% / 3 - 4px);
+        }
+
+        #recomment-container img{
+            width: 100%;
+            max-width: 100%;
+            border-radius: 3px;
+        }
+
+        @media screen and (max-width: 940px) {
+
+            .columns { display: block;width: 100%; }
+            .column2 { display: none }
+            .column1, .column3{ display: block;width: 100%; }
+        }
+
+
+        @media screen and (max-width: 560px) {
+
+            .list-img-wrapper{
+                width: 33%;
+            }
+            .list-txt-wrapper{margin-left: calc(33% + 10px);}
+
+            .body-width{
+                padding-left: 0.3rem;
+                padding-right: 0.3rem;
+            }
+
+            .column1 img {
+                max-width: 100%;
+            }
+
+
+            #recomment-container a{
+                display: inline-block;
+                width: calc(100% / 2 - 4px);
+            }
+
+            #top-header #top-drow-man, #top-header #album3d{display: none}
+            #top-header #top-cololr-test{float: right;}
+
+            pre{max-width: 100%; margin: 0; padding: 0}
+
+            #menu_html5, #menu_svg{display: none}
+
+            .entry-title{font-size: 25px;}
+
+            .list-desc{display: none;}
+
+            .post{margin: 0 10px;}
+
+            .single_responsive_wrapper{
+                background-color: #000;
+                display: block;
+                position: fixed;
+                height: 18px;
+                left: 0;
+                width: 100%;
+                z-index: 99999;
+                top: 0;
+                text-align: center;
+                padding-top: 1px;
+            }
+
+            .single_responsive_1 {
+                display: inline-block;
+            }
+
+            .qrshare, .qrshare_wrapper, .square_shares{
+                display: none;
+            }
+        }
+
+
+
+
+        .page_nav{ clear: both;     font-family: arial;    font-size: 24px;    font-weight: bold;     text-align: center;}
+        .page_nav .prev, .page_nav .next {    font-family: "Microsoft YaHei","微软雅黑",Lucida,Verdana,"Hiragino Sans GB","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif,Serif;   font-size: 16px;}
+        .page-numbers {    margin-left: 0.5em;    text-decoration: none; color: #333;font-weight: lighter;}
+        .page-numbers.current{font-weight: bold;}
+
+        .img330x240 img{width: 330px; height: 240px;display: block;}
+
+        p>code{
+            background-color: #eeefff;
+            border-radius: 3px;
+            font-family: Georgia, serif;
+            margin: auto 2px;
+            padding: 0 2px;
+        }
+
+        blockquote{
+            display:block;
+            background: #fff;
+            padding: 15px 20px 15px 45px;
+            margin: 20px 0;
+            position: relative;
+
+            /*Font*/
+            font-family: Georgia, serif;
+            font-size: 16px;
+            line-height: 1.2;
+            color: #666;
+            text-align: justify;
+
+            /*Borders - (Optional)*/
+            border-left: 15px solid #c76c0c;
+            border-right: 2px solid #c76c0c;
+
+            /*Box Shadow - (Optional)*/
+            -moz-box-shadow: 2px 2px 15px #ccc;
+            -webkit-box-shadow: 2px 2px 15px #ccc;
+            box-shadow: 2px 2px 15px #ccc;
+        }
+
+        blockquote::before{
+            content: "\201C"; /*Unicode for Left Double Quote*/
+
+            /*Font*/
+            font-family: Georgia, serif;
+            font-size: 60px;
+            font-weight: bold;
+            color: #999;
+
+            /*Positioning*/
+            position: absolute;
+            left: 10px;
+            top:5px;
+        }
+
+        blockquote::after{
+            /*Reset to make sure*/
+            content: "";
+        }
+
+        blockquote a{
+            text-decoration: none;
+            background: #eee;
+            cursor: pointer;
+            padding: 0 3px;
+            color: #c76c0c;
+        }
+
+        blockquote a:hover{
+            color: #666;
+        }
+
+        blockquote em{
+            font-style: italic;
+        }
+
+        #top-header img{width: 100%; display: inline-block;}
+
+        .content-wrapper{position: relative;}
+
+        #rest-butt-wrapper {
+            display: none;
+        }
+
+        .rest #rest-butt-wrapper {
+            display: block;
+        }
+
+        #rest-butt {
+            margin: 1rem auto;
+            line-height: 2.3rem;
+            display: block;
+            width: 8rem;
+            border-radius: 5px;
+            border: 1px solid red;
+            text-align: center;
+            cursor: pointer;
+            color: red;
+        }
+
+        .rest #content-wrapper {
+            overflow: hidden;
+        }
+
+        .rest-banner{
+            display: none;
+        }
+
+
+        @-webkit-keyframes scrollGood {
+            0% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+            100% {
+                -webkit-transform: translate3d(-254px, 0, 0);
+                transform: translate3d(-254px, 0, 0);
+            }
+        }
+        @keyframes scrollGood {
+            0% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+            100% {
+                -webkit-transform: translate3d(-254px, 0, 0);
+                transform: translate3d(-254px, 0, 0);
+            }
+        }
+
+        .rest .rest-banner {
+            overflow: hidden;
+            display: block;
+            background:transparent;
+            background-color: transparent;
+            height: 30px;
+            width: 100%;
+            margin-top: -29px;
+        }
+
+        .rest-banner .scroll {
+            display: block;
+            background-color: transparent;
+            background-image: url(/wordpress/wp-content/themes/webhek2016/bg-wave.png);
+            height: 30px;
+            width: 200%;
+            -webkit-animation: scrollGood 20s linear infinite;
+            animation: scrollGood 20s linear infinite;
+        }
+
+
+        .w270{width: 270px;}
+
+        @media screen and (max-width: 550px) {
+
+            img.w270{width: auto; float: none;}
+        }
+
+
+        img.hide{display: none}	</style>
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <link rel='https://api.w.org/' href='http://www.webhek.com/wp-json/' />
+    <link rel='prev' title='使用HTML5里页面可见性接口判断用户是否正在观看你的页面' href='http://www.webhek.com/post/demo/page-visibility' />
+    <link rel='next' title='使用HTML5技术控制电脑或手机上的摄像头' href='http://www.webhek.com/post/demo/browser-camera' />
+    <link rel="canonical" href="http://www.webhek.com/post/demo/convert-canvas-image" />
+    <link rel="alternate" type="application/json+oembed" href="http://www.webhek.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.webhek.com%2Fpost%2Fdemo%2Fconvert-canvas-image" />
+    <link rel="alternate" type="text/xml+oembed" href="http://www.webhek.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.webhek.com%2Fpost%2Fdemo%2Fconvert-canvas-image&#038;format=xml" />
+</head>
+<body class="demo-template-default single single-demo postid-842 singular whole-width">
+<div id="page" class="hfeed site full-width">
+    <div id='top-nav' class="full-width">
+        <div id='top-menu' class="body-width">
+            <div style="float: left;"><a href="http://www.webhek.com/" rel="home"><img src="http://www.webhek.com/wordpress/wp-content/themes/webhek2016/images/webhek-logo3.jpg"></a></div>
+            <a href="http://www.webhek.com">首页</a>
+            <a id='menu_html5' href="http://know.webhek.com/html5/html5-intro.html">HTML5手册</a>
+            <a id='menu_svg' href="http://know.webhek.com/svg/svg-home.html">SVG手册</a>
+            <a href="http://www.webhek.com/post/about.html">关于</a>
+            <a href="http://www.webhek.com/post/all-posts.html">全部文章</a>
+        </div>
+    </div>
+    <a href="http://t.cn/RuciHvD" target="_new"><div style="width: 100%; height: 100px; background-repeat: repeat-x; background-image: url(http://www.techug.com/sf2r.jpg);"></div></a>
+    <div id='body-wrapper' class="body-width">
+        <div id="primary" class="content-area">
+            <div id="content" class="site-content" role="main">
+                <article id="post-842" class="post-842 demo type-demo status-publish hentry">
+                    <header class="entry-header">
+                        <h1 class="entry-title">【演示】用JavaScript将Canvas内容转化成图片的方法</h1><div class='second-title'>请阅读 <a href='/convert-canvas-image/'>用JavaScript将Canvas内容转化成图片的方法</a></div>
+                        <div class="entry-meta">
+                        </div>
+
+                    </header>
+                    <div class="entry-content">
+                        <div class="note">
+                            <p>下面是一张原始图片，我们先把它拷贝到画布里，让后我们从画布里读出它，并转化成一种png图片。</p>
+                        </div>
+                        <h2>原生图片</h2>
+                        <p><img id="ringoImage" alt="" src="images/FStar_travel_18.jpg"/></p>
+                        <h2>图片 -&gt; 画布图像</h2>
+                        <div id="canvasHolder"></div>
+                        <h2>画布 -&gt; PNG图片</h2>
+                        <div id="pngHolder"></div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <script>wo = window.onload;
+        window.onload = function() {
+            wo && wo.call(null);
+
+            var opts = {
+                           scale: scale, // 添加的scale 参数
+                           canvas: canvas, //自定义 canvas
+                           logging: false, //日志开关，便于查看html2canvas的内部执行流程
+                           width: width, //dom 原始宽度
+                           height: height,
+                           useCORS: true // 【重要】开启跨域配置
+               };
+            // Get the image
+            var sampleImage = document.getElementById("ringoImage"),
+                canvas = convertImageToCanvas(sampleImage);
+
+            // Actions
+            document.getElementById("canvasHolder").appendChild(canvas);
+            document.getElementById("pngHolder").appendChild(convertCanvasToImage(canvas));
+
+            // Converts image to canvas; returns new canvas element
+            function convertImageToCanvas(image) {
+                var canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+                canvas.getContext("2d").drawImage(image, 0, 0);
+
+                return canvas;
+            }
+
+            // Converts canvas to an image
+            function convertCanvasToImage(canvas) {
+                var image = new Image();
+                image.src = canvas.toDataURL("image/png");
+                return image;
+            }
+        };</script><span id='pageendflag'></span>
+    </div>
+</div>
+<script type="text/javascript">
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = 'http://www.webhek.com/wordpress/wp-content/themes/webhek2016/js/jquery-3.1.1.min.js?v=8';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+</body>
+</html>

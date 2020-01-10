@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微信小程序</title>
+</head>
+<body>
+
+</body>
+<script>
+    getGoodsQrcode: function() {
+        wx.showLoading({
+            title: '正在生成海报...',
+            mask: true,
+        });
+
+
+        var that = this;
+        console.info("生成海报事件触发")
+        console.info(that.data.CompanyJobId)
+        //获取Access_Token
+        wx.request({
+            url: app.globalData.appUrl + 'WXGetQR_CodeController/getewm', //仅为示例，并非真实的接口地址
+            data: {
+                scene: that.data.CompanyJobId,
+                page: "/pages/postdetails/postdetails"
+            },
+            method: "get",
+            header: {
+                'content-type': 'application/x-www-form-urlencoded', // 默认值
+                //'content-type': 'application/json', // 默认值
+                xcxuser_name: "xcxuser_name"
+            },
+            success: function(res) {
+                console.info("返回的小程序码为：")
+                console.log(res.data)
+                var localCode = res.data;
+                console.info(localCode)
+
+                wx.downloadFile({
+                    url: res.data,
+                    success: function(QRCode) {
+                        console.info(QRCode.tempFilePath)
+                        that.setData({
+                            Img: QRCode.tempFilePath,
+                        })
+                        // console.info(app.globalData.userInfo.avatarUrl)
+                        // wx.downloadFile({
+                        //   url: that.data.companyJob[0].jobSwiperImages[0],
+                        //   // url: app.globalData.userInfo.avatarUrl,
+                        //   success: function(userImg) {
+                        //     console.info("*****************************************************")
+                        //     console.info(userImg.tempFilePath)
+                        //     console.info("*****************************************************")
+                        //     that.setData({
+                        //       //用户头像下载缓存
+                        //       userImg: userImg.tempFilePath,
+                        //     })
+                        wx.downloadFile({
+                            url: that.data.companyJob[0].jobSwiperImages[0],
+                            success: function(jobImage) {
+                                that.setData({
+                                    //岗位图片下载缓存
+                                    jobImage: jobImage.tempFilePath,
+                                })
+
+                                //画布高度
+                                let scrollHeight = wx.getSystemInfoSync().windowHeight * 0.9;
+                                //画布宽度
+                                let scrollWidth = wx.getSystemInfoSync().windowWidth * 0.9;
+                                //用户昵称
+                                var nickname = app.globalData.userInfo.nickName;
+                                if (nickname.length > 4) {
+                                    nickname = nickname.substring(0, 3) + "..."
+                                };
+                                //用户头像
+                                // var userImg = that.data.userImg;
+                                //职位图片
+                                var jobImage = that.data.jobImage;
+                                //公司名称
+                                var companyName = that.data.companyJob[0].company.companyName;
+                                if (companyName.length > 9) {
+                                    companyName = companyName.substring(0, 8) + "..."
+                                }
+                                //岗位最大工资
+                                var jobSalaryMax = that.data.companyJob[0].jobSalaryMax;
+                                //岗位最小工资
+                                var jobSalaryMin = that.data.companyJob[0].jobSalaryMin;
+                                //返现工资
+                                var returnMoney = that.data.companyJob[0].returnMoney;
+                                //小程序码
+                                // var QRCode = res.data;
+                                var QRCode = that.data.Img;
+
+                                that.setData({
+                                    haibao: false,
+                                    zhuanfa: true,
+                                    shade: 'block',
+                                    height: scrollHeight,
+                                    width: scrollWidth
+                                })
+                                const ctx = wx.createCanvasContext('shareCanvas');
+                                ctx.clearRect(0, 0, scrollWidth * 0.9, scrollHeight * 0.9);
+                                ctx.drawImage("/img/postdetails/background.jpg", 0, 0, scrollWidth * 0.9, scrollHeight * 0.9);
+                                //ctx.drawImage(userImg, 12.5, 12.5, 20, 20);
+                                // ctx.setFontSize(12)
+                                // ctx.font = '宋体';
+                                // ctx.fillStyle = 'blue';
+                                // ctx.fillText(nickname, 45, 26)
+                                // ctx.fillStyle = '#333';
+                                // ctx.fillText('分享给你一条消息', 92, 26)
+                                ctx.drawImage(jobImage, 12.5, 35, scrollWidth * 0.9 - 23, scrollWidth * 0.9 - 90);
+                                ctx.fillText(companyName, 12.5, scrollWidth * 0.9 - 25)
+                                ctx.fillText("工资：" + jobSalaryMin + " - " + jobSalaryMax, 12.5, scrollWidth * 0.9 - 5)
+                                ctx.fillText("返现金额：" + returnMoney, 12.5, scrollWidth * 0.9 +15)
+                                ctx.fillStyle = '#999';
+                                ctx.setFontSize(12)
+                                ctx.fillText('长按识别小程序码访问', 12.5, scrollHeight * 0.9 * 0.7+25)
+                                ctx.drawImage(QRCode, scrollWidth * 0.9 - 118, scrollHeight * 0.9 * 0.525, 110, 110);
+                                // ctx.drawImage("/img/postdetails/logo.png", scrollWidth * 0.9 - 85, scrollHeight * 0.9 * 0.5875, 45.25, 45.5);
+                                ctx.draw()
+
+                                wx.hideLoading()
+                                setTimeout(function() {
+                                    wx.canvasToTempFilePath({
+                                        x: 0,
+                                        y: 0,
+                                        // width: wx.getSystemInfoSync().windowWidth*0.9,
+                                        // height: wx.getSystemInfoSync().windowHeight*0.9,
+                                        // destWidth: wx.getSystemInfoSync().windowWidth*0.9,
+                                        // destHeight: wx.getSystemInfoSync().windowHeight*0.9,
+                                        canvasId: 'shareCanvas',
+                                        success: function(res) {
+                                            console.log('朋友圈分享图生成成功:' + res.tempFilePath)
+
+                                            that.setData({
+                                                filePath: res.tempFilePath
+                                            })
+
+                                            //删除本地存放的小程序码
+
+                                            wx.request({
+                                                url: app.globalData.appUrl + 'WXGetQR_CodeController/deleteLocalCode',
+                                                data: {
+                                                    localCode: localCode,
+                                                },
+                                                header: {
+                                                    'content-type': 'application/x-www-form-urlencoded', // 默认值
+                                                    xcxuser_name: "xcxuser_name"
+                                                },
+                                                success: function (res) {
+                                                    console.info(res)
+                                                }
+                                            })
+                                        },
+                                        fail: function(err) {
+                                            console.log('失败')
+                                            console.log(err)
+                                        }
+                                    })
+                                }, 1000)
+                            },
+                        })
+                        //   },
+                        // })
+                    },
+                })
+
+                //   setTimeout(function () {
+                //     wx.hideLoading()
+                //   }, 500)
+            }
+
+
+        })
+    }
+
+    //预览图片
+    preview_img: function () { //图片预览函数
+        var that = this;
+        console.info(that.data.filePath);
+        wx.previewImage({
+            current: that.data.filePath, // 当前显示图片的http链接
+            urls: [that.data.filePath] // 需要预览的图片http链接列表
+        })
+    }
+</script>
+</html>

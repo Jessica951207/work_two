@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas转图片×</title>
+</head>
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<body>
+<img src="" id="im" />
+</body>
+<script>
+    $(function () {
+        //主要的调用方法，如果不用合成字体textStatus传值false;
+        function createToImage(canvasId, canvasWidth, canvasHeight, imgSrc, imgX, imgY, imgW, imgH, imgContainer, textStatus, txt, txtX, txtY, font, color) {
+            var canvasHtml = '<canvas width="' + canvasWidth + '" height="' + canvasHeight + '" id="' + canvasId + '" hidden="hidden"></canvas>';
+            $('body').append(canvasHtml);//创建一个canvas Dom对象
+            var canvasObject = getCanvasContext(canvasId);
+            canvasObject.clearRect(0, 0, canvasWidth, canvasHeight);//在给定的矩形里清空画布的内容
+            var imgI = 0;
+            var imgL = imgSrc.length;
+            var txtI = 0;
+            var txtL = txt.length;
+            createImgTocanvas(canvasObject, imgSrc, imgX, imgY, imgW, imgH, imgI, imgL, function () {
+                if (textStatus == false) {
+                    var mycanvas = document.getElementById(canvasId);
+                    var image = mycanvas.toDataURL("image/png");
+                    $(imgContainer).attr('src', image);
+                } else {
+                    createTextTocanvas(canvasObject, txt, txtX, txtY, font, color, txtI, txtL, function () {
+                        var mycanvas = document.getElementById(canvasId);
+                        var image = mycanvas.toDataURL("image/png");
+                        $(imgContainer).attr('src', image);
+                        setTimeout(function () {
+                            $('#' + canvasId).remove()
+                        }, 500)
+                    })
+                }
+            })
+        }
+
+        //创建文本绘画
+        function createTextTocanvas(canvasObject, txt, x, y, font, color, startI, length, callBack) {
+            canvasObject.font = font[startI];
+            canvasObject.fillStyle = color[startI];
+            canvasObject.fillText(txt[startI], x[startI], y[startI]);
+            startI += 1;
+            if (startI != length) {
+                createTextTocanvas(canvasObject, txt, x, y, font, color, startI, length, callBack)
+            } else {
+                if (typeof callBack == 'function') {
+                    callBack()
+                }
+            }
+        }
+
+        //创建调用getCanvasContext 绘画的上下文
+        function getCanvasContext(id) {
+            return document.getElementById(id).getContext("2d")
+        }
+
+        function createImgTocanvas(canvasObject, src, x, y, width, height, startI, length, callBack) {
+            var starImg = new Image();
+            starImg.src = src[startI];
+            starImg.onload = function () {
+                canvasObject.drawImage(starImg, x[startI], y[startI], width[startI], height[startI]);
+                //starImg规定要使用的图像、画布或视频。
+                //x[startI]在画布上放置图像的 x 坐标位置。
+                //y[startI]在画布上放置图像的 y 坐标位置。
+                //width[startI]可选。要使用的图像的宽度。（伸展或缩小图像）
+                //height[startI]可选。要使用的图像的高度。（伸展或缩小图像）
+                startI += 1;//调用完之后+1，调用下一张图片
+                if (startI != length) {
+                    createImgTocanvas(canvasObject, src, x, y, width, height, startI, length, callBack)
+                } else {
+                    if (typeof callBack == 'function') {
+                        callBack()
+                    }
+                }
+            }
+        }
+
+        //接着是调用,这里给定两张图片两个文本，分别进行宽高，位置，文本内容，字体大小，颜色的设置。
+//zscanvas表示新创建的图片的id，#im表示输出的img的图片的id
+//不过页面必须先给出一个<img>标签
+        var ims = ['FStar_travel_18.jpg', 'FStar_travel_18.jpg'];
+        var imgXs = [0, 50];
+        var imgYs = [0, 100];
+        var imgWs = [300, 100];
+        var imgHs = [400, 100];
+        var txts = ['车惠贷邀请码（仅限微信公众号使用）', '该二维码30天内有效（2020前有效）'];
+        var txtXs = [20, 0];
+        var txtYs = [50, 200];
+        var fonts = ['16px 微软雅黑', '16px 微软雅黑'];
+        var colors = ['#000', '#ff0000'];
+        createToImage('zscanvas', 300, 400, ims, imgXs, imgYs, imgWs, imgHs, '#im', true, txts, txtXs, txtYs, fonts, colors);
+
+
+
+    })
+</script>
+</html>

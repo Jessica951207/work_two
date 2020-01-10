@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <title>文字+图片+下载图片</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<canvas id="aa" width="370px"height="667px" style="display: none;"></canvas>
+<div class="box" style="background-color:red;width: 370px;height: 667px;"></div>
+<input type="button"  value="下载画报" style="margin-left: 150px;margin-top: 20px;" onclick="downloadimg()"/>
+<script>
+    var aa = document.getElementById('aa');
+    var bb = aa.getContext('2d');
+
+    var imgone = new Image;
+    imgone.src = 'img/happy.png';
+
+    imgone.onload = function () {
+        bb.drawImage(imgone, 0,0,370,667);
+
+        bb.fillStyle = '#fff';   // 文字填充颜色
+        bb.font = '30px Adobe Ming Std';
+        bb.fillText('猪年快乐！',120,200);
+
+        bb.fillStyle = '#fff';
+        bb.font = '40px Adobe Ming Std';
+        bb.fillText('2019年',120,270);
+
+        bb.fillStyle = '#fff';
+        bb.font = '26px Adobe Ming Std';
+        bb.fillText('Bug也会一直陪在你身边',40,320);
+
+        bb.fillStyle = 'yellow';
+        bb.font = '26px Adobe Ming Std';
+        bb.lineWidth=1;
+        var str = "哈哈啊哈哈哈哈哈啊哈哈哈哈哈啊哈哈哈哈哈啊哈哈哈哈哈啊哈哈哈哈哈啊哈哈哈哈哈啊哈哈哈"
+//            bb.fillText(str,65,750);
+        var lineWidth = 0;
+        var canvasWidth = aa.width-50;//计算canvas的宽度
+        var initHeight=400;//绘制字体距离canvas顶部初始的高度
+        var lastSubStrIndex= 0; //每次开始截取的字符串的索引
+        for(let i=0;i<str.length;i++){
+            lineWidth+=bb.measureText(str[i]).width;
+            if(lineWidth>canvasWidth){
+                bb.fillText(str.substring(lastSubStrIndex,i),25,initHeight);//绘制截取部分
+                initHeight+=40;//40为字体的高度
+                lineWidth=25;
+                lastSubStrIndex=i;
+            }
+            if(i==str.length-1){//绘制剩余部分
+                bb.fillText(str.substring(lastSubStrIndex,i+1),25,initHeight);
+            }
+        }
+
+    }
+
+    window.onload=function(){
+        var img = convertCanvasToImage(aa);
+        $('.box').append(img);
+        console.log(img);
+    }
+
+    function convertCanvasToImage(canvas) {
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        return image;
+    }
+
+    //下载海报
+    function downloadimg() {
+        var img = $('.box').children('img').attr("src");
+        var alink = document.createElement("a");
+        alink.href = img;
+        alink.download = "新年快乐.png";
+        alink.click();
+    }
+</script>
+</body>
+</html>
