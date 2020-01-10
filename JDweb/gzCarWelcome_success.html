@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="no-js">
+<head>
+
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功页面</title>
+    <meta name="description" content="A Collection of Page Transitions with CSS Animations"/>
+    <meta name="keywords" content="page transition, css animation, website, effect, css3, jquery"/>
+    <meta name="author" content="Codrops"/>
+    <link rel="shortcut icon" href="../images/logo.png">
+    <link rel="stylesheet" type="text/css" href="../css/weui.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <script src="../js/modernizr.custom.js"></script>
+    <script src="../js/jquery-3.1.0.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/weui.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+
+    <style>
+        @media screen and (min-width: 375px) and (max-width: 375px) and (min-height: 812px) and (max-height: 812px) {
+           #parent-top-pad{
+               padding-top: 32vw !important;
+           }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page msg_success js_show">
+        <div class="weui-msg" id="parent-top-pad" style="padding-top: 23vw;">
+            <div class="weui-msg__icon-area" style="text-align: center;margin-bottom: 23px;">
+                <img src="images/JD-submitted-successfully.png"  width="33%"/>
+            </div>
+            <div class="weui-msg__text-area">
+                <h4 class="weui-msg__title" style="font-size: 6.1vw;font-weight: 500;text-align: center;">提交成功&nbsp!</h4>
+                <p class="" style="margin-top: 15%;font-size: 4.65vw;color: #9C9C9C;width: 91%;margin-left: 5.5%;text-align: center;">客服专员将尽快与您电话<br/>联系，请您留意接听，祝您生活愉快！</p>
+            </div>
+            <div class="weui-msg__opr-area" style="text-align: center;">
+                <a href="gzCarWelcome.html">
+                    <img src="images/JD-submitted-btn-back.png" style="width:45%;"/>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script src="../js/jquery.dlmenu.js"></script>
+<script src="../js/pagetransitions.js"></script>
+<script src="../core/common.js"></script>
+<script src="../js/jquery.cookie.js"></script>
+
+<!--<script>
+    window.onload = function authenticationToken(){
+        var param = urlParam();
+        var comeFlag = param.goToSuccessFlag;
+        console.log(comeFlag);
+        if(comeFlag != '1'){
+            window.location.href = "JDcarWelcome.html?JD_car_apply_loan_success_goBack=1";
+        }
+    }
+
+    $(function () {
+        $(".top-banner").hide();
+        let param = urlParam();
+        if (param.state === '2') {
+            $('.weui-msg__opr-area').hide();
+        }
+    })
+
+    $(function () {
+        $("#goBack").click(function () {
+            window.location.href = "JDcarWelcome.html?JD_car_apply_loan_success_goBack=1";
+        })
+    })
+
+</script>-->
+</html>

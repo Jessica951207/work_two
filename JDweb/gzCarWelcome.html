@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>车主专享贷</title>
+    <link rel="stylesheet" href="css/global.css">
+
+</head>
+<body onload="addMobtechVisitors()" class="no-cache">
+<div class="out_box" id="out_box">
+    <div class="top">
+        <img src="images/JDTopBanner.jpg" alt="">
+    </div>
+    <div class="content">
+        <form class="data_form">
+            <!--姓名-->
+            <section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title title_width">
+                            <p>姓</p>
+                            <p>名</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name=name id=name value="" class="item_data item_input" data-missing="请填写姓名" maxlength="50" placeholder="请输入姓名" autocomplete="off" >
+                        <div class="error-message"></div>
+                    </label>
+                </div>
+            </section>
+            <!--常住地-->
+            <section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title">
+                            <p>常</p>
+                            <p>住</p>
+                            <p>地</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name="picker1" id="picker1" value="" class="item_data item_input" data-missing="请选择常住地" placeholder="请选择常住地" autocomplete="off" readonly >
+                        <i class="iconfont icon">&#xe60e;</i>
+                        <div class="error-message"></div>
+                    </label>
+                </div>
+            </section>
+            <!--上牌城市-->
+            <section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title">
+                            <p>上</p>
+                            <p>牌</p>
+                            <p>城</p>
+                            <p>市</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name="picker2" id="picker2" value="" class="item_data item_input" data-missing="请选择上牌城市" placeholder="请选择上牌城市" autocomplete="off" readonly >
+                        <i class="iconfont icon">&#xe60e;</i>
+                        <div class="error-message"></div>
+                    </label>
+                </div>
+            </section>
+            <!--车辆品牌-->
+            <section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title">
+                            <p>车</p>
+                            <p>辆</p>
+                            <p>品</p>
+                            <p>牌</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name="brand" id="brand" value="" class="item_data item_input" data-missing="请选择车辆品牌" placeholder="请选择车辆品牌" autocomplete="off" readonly >
+                        <i class="iconfont icon">&#xe60e;</i>
+                        <div class="error-message"></div>
+                    </label>
+                </div>
+            </section>
+            <!-- 申请额度-->
+            <!--<section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title title_width_3">
+                            <p>申</p>
+                            <p>请</p>
+                            <p>额</p>
+                            <p>度</p>
+                            <p>：</p>
+                        </div>
+                        <div class="limit">
+                            <input type="hidden" id="loan" value="" class="item_data item_input" data-missing="请选择申请额度" >
+                            <div class="limit_item" value="10">10万以下</div>
+                            <div class="limit_item" value="30">10-30万</div>
+                            <div class="limit_item" value="50">30万以上</div>
+                            <div class="error-message"></div>
+                        </div>
+                    </label>
+                </div>
+            </section>-->
+            <!--手机号-->
+            <section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title title_width">
+                            <p>手</p>
+                            <p>机</p>
+                            <p>号</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name="phone" id="phone" value="" class="item_data item_input" data-missing="请填写手机号" data-invalid="请填写正确的手机号" placeholder="请输入手机号" autocomplete="off" maxlength="11">
+                        <div class="error-message"></div>
+                    </label>
+                </div>
+            </section>
+            <!--推荐码-->
+            <section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title title_width">
+                            <p>推</p>
+                            <p>荐</p>
+                            <p>码</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name="remark" id="remark" value="" class="item_data item_input" data-missing="请填写推荐码" data-invalid="请填写正确的推荐码" placeholder="请输入推荐码" autocomplete="off" maxlength="100">
+                        <div class="error-message"></div>
+                    </label>
+                </div>
+            </section>
+            <!--短信验证-->
+            <!--<section class="basic_area">
+                <div class="basic_item">
+                    <label class="basic_one">
+                        <div class="basic_title title_width_2">
+                            <p>短</p>
+                            <p>信</p>
+                            <p>验</p>
+                            <p>证</p>
+                            <p>：</p>
+                        </div>
+                        <input type="text" name="verify" id="verify" value="" class="item_data item_input msg_verify" data-missing="请填写验证码" data-invalid="请填写正确的验证码" placeholder="请输入验证码" autocomplete="off" maxlength="6">
+                        <div class="error-message"></div>
+                        <div class="success-message"></div>
+                        <div class="get_verify">获取验证码</div>
+                        <div id="no-repeat" class="no_repeat"></div>
+                    </label>
+                </div>
+            </section>-->
+            <!--申请流程-->
+            <div class="steps">
+                <p>申请流程：</p>
+                <img src="images/JD_foot_03.png" alt="">
+                <p class="step_detail">车主贷是中联惠捷的合作机构与银行联合推出的车辆抵押贷款服务。线下贷款服务由合作机构与银行提供。
+                </p>
+            </div>
+            
+            <!--立即申请-->
+            <img src="images/JD_btn.png" alt="" class="button">
+            <div class="application">
+                <div class="error-message"></div>
+            </div>
+
+
+        </form>
+    </div>
+    <!--搜索-->
+    <div class="popup" id="Popup">
+        <div class="popupContent">
+            <div class="car_brand">
+                <div class="car_top">
+                    <div class="cancel">
+                        <i class="iconfont icon">&#xe604;</i>
+                        <span>取消</span>
+                    </div>
+                    <p>选择车辆品牌</p>
+                </div>
+                <div class="bar">
+                    <div class="searchbar">
+                        <div class="search-input">
+                            <i class="icon iconfont search_icon">&#xe78f;</i>
+                            <input type="search" id='search' placeholder='输入关键字...' oninput="HandleSearch()"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="search_info">
+                <div class="often">
+                    <p>常用</p>
+                </div>
+                <div class="car_info">
+                    <div class="oftenCar">
+                        <div class="brands">
+                            <p>大众</p>
+                        </div>
+                        <div class="brands">
+                            <p>宝马</p>
+                        </div>
+                        <div class="brands">
+                            <p>奔驰</p>
+                        </div>
+                        <div class="brands">
+                            <p>奥迪</p>
+                        </div>
+                        <div class="brands">
+                            <p>丰田</p>
+                        </div>
+                        <div class="brands">
+                            <p>本田</p>
+                        </div>
+                        <div class="brands">
+                            <p>别克</p>
+                        </div>
+                        <div class="brands">
+                            <p>福特</p>
+                        </div>
+                        <div class="brands">
+                            <p>雪佛兰</p>
+                        </div>
+                    </div>
+                    <div class="appendOften"></div>
+
+                </div>
+                <div class="car_all">
+                    <div class="qb">
+                        <p>所有车辆</p>
+                    </div>
+                    <div class="firstAppend"></div>
+                    <div class="appendAll"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script type="text/javascript" src="js/picker.min.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
+<script type="text/javascript" src="js/index1.js"></script>
+<script type="text/javascript" src="js/picker2.min.js"></script>
+<script type="text/javascript" src="js/city1.js"></script>
+<script type="text/javascript" src="js/index2.js"></script>
+<script type="text/javascript" src="js/func.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+
+</body>
+</html>
