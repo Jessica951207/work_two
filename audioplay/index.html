@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>play audio&cut last 4</title>
+    <script src="../../ZLHJ_website/website3/js/base.js"></script>
+</head>
+<body>
+<audio src="http://m8.music.126.net/20281226102943/a9c7bb0373e763749d06243b598ae1b0/ymusic/annual2018/v1/bgm.mp3" id="audio" controls autoplay preload loop></audio>
+
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+   //自动播放音频
+   document.addEventListener("WeixinJSBridgeReady", function () {
+       document.getElementById('audio').play();
+   }, false);
+   //--创建页面监听，等待微信端页面加载完毕 触发音频播放
+   document.addEventListener('DOMContentLoaded', function () {
+       function audioAutoPlay() {
+           var audio = document.getElementById('audio');
+           audio.play();
+           document.addEventListener("WeixinJSBridgeReady", function () {
+               audio.play();
+           }, false);
+       }
+       audioAutoPlay();
+   });
+   //--创建触摸监听，当浏览器打开页面时，触摸屏幕触发事件，进行音频播放
+   document.addEventListener('touchstart', function () {
+       function audioAutoPlay() {
+           var audio = document.getElementById('audio');
+           audio.play();
+       }
+       audioAutoPlay();
+   });
+
+
+    //截取后四位数
+    var s = "ABCDEFGHIJKLMN",
+        s2 = "15295648865",
+        s3 = "1529564886511111111111111111";
+    var short = s.substr(s.length - 4),
+        short2 = s2.substr(s2.length - 4),
+        short3 = s3.substr(s3.length - 4);
+    console.log(short);
+    console.log(short2);
+    console.log(short3);
+
+</script>
+</html>
