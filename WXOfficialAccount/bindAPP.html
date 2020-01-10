@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="format-detection" content="telephone=no" />
+    <title>中联惠捷绑定车惠贷APP</title>
+    <link rel="stylesheet" href="css/layui.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<style>
+    #out_box{width: 100%;height: 100%;}
+    .title{text-align: center;font-weight: bold;margin: 8% 0;}
+    .layui-form{padding-right: 3%;}
+    .layui-form-item .lay-container{display: flex;}
+    .layui-form-item .layui-inline{margin-bottom: 0;}
+    .verify{margin-left: 2%;}
+    .layui-btn+.timeBar{display: none;width: 88px;margin-left: 0;}
+    .otherBtn{padding: 0 5px;font-size: 12px;}
+    .layui-form-label{width: 100px;}
+    .txt{text-align: center;margin: 5% 0;font-size: 20px}
+    .success_icon{display: block;width: 30%;margin: 10% auto;}
+    .btnSubmit{
+        width: 100%;
+        margin: 8% auto;display: block;
+        line-height: 38px;
+        padding: 5px 18px;
+        background-color: #009688;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 18px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    .footer{width: 100%;color: #808080;font-size: 14px;text-align: center;bottom: 0;position: fixed;left: 0;z-index: 2;}
+    .popup{position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 999; background: rgba(0,0,0,0.4); font-size: 1rem; display: none;}
+    .popupContent{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 1.75rem .4375rem 1.75rem .4375rem;
+        background-size: auto;
+        background: #fff;
+        overflow: auto;
+        color: #333333;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .hasBind{display: none;}
+    .errorIcon{width: 16%;margin: 10% auto;display: block}
+    .errorMsg{text-align: center;color: #d81e06;font-size: 20px;}
+</style>
+
+<body>
+<div id="out_box">
+    <h2 class="title">绑定车惠贷APP</h2>
+    <form class="layui-form" action="" lay-filter="registerInfo">
+        <div class="layui-form-item">
+            <label class="layui-form-label">代理人手机号</label>
+            <div class="layui-input-block">
+                <input type="tel" name="userPhone" lay-verify="required|userPhone" autocomplete="off" placeholder="请输入代理人手机号" class="layui-input" maxlength="11" lay-reqtext="手机号是必填项">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">车惠贷APP密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="originPassword" lay-verify="required|originPassword" placeholder="请输入密码" autocomplete="off" class="layui-input" lay-reqtext="密码是必填项">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline lay-container">
+                <label class="layui-form-label">短信验证码</label>
+                <div class="layui-input-block verify">
+                    <input type="verify_code" name="verifyCode" lay-verify="required" placeholder="请输入短信验证码" autocomplete="off" class="layui-input verify" lay-reqtext="短信验证码是必填项">
+                </div>
+                <button type="button" class="layui-btn otherBtn" lay-filter="getCode" id="getCode">获取验证码</button>
+                <div class="container timeBar layui-btn" data="60"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit  lay-filter="btnSubmit">立即绑定</button>
+            </div>
+        </div>
+
+    </form>
+    <div class="popup" id="Popup">
+        <div class="popupContent">
+            <img src="images/success.png" alt="" class="success_icon">
+            <p class="txt"></p>
+            <a href="javascript:WeixinJSBridge.call('closeWindow');" class="weui-btn weui-btn_default btnSubmit">返回首页</a>
+            <!--<button type="button" class="btnSubmit">返回首页</button>-->
+            <p class="footer">Copyright © 2019-2020 中联惠捷</p>
+        </div>
+    </div>
+    <div class="hasBind">
+        <img src="images/error.png" alt="" class="errorIcon">
+        <p class="errorMsg">当前用户已绑定，请勿重复操作！</p>
+    </div>
+
+</div>
+
+
+</body>
+<script type="text/javascript" src="js/layui.js"></script>
+<script type="text/javascript" src="js/countdown.js"></script>
+<script src="js/weui.js"></script>
+<script src="js/jweixin-1.0.0.js"></script>
+<script src="js/baseUrl.js"></script>
+
+<script>
+    var baseUrl = getUrl();
+    var redictUrl=redictUrl();
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate
+            ,$ = layui.jquery;
+
+        //自定义验证规则
+        form.verify({
+            userPhone:function (value) {
+                if(!/^1[3456789]\d{9}$/.test(value)){
+                    return '请填写正确的手机号';
+                }
+            },
+            originPassword: function (value) {
+                if(!/^[a-zA-Z\d_]{6,}$/.test(value)){
+                    return '密码只能由数字、字母、下划线组成，不少于6位'
+                }
+            },
+
+        });
+
+        //获取验证码且校验
+        $('#getCode').click(function () {
+            var phone =  $('input[name=userPhone]').val();
+            var originPassword =  $('input[name=originPassword]').val();
+            console.log("这是原始密码",originPassword);
+            $.ajax({
+                type:"get",
+                url:baseUrl+"/zlhj_interface/public/queryUser?phone="+phone+"&originPassword="+originPassword,
+                dataType:"json",
+                contentType:"application/json",
+                success:function (data) {
+                    console.log("success");
+                    flag = data.data;
+                    if(flag === 0){
+                        layer.msg("用户未注册，请先注册！", {icon: 2});
+                    }else if(flag === 1){
+                        // 获取验证码
+                        $.ajax({
+                            type:"get",
+                            url:baseUrl+"/zlhj_interface/user/validate?phone="+phone,
+                            dataType:"json",
+                            contentType:"application/json",
+                            success:function (data) {
+                                $('#getCode').hide();
+                                $('.timeBar').show();
+                                //倒计时
+                                $(".timeBar").each(function () {
+                                    $(this).countdownsync({
+                                        dayTag: "",
+                                        // hourTag: "<label class='tt hh dib vam'>00</label><span>时</span>",
+                                        // minTag: "<label class='tt mm dib vam'>00</label><span>分</span>",
+                                        secTag: "<label class='tt ss dib vam'>60</label><span>秒</span>",
+                                        dayClass: ".dd",
+                                        hourClass: ".hh",
+                                        minClass: ".mm",
+                                        secClass: ".ss",
+                                        isDefault: false,
+                                        showTemp:1
+
+                                    }, function () {
+                                        $('#getCode').show();
+                                        $('.timeBar').hide();
+                                        // location.reload();
+                                    });
+                                });
+                                $('.split').hide();
+                                layer.msg("发送成功！", {icon: 1});
+                                console.log("发送成功");
+                            },
+                            error:function () {
+                                layer.msg("发送失败！", {icon: 2});
+                                console.log("error");
+                            }
+                        })
+                    }else if(flag === 2){
+                        layer.msg("用户密码不正确！", {icon: 2});
+                    }
+
+
+                },
+                error:function () {
+                    console.log("error");
+                }
+            })
+        })
+
+        //监听立即绑定
+        form.on('submit(btnSubmit)', function(data){
+            var formData = data.field;
+            console.log(`入参${JSON.stringify(formData)}`);
+            console.log(formData.originPassword);
+
+            $.ajax({
+                type: "post",
+                //todo later
+                url: baseUrl+"/zlhj_interface/public/binding",
+                data: `${JSON.stringify(formData)}`,
+                dataType: "json",
+                contentType :'application/json',
+                success:function (data){
+                    var code = data.data.code;
+                    if(code === 500){
+                        layer.msg(data.data.msg, {icon: 2});
+                    }else{
+                        $('.txt').html(data.data.msg);
+                        $('.popup').show();
+                        // window.location.href = baseUrl+'/zlhj_interface/static/registerSuccess.html';
+                        // layer.msg(data.data.msg, {icon: data.data.icon});
+                    }
+
+                },
+                error:function () {
+
+                }
+            })
+
+            return false;
+        });
+
+
+    });
+
+
+    $(function () {
+        // 判断用户是否绑定
+        $.ajax({
+            type: "get",
+            url: baseUrl+"/zlhj_interface/public/getUnion",
+            dataType: "json",
+            contentType :'application/json',
+            async: false,
+            success:function (data) {
+                console.log("我成功进入getUnion方法")
+                if(data.data.icon === 1){
+                    $('.layui-form').show();
+                }else {
+                    $('.hasBind').show();
+                }
+            },
+            error:function () {
+                console.log("error")
+            }
+        })
+        // 配置微信转发、扫码等基本参数
+        $.ajax({
+            type: 'get',
+            //todo later
+            url: baseUrl+'/zlhj_interface/public/getSign',
+            data: {
+                'tokenUrl': location.href
+            },
+            dataType: 'JSON',
+            success: function (res) {
+                AppId = res.appId;
+                console.log('这是AppId',AppId)
+                wx.config({
+                    debug: false,
+                    appId: res.appId,
+                    timestamp: res.timestamp,
+                    nonceStr: res.nonceStr,
+                    signature: res.signature,
+                    jsApiList: [
+                        // 所有要调用的 API 都要加到这个列表中
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'scanQRCode',
+                        'chooseImage',
+                        'uploadImage',
+                        'previewImage',
+                        'updateAppMessageShareData',
+                        'updateTimelineShareData'
+                    ]
+                });
+                console.log(wx);
+            },
+            error: function () {
+                console.log('fail')
+            }
+        })
+
+        //页面分享链接
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+            wx.onMenuShareAppMessage({
+                title: '车惠贷', // 分享标题
+                desc: '', // 分享描述
+                link: redictUrl + '/zlhj_interface/static/bindAPP.html?', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户点击了分享后执行的回调函数
+                }
+            });
+
+            wx.onMenuShareTimeline({
+                title: '车惠贷', // 分享标题
+                desc: '', // 分享描述
+                link: redictUrl + '/zlhj_interface/static/bindAPP.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户点击了分享后执行的回调函数
+                }
+            });
+        })
+
+    })
+
+
+</script>
+
+</html>

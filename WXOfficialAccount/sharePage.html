@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="format-detection" content="telephone=no" />
+    <title>分享二维码</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<style>
+    #out_box{width: 100%;height: 100%;}
+    .title{text-align: center;font-weight: bold;margin: 8% 0;}
+    img{display: block;width: auto;margin: 0 auto;}
+    .btnSubmit{margin: 5% auto;display: block;height: 38px;
+        line-height: 38px;
+        padding: 0 18px;
+        background-color: #009688;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 14px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    .errorTips{display: none;}
+    .errorIcon{width: 16%;margin: 10% auto;}
+    .errorMsg{text-align: center;color: #d81e06;font-size: 20px;}
+    .qsCode{width: 80%;margin: 0 auto;}
+    .refresh{width: 8%}
+    .footTxt{text-align: center;}
+    .rotate{transform: rotateX(180deg);}
+</style>
+
+<body>
+<div id="out_box">
+    <h2 class="title">长按图片分享二维码</h2>
+    <img src="" alt="" class="qsCode">
+    <img src="images/refresh.png" alt="" class="refresh">
+    <p class="footTxt">二维码五分钟有效</p>
+    <!--<div id="code"></div>-->
+    <!--<button type="button" class="btnSubmit">点击分享</button>-->
+    <div class="errorTips">
+        <img src="images/error.png" alt="" class="errorIcon">
+        <p class="errorMsg"></p>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript" src="js/index.js"></script>
+<!--<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>-->
+<script src="js/jweixin-1.0.0.js"></script>
+<!--<script src="../static/js/jweixin-1.4.0.js"></script>-->
+<script src="js/baseUrl.js"></script>
+
+<script>
+    // $('.qsCode').attr("src","images/error.png");
+    var invitationCode;
+    var baseUrl = getUrl();
+    var redictUrl = redictUrl();
+    $(function () {
+        var imgURL = "";
+        var AppId = "";
+        //获取图片链接
+        $.ajax({
+            type: "get",
+            url: baseUrl+"/zlhj_interface/public/share",
+            dataType: "json",
+            contentType :'application/json',
+            success:function (data){
+                if(data.data.icon === 1){
+                    imgURL = data.data.msg;
+                    $('.qsCode').attr("src",imgURL);
+
+                    // 生成二维码
+                    // invitationCode = data.data.msg;
+                    // var qrcode = new QRCode(document.getElementById("code"), {
+                    //     width : 201,
+                    //     height : 201
+                    // })
+                    // var url = redictUrl+"/zlhj_interface/static/agentRegister.html?invitationCode="+invitationCode;
+                    // qrcode.makeCode(url);
+
+                }else{
+                    var errorMsg = data.data.msg;
+                    console.log(errorMsg,data.data.msg)
+                    // $('.btnSubmit').hide();
+                    $('.errorMsg').html(errorMsg);
+                    $('.errorTips').show();
+                    // layer.msg(data.data.msg, {icon: data.data.icon});
+                }
+                console.log("success");
+            },
+            error:function () {
+                console.log("error");
+            }
+        })
+        console.log(wx)
+
+        //请求微信sdk配置参数
+        $.ajax({
+            type: 'get',
+            //todo later
+            url: baseUrl+'/zlhj_interface/public/getSign',
+            data: {
+                'tokenUrl': location.href
+            },
+            dataType: 'JSON',
+            success: function (res) {
+                AppId = res.appId;
+                console.log('这是AppId',AppId)
+                // 配置微信转发、扫码等基本参数
+                wx.config({
+                    debug: false,
+                    appId: res.appId,
+                    timestamp: res.timestamp,
+                    nonceStr: res.nonceStr,
+                    signature: res.signature,
+                    jsApiList: [
+                        // 所有要调用的 API 都要加到这个列表中
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'scanQRCode',
+                        'chooseImage',
+                        'uploadImage',
+                        'previewImage',
+                        'updateAppMessageShareData',
+                        'updateTimelineShareData'
+                    ]
+                });
+                console.log(wx);
+            },
+            error: function () {
+                console.log('fail')
+            }
+        })
+
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                wx.onMenuShareAppMessage({
+                    title: '车惠贷', // 分享标题
+                    desc: '', // 分享描述
+                    link: redictUrl + '/zlhj_interface/static/agentRegister.html?invitationCode=' + invitationCode, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: '', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户点击了分享后执行的回调函数
+                    }
+                });
+
+            wx.onMenuShareTimeline({
+                title: '车惠贷', // 分享标题
+                desc: '', // 分享描述
+                link: redictUrl + '/zlhj_interface/static/agentRegister.html?invitationCode=' + invitationCode, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户点击了分享后执行的回调函数
+                }
+            });
+        })
+        
+        //点击预览
+        $('img').click(function () {
+            wx.previewImage({
+                //todo later imgSrc
+                current: imgURL, // 当前显示图片的http链接
+                urls: [imgURL]
+            });
+        })
+        
+        //点击刷新
+        $('.refresh').click(function () {
+            // $('.refresh').addClass('rotate');
+            $.ajax({
+                type: "get",
+                url: baseUrl+"/zlhj_interface/public/share",
+                dataType: "json",
+                contentType :'application/json',
+                success:function (data){
+                    if(data.data.icon === 1){
+                        imgURL = data.data.msg;
+                        $('.qsCode').attr("src",imgURL);
+
+                    }else{
+                        var errorMsg = data.data.msg;
+                        console.log(errorMsg,data.data.msg)
+                        $('.errorMsg').html(errorMsg);
+                        $('.errorTips').show();
+                    }
+                    console.log("success");
+                },
+                error:function () {
+                    console.log("error");
+                }
+            })
+        })
+
+    })
+
+    //微信二维码生成
+    /* function qrCode() {
+         let token = '27_bE2UZE_X1fUmFR6_ZtNoZCiSpUKP61pI9vny6TlHncIEBqp5ahnXngrDzMKmIRY9cFz_pQZKEVt_ac27G55EQDXDWN_HHFTr8Xfp0b17W3vB2XwvcuHwOLXEYFgdZAbJraxHgCzn8H6F7h_UJQUbAEAQXB';
+         $.ajax({
+             type: 'post',
+             url: `https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=${token}`,
+             data: {
+                 "expire_seconds": 604800,
+                 "action_name": "QR_SCENE",
+                 "action_info": {
+                     "scene": {
+                         "scene_id": 123
+                     }
+                 }
+             },
+             contentType :'application/json',
+             success: function (res) {
+
+             }
+         })
+     }
+ */
+
+
+</script>
+
+</html>

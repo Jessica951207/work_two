@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="format-detection" content="telephone=no" />
+    <title>中联惠捷注册代理人</title>
+    <link rel="stylesheet" href="js/css/layui.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+</head>
+<style>
+    #out_box{width: 100%;height: 100%;}
+    .title{text-align: center;font-weight: bold;margin: 8% 0;}
+    .layui-form{padding-right: 3%;display: none;}
+    .layui-form-item .lay-container{display: flex;}
+    .layui-form-item .layui-inline{margin-bottom: 0;}
+    .verify{margin-left: 0;}
+    #discernRecommend{display: none;}
+    .layui-btn+.timeBar{display: none;width: 88px;margin-left: 0;}
+    .scanPic{width: 10%;height: 38px}
+    .otherBtn{padding: 0 5px;font-size: 12px;}
+    .disabled_color{color: #000000;}
+    .txt{text-align: center;margin: 5% 0;font-size: 20px}
+    .success_icon{display: block;width: 30%;margin: 10% auto;}
+    .btnSubmit{
+        width: 90%;
+        margin: 8% auto;display: block;
+        line-height: 38px;
+        padding: 5px 18px;
+        background-color: #009688;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 18px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    .footer{width: 100%;color: #808080;font-size: 14px;text-align: center;bottom: 0;position: fixed;left: 0;z-index: 2;}
+    .popup{position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 999; background: rgba(0,0,0,0.4); font-size: 1rem; display: none;}
+    .popupContent{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        /*padding: 1.75rem .4375rem 1.75rem .4375rem;*/
+        background-size: auto;
+        background: #fff;
+        overflow: auto;
+        color: #333333;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .hasRegister{display: none;}
+    .errorIcon{width: 16%;margin: 10% auto;display: block}
+    .errorMsg{text-align: center;color: #d81e06;font-size: 20px;}
+</style>
+
+<body>
+<div id="out_box">
+    <h2 class="title">代理人在线注册</h2>
+    <form class="layui-form" action="" lay-filter="registerInfo">
+        <!-- 隐藏栏位 -->
+        <input type="hidden" id="openid" name="openid"/>
+        <input type="hidden" id="unionid" name="unionid"/>
+        <input type="hidden" id="inviteCode" name="inviteCode"/>
+        <div class="layui-form-item">
+            <div class="layui-inline recommendDiv">
+                <label class="layui-form-label">推荐人邀请码</label>
+                <div class="layui-input-block recommendInput">
+                    <input type="text" name="invitationCode" autocomplete="off" placeholder="请输入有效的邀请码" class="layui-input">
+                </div>
+                <img src="../static/images/scan.png" alt="" class="scanPic">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline recommendDiv">
+                <label class="layui-form-label">推荐人姓名</label>
+                <div class="layui-input-block recommendInput">
+                    <input type="text" name="recommendName" autocomplete="off" placeholder="请输入推荐人姓名" class="layui-input disabled_color" disabled>
+                </div>
+                <button type="button" class="layui-btn otherBtn" lay-filter="discernRecommend" id="discernRecommend">识别推荐人</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">代理人姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="agentName" lay-verify="required|agentName" autocomplete="off" placeholder="请输入代理人姓名" class="layui-input" lay-verify="required" lay-reqtext="代理人姓名是必填项">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">代理人手机号</label>
+            <div class="layui-input-block">
+                <input type="tel" name="userPhone" lay-verify="required|userPhone" autocomplete="off" placeholder="请输入手机号" class="layui-input" maxlength="11" lay-reqtext="手机号是必填项">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="originPassword" lay-verify="required|originPassword" placeholder="只可数字,字母,下划线且不少于6位" autocomplete="off" class="layui-input" lay-reqtext="密码是必填项">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="confirmPassword" lay-verify="required|confirmPassword" placeholder="请重新输入密码" autocomplete="off" class="layui-input" id="confirmPassword" lay-reqtext="确认密码是必填项">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline lay-container">
+                <label class="layui-form-label">短信验证码</label>
+                <div class="layui-input-block verify">
+                    <input type="verify_code" name="verifyCode" lay-verify="required" placeholder="请输入短信验证码" autocomplete="off" class="layui-input verify" lay-reqtext="短信验证码是必填项">
+                </div>
+                <button type="button" class="layui-btn otherBtn" lay-filter="getCode" id="getCode">获取验证码</button>
+                <div class="container timeBar layui-btn" data="60"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" lay-submit  lay-filter="btnSubmit">立即注册</button>
+            </div>
+        </div>
+
+    </form>
+    <div class="popup" id="Popup">
+        <div class="popupContent">
+            <img src="images/success.png" alt="" class="success_icon">
+            <p class="txt"></p>
+            <a href="javascript:WeixinJSBridge.call('closeWindow');" class="weui-btn weui-btn_default btnSubmit">返回首页</a>
+            <!--<button type="button" class="btnSubmit">返回首页</button>-->
+            <p class="footer">Copyright © 2019-2020 中联惠捷</p>
+        </div>
+    </div>
+    <div class="hasRegister">
+        <img src="images/error.png" alt="" class="errorIcon">
+        <p class="errorMsg">当前用户已注册，请勿重复操作！</p>
+    </div>
+</div>
+
+
+</body>
+<script type="text/javascript" src="js/layui.js"></script>
+<script type="text/javascript" src="js/countdown.js"></script>
+<!--<script type="text/javascript" src="../js/index.js"></script>-->
+<script src="js/jweixin-1.0.0.js"></script>
+<script src="js/baseUrl.js"></script>
+
+<script>
+    var baseUrl = getUrl();
+    var redictUrl=redictUrl();
+    console.log('这是域名',baseUrl)
+    //判断invitationCode是否为空
+    $.ajax({
+        type: "get",
+        //todo later
+        url: baseUrl+"/zlhj_interface/public/getInviteCode",
+        dataType: "json",
+        contentType :'application/json',
+        async: false,
+        success:function (data) {
+            $('input[name=inviteCode]').val(data.data);
+        },
+        error:function () {
+            console.log("error")
+        }
+    })
+    var currentUrl = window.location.href;
+    console.log('当前的链接',currentUrl);
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate
+            ,$ = layui.jquery;
+
+        //自定义验证规则
+        form.verify({
+            userPhone:function (value) {
+                if(!/^1[3456789]\d{9}$/.test(value)){
+                    return '请填写正确的手机号';
+                }
+            },
+            originPassword: function (value) {
+                if(!/^[a-zA-Z\d_]{6,}$/.test(value)){
+                    return '密码只能由数字、字母、下划线组成，不少于6位'
+                }
+            },
+            confirmPassword:function(value){
+                if($('input[name=originPassword]').val() !== value){
+                    return '两次密码输入不一致！';
+                }
+            },
+
+        });
+
+        //获取url中"?"符后的字串
+        /*function GetRequest() {
+            var url = location.search;
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var a=GetRequest();
+        var invitationCode = a['invitationCode'];*/
+
+        var invitationCode = $('input[name=inviteCode]').val();
+        alert(invitationCode+"这是邀请码")
+
+        //根据用户是否有邀请码
+        if(invitationCode != ""){
+            //有邀请码,增加disabled属性
+            $('input[name=invitationCode]').val(invitationCode);
+            $('input[name=invitationCode]').attr("disabled",true);
+            // 赋值推荐人姓名
+            $.ajax({
+                type: "get",
+                url: baseUrl+"/zlhj_interface/public/getNameByCode?invitationCode="+invitationCode,
+                dataType: "json",
+                contentType :'application/json',
+                success:function (data) {
+                    $('input[name=recommendName]').val(data.data);
+                    console.log(data);
+                },
+                error:function () {
+                    console.log("error")
+                }
+            })
+
+            $('.recommendDiv').removeClass('lay-container');
+            $('.recommendInput').removeClass('verify');
+            $('#discernRecommend').hide();
+            $('.scanPic').hide();
+
+            //监听提交
+            form.on('submit(btnSubmit)', function(data){
+                var formData = data.field;
+                console.log(`入参${JSON.stringify(formData)}`);
+                console.log(formData.originPassword);
+                $.ajax({
+                    type: "post",
+                    url: baseUrl+"/zlhj_interface/public/register",
+                    data: `${JSON.stringify(formData)}`,
+                    dataType: "json",
+                    contentType :'application/json',
+                    success:function (data){
+                        //todo later
+                        if(data.data.code === 500){
+                            layer.msg(data.data.msg, {icon: 2});
+                        }else{
+                            $('.txt').html(data.data.msg);
+                            $('.popup').show();
+                        }
+
+                        // window.location.href = baseUrl+'/zlhj_interface/static/registerSuccess.html';
+                        //layer.msg(data.data.msg, {icon: data.data.icon});
+
+                    },
+                    error:function () {
+                        console.log("error")
+                    }
+                })
+                return false;
+            });
+        }
+        else {
+            //邀请码为空，去除disabled属性，增加“识别推荐人”按钮
+            $('input[name=invitationCode]').removeAttr("disabled");
+            $('.recommendDiv').addClass('lay-container');
+            $('.recommendInput').addClass('verify');
+            $('#discernRecommend').show();
+            //点击识别推荐人并赋值
+            $('#discernRecommend').click(function () {
+                var invitationCodeVal =  $('input[name=invitationCode]').val();
+                console.log(2333333333,invitationCodeVal)
+                $.ajax({
+                    type: "get",
+                    url: baseUrl+"/zlhj_interface/public/getNameByCode?invitationCode="+invitationCodeVal,
+                    dataType: "json",
+                    contentType :'application/json',
+                    success:function (data) {
+                        if(data.data === ""){
+                            $('input[name=recommendName]').val("");
+                            layer.msg('获取失败，未识别到有效的代理人！', {icon: 2});
+                        }else{
+                            $('input[name=recommendName]').val(data.data);
+                            layer.msg('获取成功！', {icon: 1});
+                        }
+                        console.log(data);
+                    },
+                    error:function () {
+                        layer.msg('获取失败！', {icon: 2});
+                        console.log("error")
+                    }
+                })
+            })
+
+            //监听提交
+            form.on('submit(btnSubmit)', function(data){
+                var formData = data.field;
+                console.log(`入参${JSON.stringify(formData)}`);
+                console.log(formData.originPassword);
+                if(formData.recommendName === "" || formData.invitationCode === ""){
+                    a = layer.alert('当前未绑定推荐人，若再需绑定，只能在车惠贷APP中操作，是否确认？', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,closeBtn: 0,
+                        btn: ['确认','取消']
+                    }, function(){
+                        layer.close(a);
+                        $.ajax({
+                            type: "post",
+                            url: baseUrl+"/zlhj_interface/public/register",
+                            data: `${JSON.stringify(formData)}`,
+                            dataType: "json",
+                            contentType :'application/json',
+                            success:function (data){
+                                if(data.data.code === 500){
+                                    layer.msg(data.data.msg, {icon: 2});
+                                }else{
+                                    $('.txt').html(data.data.msg);
+                                    $('.popup').show();
+                                }
+
+                            },
+                            error:function () {
+                                console.log("error")
+                            }
+                        })
+
+                    });
+                }else {
+                    //todo later 成功页面
+                    $.ajax({
+                        type: "post",
+                        url: baseUrl+"/zlhj_interface/public/register",
+                        data: `${JSON.stringify(formData)}`,
+                        dataType: "json",
+                        contentType :'application/json',
+                        success:function (data){
+                            if(data.data.code === 500){
+                                layer.msg(data.data.msg, {icon: 2});
+                            }else{
+                                $('.txt').html(data.data.msg);
+                                $('.popup').show();
+                            }
+
+                        },
+                        error:function () {
+                            console.log("error")
+                        }
+                    })
+
+                }
+
+                return false;
+            });
+
+        }
+
+        //获取验证码
+        $('#getCode').click(function () {
+            var phone =  $('input[name=userPhone]').val();
+            $.ajax({
+                type:"get",
+                url:baseUrl+"/zlhj_interface/user/validate?phone="+phone,
+                dataType:"json",
+                contentType:"application/json",
+                success:function (data) {
+                    $('#getCode').hide();
+                    $('.timeBar').show();
+                    //倒计时
+                    $(".timeBar").each(function () {
+                        $(this).countdownsync({
+                            dayTag: "",
+                            // hourTag: "<label class='tt hh dib vam'>00</label><span>时</span>",
+                            // minTag: "<label class='tt mm dib vam'>00</label><span>分</span>",
+                            secTag: "<label class='tt ss dib vam'>60</label><span>秒</span>",
+                            dayClass: ".dd",
+                            hourClass: ".hh",
+                            minClass: ".mm",
+                            secClass: ".ss",
+                            isDefault: false,
+                            showTemp:1
+
+                        }, function () {
+                            $('#getCode').show();
+                            $('.timeBar').hide();
+                            // location.reload();
+                        });
+                    });
+                    $('.split').hide();
+                    layer.msg('发送成功！', {icon: 1});
+                    console.log("success");
+                },
+                error:function () {
+                    console.log("error");
+                    layer.msg('发送失败！', {icon: 2});
+                }
+            })
+        })
+
+
+    });
+
+
+    $(function () {
+        var AppId = "";
+        //微信配置
+        console.log(wx)
+        console.log(6666666666,location.href)
+        $.ajax({
+            type: 'get',
+            url: baseUrl+'/zlhj_interface/public/getSign',
+            data: {
+                // 'appId': 'wx3d217570b080c004',
+                // 'url': window.location.href.split('#')[0]
+                'tokenUrl': location.href
+            },
+            async: false,
+            dataType: 'JSON',
+            success: function (res) {
+                AppId = res.appId;
+                console.log('这是AppId1',AppId)
+                // 配置微信转发、扫码等基本参数
+                wx.config({
+                    debug: false,
+                    appId: res.appId,
+                    timestamp: res.timestamp, //todo later
+                    nonceStr: res.nonceStr,
+                    signature: res.signature,
+                    jsApiList: [
+                        // 所有要调用的 API 都要加到这个列表中
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'scanQRCode',
+                        'chooseImage',
+                        'uploadImage',
+                        'previewImage',
+                        'updateAppMessageShareData',
+                        'updateTimelineShareData'
+                    ]
+                })
+            },
+            error: function () {
+                console.log('config fail')
+            }
+        })
+
+        //页面分享链接
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+            wx.onMenuShareAppMessage({
+                title: '车惠贷', // 分享标题
+                desc: '', // 分享描述
+                link: redictUrl + '/zlhj_interface/static/agentRegister.html?invitationCode=' + invitationCode, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户点击了分享后执行的回调函数
+                }
+            });
+
+            wx.onMenuShareTimeline({
+                title: '车惠贷', // 分享标题
+                desc: '', // 分享描述
+                link: redictUrl + '/zlhj_interface/static/agentRegister.html?invitationCode=' + invitationCode, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    // 用户点击了分享后执行的回调函数
+                }
+            });
+        })
+
+
+        //访问相机，扫描二维码
+        $('.scanPic').click(function () {
+            console.log(1)
+            wx.scanQRCode({
+                desc: 'scanQRCode desc',
+                needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType : [ "qrCode", "barCode" ], // 可以指定扫二维码还是一维码，默认二者都有
+                success : function(res) {
+                    // alert("调用扫描成功" + JSON.stringify(res));
+                    // console.log("调用扫描成功",res.resultStr)
+                    var result = res.resultStr;
+                    var barCode = getBarCode(result);
+                    if(barCode.startsWith('http')){
+                        $.ajax({
+                            type: 'get',
+                            //todo later
+                            url: baseUrl+'/zlhj_interface/public/getScanCode',
+                            data: {
+                                'url': result
+                            },
+                            dataType: 'JSON',
+                            success: function (data) {
+                                var inviteCode = data.data;
+                                $('input[name=invitationCode]').val(inviteCode)//显示结果
+                            },
+                            error:function () {
+
+                            }
+                        })
+                    }else {
+                        $('input[name=invitationCode]').val(barCode)//显示结果
+                    }
+
+                },
+                error:function(res){
+                    console.log(res)
+                }
+            });
+        })
+
+
+
+        //获取微信code，授权
+        var currentUrl = location.href;
+        console.log('当前路径',currentUrl);
+        var appid = AppId;
+        console.log('这是AppId2',AppId)
+        // var appid = "wxc6e9e640c7aea187";
+        var GWC = {
+            version: '1.1.1',
+            urlParams: {},
+            appendParams: function (url, params) {
+                if (params) {
+                    var baseWithSearch = url.split('#')[0];
+                    var hash = url.split('#')[1];
+                    for (var key in params) {
+                        var attrValue = params[key];
+                        if (attrValue !== undefined) {
+                            var newParam = key + "=" + attrValue;
+                            if (baseWithSearch.indexOf('?') > 0) {
+                                var oldParamReg = new RegExp('^' + key + '=[-%.!~*\'\(\)\\w]*', 'g');
+                                if (oldParamReg.test(baseWithSearch)) {
+                                    baseWithSearch = baseWithSearch.replace(oldParamReg, newParam);
+                                } else {
+                                    baseWithSearch += "&" + newParam;
+                                }
+                            } else {
+                                baseWithSearch += "?" + newParam;
+                            }
+                        }
+                    }
+
+                    if (hash) {
+                        url = baseWithSearch + '#' + hash;
+                    } else {
+                        url = baseWithSearch;
+                    }
+                }
+                return url;
+            },
+            getUrlParams: function () {
+                var pairs = location.search.substring(1).split('&');
+                for (var i = 0; i < pairs.length; i++) {
+                    var pos = pairs[i].indexOf('=');
+                    if (pos === -1) {
+                        continue;
+                    }
+                    GWC.urlParams[pairs[i].substring(0, pos)] = decodeURIComponent(pairs[i].substring(pos + 1));
+                }
+            },
+            getQueryString:function(name){
+                const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                const urlObj = window.location;
+                var r = urlObj.href.indexOf('#') > -1 ? urlObj.hash.split("?")[1].match(reg) : urlObj.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            },
+            doRedirect: function () {
+                var code = GWC.getQueryString('code')
+                console.log(8888,code)
+                // var code = GWC.urlParams['code'];
+                var appId = GWC.urlParams['appid'];
+                var scope = GWC.urlParams['scope'] || 'snsapi_base';
+                var state = GWC.urlParams['state'];
+                var redirectUri;
+
+                if (!code) {
+                    // alert("无Code的code值:"+code);
+                    //第一步，没有拿到code，跳转至微信授权页面获取code
+                    redirectUri = GWC.appendParams('https://open.weixin.qq.com/connect/oauth2/authorize#wechat_redirect', {
+                        'appid': appid,
+                        'redirect_uri': encodeURIComponent(currentUrl),
+                        'response_type': 'code',
+                        'scope': 'snsapi_userinfo',
+                        'state': 'STATE',
+                    });
+                    // alert(redirectUri)
+                    //未关注公众号，跳转公众号
+                    // redirectUri = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU0Mzg5NzMzNg==#wechat_redirect';
+                } else {
+                    console.log("code值是",code)
+                    $.ajax({
+                        type: "get",
+                        url: baseUrl+"/zlhj_interface/user/init",
+                        dataType: "json",
+                        contentType :'application/json',
+                        success:function (data) {
+                            console.log("subscribe的值是",data.data.subscribe)
+                            $('input[name=openid]').val(data.data.openid);
+                            $('input[name=unionid]').val(data.data.unionid);
+                            if(data.data.subscribe === "1"){
+                                console.log("我进来已关注公众号了")
+                                // alert("我进来已关注公众号了")
+                                //已关注公众号
+                                //判断用户是否注册通过unionid,无则显示页面，有则提示已注册
+                                $.ajax({
+                                    type: "get",
+                                    url: baseUrl+"/zlhj_interface/public/getUnion",
+                                    dataType: "json",
+                                    contentType :'application/json',
+                                    async: false,
+                                    success:function (data) {
+                                        console.log("我成功进入getUnion方法")
+                                        if(data.data.icon === 1){
+                                            $('.layui-form').show();
+                                        }else {
+                                            $('.hasRegister').show();
+                                        }
+                                    },
+                                    error:function () {
+                                        console.log("error")
+                                    }
+                                })
+
+                            }else{
+                                // alert("我进来未关注公众号！");
+                                console.log("我进来未关注公众号！")
+                                //未关注公众号，跳转公众号
+                                 window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU0Mzg5NzMzNg==&scene=124#wechat_redirect';
+                            }
+
+                        },
+                        error:function () {
+                            // alert("未成功调用init方法")
+                            console.log("error")
+
+                            //未从init方法获取用户信息，则调用forward方法获取用户信息
+                            $.ajax({
+                                type: "get",
+                                url: baseUrl+"/zlhj_interface/public/forward?code="+code+"&state=STATE",
+                                dataType: "json",
+                                contentType :'application/json',
+                                success:function (data) {
+                                    console.log("subscribe的值是",data.data.subscribe)
+                                    $('input[name=openid]').val(data.data.openid);
+                                    $('input[name=unionid]').val(data.data.unionid);
+                                    if(data.data.subscribe === "1"){
+                                        console.log("我进来已关注公众号了")
+                                        // alert("我进来已关注公众号了")
+                                        //已关注公众号
+                                        //判断用户是否注册通过unionid,无则显示页面，有则提示已注册
+                                        $.ajax({
+                                            type: "get",
+                                            url: baseUrl+"/zlhj_interface/public/getUnion",
+                                            dataType: "json",
+                                            contentType :'application/json',
+                                            async: false,
+                                            success:function (data) {
+                                                console.log("我成功进入getUnion方法")
+                                                if(data.data.icon === 1){
+                                                    $('.layui-form').show();
+                                                }else {
+                                                    $('.hasRegister').show();
+                                                }
+                                            },
+                                            error:function () {
+                                                console.log("error")
+                                            }
+                                        })
+
+                                    }else{
+                                        // alert("我进来未关注公众号！");
+                                        console.log("我进来未关注公众号！")
+                                        //未关注公众号，跳转公众号
+                                        window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU0Mzg5NzMzNg==&scene=124#wechat_redirect';
+                                    }
+
+                                },
+                                error:function () {
+                                    // alert("未成功调用forward方法")
+                                    console.log("error")
+
+                                }
+                            })
+
+                        }
+                    })
+
+                    //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
+                     redirectUri = GWC.appendParams(GWC.urlParams['redirect_uri'], {
+                         'code': code,
+                         'state': state
+                     });
+
+                }
+
+                // alert("diercitiaozhuan : "+redirectUri);
+                // code = GWC.getQueryString('code')
+                //用户授权后，页面跳转到redirect_uri属性地址；即index.html
+                window.location.href = redirectUri;
+            }
+        };
+
+        // GWC.getUrlParams();
+        GWC.getQueryString();
+        GWC.doRedirect();
+
+
+    })
+
+    function getBarCode(resultStr){
+        var serial = resultStr.split("=");
+        var barCode = serial[serial.length-1];
+        return barCode;
+    }
+
+</script>
+
+</html>
